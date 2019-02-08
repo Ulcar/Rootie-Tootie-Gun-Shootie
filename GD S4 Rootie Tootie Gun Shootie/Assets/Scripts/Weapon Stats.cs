@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponStats : MonoBehaviour
+[CreateAssetMenu]
+public class WeaponStats : ScriptableObject
 {
+    public List<Attack> attack = new List<Attack>();
+    
     // Start is called before the first frame update
     void Start()
     {

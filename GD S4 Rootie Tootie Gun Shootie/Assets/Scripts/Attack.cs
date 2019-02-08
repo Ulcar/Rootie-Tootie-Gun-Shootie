@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public abstract class Attack : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
+   public virtual List<GameObject> DoAttack()
     {
-        
+        List<GameObject> bullets = new List<GameObject>();
+
+        return bullets;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

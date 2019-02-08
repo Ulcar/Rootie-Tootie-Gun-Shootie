@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Input : MonoBehaviour
+public class bulletMovement : MonoBehaviour
 {
+    [SerializeField]
+    float movementSpeed;
+    [SerializeField]
+    Vector2 direction;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +17,6 @@ public class Input : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.Translate(direction * movementSpeed * Time.deltaTime);
     }
 }

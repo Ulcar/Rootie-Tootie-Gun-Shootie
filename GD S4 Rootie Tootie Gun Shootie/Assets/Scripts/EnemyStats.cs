@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : Attack
+[CreateAssetMenu]
+public class EnemyStats : ScriptableObject
 {
+    [SerializeField]
+   public int MaxHealth;
+    [SerializeField]
+   public List<Attack> Attacks = new List<Attack>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +20,11 @@ public class Laser : Attack
     void Update()
     {
         
+    }
+
+
+    public void Attack()
+    {
+        Attacks[0].DoAttack();
     }
 }

@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    EnemyStats stats;
     void Start()
     {
-        
+        stats.Attack();
+        string type = "StandardMovement";
+        gameObject.AddComponent(Type.GetType(type));
     }
 
     // Update is called once per frame
