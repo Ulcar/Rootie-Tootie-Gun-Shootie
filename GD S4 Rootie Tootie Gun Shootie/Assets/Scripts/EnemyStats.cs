@@ -23,8 +23,8 @@ public class EnemyStats : ScriptableObject
     }
 
 
-    public void Attack()
+    public void Attack(int rotationOffset)
     {
-        Attacks[0].DoAttack();
+        Attacks[0].DoAttack(rotationOffset);
     }
 }
