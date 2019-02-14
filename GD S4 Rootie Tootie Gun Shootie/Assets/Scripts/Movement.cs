@@ -17,9 +17,9 @@ public abstract class Movement : MonoBehaviour
         
     }
 
-    void Move(Vector2 Direction, float movementSpeed)
+    public void Move(float x, float y, float movementSpeed)
     {
-        Vector3.MoveTowards(ParentTransform.position, Direction, movementSpeed * Time.deltaTime);
+        ParentTransform.position = Vector3.MoveTowards(ParentTransform.position, new Vector3(x,y,0), movementSpeed * Time.deltaTime);
     }
 
     //Notes

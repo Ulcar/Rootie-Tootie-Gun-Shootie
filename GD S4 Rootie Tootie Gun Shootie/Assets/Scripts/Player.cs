@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Range(-2f,2f)]
+    public float DebugMovementspeed;
     public PlayerInfo playerInfo;
     public Weapon weapon;
     public Movement movement;
     public bool test = true;
     public Transform DebugLocation;
-    [SerializeField]
-    private SpriteRenderer renderer;
 
     [SerializeField]
     private SpriteRenderer weaponSprite;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
             RotatePlayer(angle, weapon);
             RotateWeapon(weapon, angle);
         }
+        movement.Move(DebugLocation.position.x, DebugLocation.position.y, Vector3.Distance(transform.position, DebugLocation.transform.position));
     }
 
     void RotatePlayer(float angle, Weapon EquipedWeapon)
@@ -46,32 +47,30 @@ public class Player : MonoBehaviour
         }
         if (angle >= 90 || angle <= -90)
         {
-            // transform.rotation = Quaternion.Euler(0f, 180f, transform.rotation.y);
-            renderer.flipX = true;
+            transform.rotation = Quaternion.Euler(0f, 180f, transform.rotation.y);
             EquipedWeapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
         }
         else
         {
-            // transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.y);
-            renderer.flipX = false;
-            
+            transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.y);
+
             EquipedWeapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
-            
+
         }
+
     }
 
     void RotateWeapon(Weapon EquipedWeapon, float Angle)
     {
-      //  Debug.Log("Angle voor RotateWeapon: " + Angle);
+        Debug.Log("Angle voor RotateWeapon: " + Angle);
         if (Angle >= 90 || Angle <= -90)
         {
-                EquipedWeapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
-            weaponSprite.flipY = true;
-          //  EquipedWeapon.transform.localRotation = Quaternion.Euler(0f, 0f, (Angle));
+            EquipedWeapon.transform.localRotation = Quaternion.Euler(-180f, -180f, (Angle * -1));
         }
         else
         {
-            weaponSprite.flipY = false;
+            EquipedWeapon.transform.localRotation = Quaternion.Euler(0f, 0f, (Angle));
         }
-    }    
+    }
+
 }

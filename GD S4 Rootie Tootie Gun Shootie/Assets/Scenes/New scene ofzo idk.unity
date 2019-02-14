@@ -143,10 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8f145b3ca395f14ea057fdc26079a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: cda800d9cb425da47ac22ae5c0b85824, type: 2}
-  bulletPrefab: {fileID: 6196698081179521727, guid: 07c3362cdd4f3fd49957df41532c04e8,
-    type: 3}
-  amountToPool: 100
+  stats: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  amountToPool: 0
 --- !u!212 &47091183
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -229,18 +228,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
   - component: {fileID: 78854632}
   - component: {fileID: 78854634}
   - component: {fileID: 78854633}
   m_Layer: 9
   m_Name: Wall (5)
-=======
-  - component: {fileID: 191915798}
-  - component: {fileID: 191915799}
-  m_Layer: 0
-  m_Name: GameObject
->>>>>>> master
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,43 +252,8 @@ Transform:
   m_Father: {fileID: 1190347647}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
 --- !u!61 &78854633
 BoxCollider2D:
-=======
---- !u!114 &191915799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191915797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d025871a351c48849ace33ac56cd3e4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 950979697}
---- !u!1 &491289158
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 491289160}
-  - component: {fileID: 491289159}
-  m_Layer: 0
-  m_Name: Directional Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &491289159
-Light:
->>>>>>> master
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -515,7 +472,6 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 145394972}
   m_Enabled: 1
-<<<<<<< HEAD
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -535,19 +491,6 @@ BoxCollider2D:
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
 --- !u!212 &145394975
-=======
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23505779d723cb646a4cb39d546dca87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInfo: {fileID: 0}
-  weapon: {fileID: 47091182}
-  movement: {fileID: 0}
-  test: 1
-  DebugLocation: {fileID: 191915798}
-  renderer: {fileID: 1482732222}
---- !u!212 &1482732222
->>>>>>> master
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -601,7 +544,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   serializedVersion: 6
   m_Component:
   - component: {fileID: 191915798}
@@ -621,11 +563,6 @@ Transform:
   m_GameObject: {fileID: 191915797}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.24, y: -1.3, z: -0.33367312}
-=======
-  m_GameObject: {fileID: 1482732220}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
->>>>>>> master
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -729,7 +666,6 @@ Transform:
   m_Children:
   - {fileID: 1861643819}
   m_Father: {fileID: 0}
-<<<<<<< HEAD
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &251179710
@@ -2240,6 +2176,7 @@ GameObject:
   - component: {fileID: 1482732223}
   - component: {fileID: 1482732222}
   - component: {fileID: 1482732221}
+  - component: {fileID: 1482732224}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2259,11 +2196,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23505779d723cb646a4cb39d546dca87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugMovementspeed: 0
   playerInfo: {fileID: 0}
   weapon: {fileID: 47091182}
-  movement: {fileID: 0}
+  movement: {fileID: 1482732224}
   test: 1
   DebugLocation: {fileID: 191915798}
+  weaponSprite: {fileID: 47091183}
 --- !u!212 &1482732222
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2320,13 +2259,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482732220}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 2.65, y: 1.88, z: 0}
+  m_LocalPosition: {x: 4.91, y: -1.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 47091184}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1482732224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482732220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd84c6ca84045a4581e59f00c96000f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParentTransform: {fileID: 1482732223}
 --- !u!1 &1482933254
 GameObject:
   m_ObjectHideFlags: 0
@@ -3266,7 +3218,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-=======
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> master
