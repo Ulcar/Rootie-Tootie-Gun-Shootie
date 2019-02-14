@@ -8,10 +8,21 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     WeaponStats stats;
     List<Attack> attacks;
+    [SerializeField]
+    GameObject bulletPrefab;
 
-    List<GameObject> pool;
+    Queue<BulletBehaviour> pool = new Queue<BulletBehaviour>();
+    [SerializeField]
+    int amountToPool;
     void Start()
     {
+        for (int i = 0; i < amountToPool; i++)
+        {
+            GameObject tmp = Instantiate(bulletPrefab);
+            pool.Enqueue(tmp.GetComponent<BulletBehaviour>());
+            tmp.SetActive(false);
+        }
+
         if (stats != null)
         {
             attacks = stats.attack;
@@ -37,7 +48,7 @@ public class Weapon : MonoBehaviour
 
     IEnumerator ShootBullets(List<Bullet> bullets)
     {
-        
+        //TODO: move timing code from weapon to bullet itself?
         foreach (Bullet bullet in bullets)
         {
             float currentTime = 0;
@@ -48,16 +59,14 @@ public class Weapon : MonoBehaviour
                 yield return null;
 
             }
-            GameObject tmp = new GameObject();
-            SpriteRenderer render = tmp.AddComponent<SpriteRenderer>();
-            render.sprite = bullet.bulletSprite;
-            tmp.transform.position = bullet.Position + transform.position;
-            tmp.transform.rotation = bullet.Rotation;
-            bulletMovement mov = tmp.AddComponent<bulletMovement>();
-         //   Debug.Log(bullet.direction);
-            mov.direction = bullet.direction;
-            mov.movementSpeed = bullet.MovementSpeed;
-            tmp.SetActive(true);
+            BulletBehaviour bulletBehaviour = pool.Dequeue();
+         //   if (!bulletBehaviour.gameObject.activeSelf)
+         //   {
+                bulletBehaviour.Init(bullet, transform.position);
+                bulletBehaviour.gameObject.SetActive(true);
+         //   }
+
+            pool.Enqueue(bulletBehaviour);
         }
         yield return null;
         }

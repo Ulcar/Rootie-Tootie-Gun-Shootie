@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInfo : MonoBehaviour
+public class PlayerInfo : ScriptableObject
 {
+    int maxHealth;
+    
     // Start is called before the first frame update
     void Start()
     {

@@ -94,7 +94,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bulletAmount: 100
+  bulletAmount: 1000
   sprites: []
   directionCurve:
     serializedVersion: 2

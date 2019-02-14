@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-//Might make this SO later, if inheritance is needed?
 [System.Serializable]
 public class Bullet
     {
@@ -15,6 +14,7 @@ public class Bullet
     public float spawnTime;
     public Vector3 direction = Vector3.right;
     public Attack childBullets;
+    public int Damage;
 
     public Bullet( float MovementSpeed, Vector3 direction, Sprite sprite)
     {
