@@ -14,7 +14,7 @@ public class Weapon : MonoBehaviour
         {
             attacks = stats.attack;
         }
-    List<GameObject> bullets =    attacks[0].DoAttack();
+        List<GameObject> bullets = attacks[0].DoAttack();
         foreach (GameObject bullet in bullets)
         {
             Vector3 tetten = (bullet.transform.rotation.eulerAngles + transform.rotation.eulerAngles);
