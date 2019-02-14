@@ -14,6 +14,7 @@ public class AttackGenerator : Attack
 
     [SerializeField]
     List<AnimationCurve> Multipliers;
+    //TODO: make list of basebullets instead of sprites
     [SerializeField]
     Bullet baseBullet;
 
@@ -31,18 +32,14 @@ public class AttackGenerator : Attack
 
 
 
-
     private void Awake()
     {
-        sprites.Sort();
     }
-
+    //TODO: Could be made more optimal by serialising bullets?
     public override List<Bullet> DoAttack(int rotationOffset)
     {
+
         List<Bullet> bullets = base.DoAttack(rotationOffset);
-        //   bullets.Add(new Bullet(1, Vector3.right, baseBullet.bulletSprite));
-        //   bullets.Add(new Bullet(1, Vector3.right, baseBullet.bulletSprite));
-        //   bullets.Add(new Bullet(1, Vector3.right, baseBullet.bulletSprite));
         Bullet bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);
         bullets.Add(bullet);
         float f = curve.Evaluate(0);
@@ -51,7 +48,7 @@ public class AttackGenerator : Attack
         {
             f *= currentCurve.Evaluate(0);
         }
-        SpawnPosition(rotationCurve.Evaluate(0 + rotationOffset), bullet, f);
+        SpawnPosition(rotationCurve.Evaluate(0) + rotationOffset, bullet, f);
         for (int i = 1; i <= bulletAmount - 1; i++)
         {
             bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);
@@ -75,8 +72,6 @@ public class AttackGenerator : Attack
                     bullet.bulletSprite = sprite.sprite;
                     break;
                 }
-                //  Debug.Log(i % sprites[sprites.Count - 1].spriteNumber);
-                Debug.Log(2 % 4);
             }
             //  bullet.spawnTime =   timeBetweenBullets.Evaluate((float)i / bulletAmount);
             SpawnPosition(rotationCurve.Evaluate(i % (rotationCurve[rotationCurve.length - 1].time + 1)) + rotationOffset, bullet, f);
@@ -91,6 +86,7 @@ public class AttackGenerator : Attack
         var bulletposition = new Vector3(x, y, 0);
         bullet.Position = bulletposition;
         bullet.Rotation = Quaternion.Euler(0, 0, rotation);
+        bullet.Damage = baseBullet.Damage;
 
 
     }
