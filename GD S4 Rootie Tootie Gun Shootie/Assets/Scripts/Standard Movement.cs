@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StandardMovement : MonoBehaviour
+public class StandardMovement : Movement
 {
+
     // Start is called before the first frame update
     void Start()
     {
