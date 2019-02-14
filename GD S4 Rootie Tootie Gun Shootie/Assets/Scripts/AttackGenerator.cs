@@ -48,7 +48,7 @@ public class AttackGenerator : Attack
         {
             f *= currentCurve.Evaluate(0);
         }
-        SpawnPosition(rotationCurve.Evaluate(0 + rotationOffset), bullet, f);
+        SpawnPosition(rotationCurve.Evaluate(0) + rotationOffset, bullet, f);
         for (int i = 1; i <= bulletAmount - 1; i++)
         {
             bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);

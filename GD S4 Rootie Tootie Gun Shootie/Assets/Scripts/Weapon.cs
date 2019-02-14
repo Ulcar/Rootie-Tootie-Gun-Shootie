@@ -27,19 +27,6 @@ public class Weapon : MonoBehaviour
         {
             attacks = stats.attack;
         }
-<<<<<<< HEAD
-        List<GameObject> bullets = attacks[0].DoAttack();
-        foreach (GameObject bullet in bullets)
-        {
-            Vector3 tetten = (bullet.transform.rotation.eulerAngles + transform.rotation.eulerAngles);
-            Quaternion rotation = new Quaternion();
-            rotation.eulerAngles = tetten;
-            bullet.transform.rotation = rotation;
-        }
-=======
-        Attack();
-    
->>>>>>> master
     }
 
     // Update is called once per frame
@@ -53,7 +40,7 @@ public class Weapon : MonoBehaviour
 
     void Attack()
     {
-        List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
+        List<Bullet> bullets = attacks[0].DoAttack((int)transform.localRotation.eulerAngles.z);
         StartCoroutine(ShootBullets(bullets));
     }
 
