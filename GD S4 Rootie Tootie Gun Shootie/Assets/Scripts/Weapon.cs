@@ -8,12 +8,15 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     WeaponStats stats;
     List<Attack> attacks;
+
+    List<GameObject> pool;
     void Start()
     {
         if (stats != null)
         {
             attacks = stats.attack;
         }
+<<<<<<< HEAD
         List<GameObject> bullets = attacks[0].DoAttack();
         foreach (GameObject bullet in bullets)
         {
@@ -22,6 +25,10 @@ public class Weapon : MonoBehaviour
             rotation.eulerAngles = tetten;
             bullet.transform.rotation = rotation;
         }
+=======
+        Attack();
+    
+>>>>>>> master
     }
 
     // Update is called once per frame
@@ -29,11 +36,40 @@ public class Weapon : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            List<GameObject> bullets = attacks[0].DoAttack();
-            foreach (GameObject bullet in bullets)
-            {
-                bullet.transform.transform.position = gameObject.transform.position + bullet.transform.TransformDirection(bullet.transform.position);
-            }
+            Attack();
         }
     }
+
+    void Attack()
+    {
+        List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
+        StartCoroutine(ShootBullets(bullets));
+    }
+
+    IEnumerator ShootBullets(List<Bullet> bullets)
+    {
+        
+        foreach (Bullet bullet in bullets)
+        {
+            float currentTime = 0;
+            
+            while (currentTime < bullet.spawnTime)
+            {
+                currentTime += Time.deltaTime;
+                yield return null;
+
+            }
+            GameObject tmp = new GameObject();
+            SpriteRenderer render = tmp.AddComponent<SpriteRenderer>();
+            render.sprite = bullet.bulletSprite;
+            tmp.transform.position = bullet.Position + transform.position;
+            tmp.transform.rotation = bullet.Rotation;
+            bulletMovement mov = tmp.AddComponent<bulletMovement>();
+         //   Debug.Log(bullet.direction);
+            mov.direction = bullet.direction;
+            mov.movementSpeed = bullet.MovementSpeed;
+            tmp.SetActive(true);
+        }
+        yield return null;
+        }
 }

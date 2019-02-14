@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     EnemyStats stats;
     void Start()
     {
-        stats.Attack();
+        stats.Attack((int)transform.rotation.eulerAngles.z);
         string type = "StandardMovement";
         gameObject.AddComponent(Type.GetType(type));
     }

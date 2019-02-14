@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Attack : ScriptableObject
 {
-   public virtual List<GameObject> DoAttack()
+   public virtual List<Bullet> DoAttack(int rotationOffset)
     {
-        List<GameObject> bullets = new List<GameObject>();
+        List<Bullet> bullets = new List<Bullet>();
 
         return bullets;
     }

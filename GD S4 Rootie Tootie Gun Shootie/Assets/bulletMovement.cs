@@ -5,9 +5,12 @@ using UnityEngine;
 public class bulletMovement : MonoBehaviour
 {
     [SerializeField]
-    float movementSpeed;
+ public   float movementSpeed;
     [SerializeField]
-    Vector2 direction;
+  public  Vector2 direction = Vector2.right;
+
+    [SerializeField]
+    Bullet bullet;
     // Start is called before the first frame update
     void Start()
     {

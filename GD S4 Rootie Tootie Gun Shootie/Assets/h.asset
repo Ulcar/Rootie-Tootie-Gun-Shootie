@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: h
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
-  attack: []
+  attack:
+  - {fileID: 11400000, guid: ff59584a7e346fd4b95f659d071e143d, type: 2}
