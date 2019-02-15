@@ -11,14 +11,18 @@ public class Player : MonoBehaviour
     public HealthManager healthManager;
     public bool test = true;
     public Transform DebugLocation;
+    [SerializeField]
+    private SpriteRenderer renderer;
 
     [SerializeField]
     private SpriteRenderer weaponSprite;
     // Start is called before the first frame update
     void Start()
     {
+
         movementSpeed = playerInfo.movementSpeed;
         healthManager = new HealthManager(playerInfo.maxHealth, playerInfo.maxShield, playerInfo.maxHealth, playerInfo.maxShield);
+
     }
 
     // Update is called once per frame
@@ -29,15 +33,17 @@ public class Player : MonoBehaviour
             Vector3 v_diff = (DebugLocation.position - transform.position);
             float Rad = Mathf.Atan2(v_diff.y, v_diff.x);
             float angle = Rad * Mathf.Rad2Deg;
-            RotatePlayer(angle, weapon);
-            RotateWeapon(weapon, angle);
+            RotatePlayer(angle);
+            RotateWeapon(angle);
         }
-        movement.Move(DebugLocation.position.x, DebugLocation.position.y, Vector3.Distance(transform.position, DebugLocation.transform.position) * movementSpeed);
+
+        //movement.Move(DebugLocation.position.x, DebugLocation.position.y, Vector3.Distance(transform.position, DebugLocation.transform.position) * movementSpeed);
+
     }
 
-    void RotatePlayer(float angle, Weapon EquipedWeapon)
+  public  void RotatePlayer(float angle)
     {
-        Debug.Log("Angle: " + angle);
+     //   Debug.Log("Angle: " + angle);
         if (angle > 90)
         {
             angle -= 360f;
@@ -48,30 +54,33 @@ public class Player : MonoBehaviour
         }
         if (angle >= 90 || angle <= -90)
         {
-            transform.rotation = Quaternion.Euler(0f, 180f, transform.rotation.y);
-            EquipedWeapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
+            // transform.rotation = Quaternion.Euler(0f, 180f, transform.rotation.y);
+            renderer.flipX = true;
+            weapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
         }
         else
         {
-            transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.y);
-
-            EquipedWeapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
-
+            // transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.y);
+            renderer.flipX = false;
+            
+            weapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
+            
         }
-
     }
 
-    void RotateWeapon(Weapon EquipedWeapon, float Angle)
+  public  void RotateWeapon(float Angle)
     {
-        Debug.Log("Angle voor RotateWeapon: " + Angle);
+      //  Debug.Log("Angle voor RotateWeapon: " + Angle);
         if (Angle >= 90 || Angle <= -90)
         {
-            EquipedWeapon.transform.localRotation = Quaternion.Euler(-180f, -180f, (Angle * -1));
+                weapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
+            weaponSprite.flipY = true;
+          //  EquipedWeapon.transform.localRotation = Quaternion.Euler(0f, 0f, (Angle));
         }
         else
         {
-            EquipedWeapon.transform.localRotation = Quaternion.Euler(0f, 0f, (Angle));
+            weaponSprite.flipY = false;
+            weapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
         }
-    }
-
+    }    
 }

@@ -6,16 +6,6 @@ using UnityEngine;
 public class WeaponStats : ScriptableObject
 {
     public List<Attack> attack = new List<Attack>();
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Sprite weaponSprite;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

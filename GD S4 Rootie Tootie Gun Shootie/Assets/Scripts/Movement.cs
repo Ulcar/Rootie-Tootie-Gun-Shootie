@@ -6,9 +6,10 @@ public abstract class Movement : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform ParentTransform;
+    public float movementSpeed = 2;
     void Start()
     {
-        
+      //  ParentTransform = transform;
     }
 
     // Update is called once per frame
@@ -17,9 +18,10 @@ public abstract class Movement : MonoBehaviour
         
     }
 
-    public void Move(float x, float y, float movementSpeed)
+    public void Move(Vector2 movementVector)
     {
-        ParentTransform.position = Vector3.MoveTowards(ParentTransform.position, new Vector3(x,y,0), movementSpeed * Time.deltaTime);
+        //ParentTransform.position = Vector3.MoveTowards(ParentTransform.position, new Vector3(x,y,0), movementSpeed * Time.deltaTime);
+        ParentTransform.Translate(movementVector * movementSpeed * Time.deltaTime);
     }
 
     //Notes

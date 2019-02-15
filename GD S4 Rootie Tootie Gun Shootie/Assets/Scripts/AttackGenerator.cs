@@ -22,14 +22,15 @@ public class AttackGenerator : Attack
     AnimationCurve timeBetweenBullets;
 
     [SerializeField]
-    int bulletAmount;
-    [SerializeField]
     List<SpriteData> sprites;
 
     //Direction is in degrees
     [SerializeField]
     AnimationCurve directionCurve;
 
+    int currentIndex = 0;
+
+    public bool okditisepisch;
 
 
     private void Awake()
@@ -38,9 +39,8 @@ public class AttackGenerator : Attack
     //TODO: Could be made more optimal by serialising bullets?
     public override List<Bullet> DoAttack(int rotationOffset)
     {
-
         List<Bullet> bullets = base.DoAttack(rotationOffset);
-        Bullet bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);
+        Bullet bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
         bullets.Add(bullet);
         float f = curve.Evaluate(0);
         bullet.spawnTime = timeBetweenBullets.Evaluate(0);
@@ -80,6 +80,39 @@ public class AttackGenerator : Attack
         return bullets;
 
     }
+    public override Bullet SingleBullet(int rotationOffset)
+    {
+        Bullet   bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
+      float  f = curve.Evaluate(currentIndex % (curve[curve.length - 1].time + 1));
+        //    f = curve.Evaluate((float)i / bulletAmount);
+        foreach (AnimationCurve currentCurve in Multipliers)
+        {
+            //bullet based on value between 0 and 1
+            //f *= currentCurve.Evaluate((float)i / bulletAmount);
+            f *= currentCurve.Evaluate(currentIndex % (currentCurve[currentCurve.length - 1].time + 1));
+        }
+        bullet.spawnTime = timeBetweenBullets.Evaluate(currentIndex % (timeBetweenBullets[timeBetweenBullets.length - 1].time + 1));
+        bullet.direction = Quaternion.Euler(0, 0, directionCurve.Evaluate(currentIndex % (directionCurve[directionCurve.length - 1].time + 1))) * Vector2.right;
+
+        foreach (SpriteData sprite in sprites)
+        {
+            if ((currentIndex % sprite.spriteNumber == 0))
+            {
+
+                bullet.bulletSprite = sprite.sprite;
+                break;
+            }
+        }
+        SpawnPosition(rotationCurve.Evaluate(currentIndex % (rotationCurve[rotationCurve.length - 1].time + 1)) + rotationOffset, bullet, f);
+
+        currentIndex++;
+        if (currentIndex >= bulletAmount)
+        {
+            currentIndex = 0;
+        }
+        return bullet;
+    }
+
 
     void Spawnbullet(float x, float y, float rotation, Bullet bullet)
     {

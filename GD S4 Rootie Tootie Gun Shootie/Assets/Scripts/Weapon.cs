@@ -14,6 +14,8 @@ public class Weapon : MonoBehaviour
     Queue<BulletBehaviour> pool = new Queue<BulletBehaviour>();
     [SerializeField]
     int amountToPool;
+
+    float timeSinceLastAttack = 100;
     void Start()
     {
         for (int i = 0; i < amountToPool; i++)
@@ -32,16 +34,14 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack();
-        }
+        timeSinceLastAttack += Time.deltaTime;
     }
 
-    void Attack()
+   public void Attack(int attackIndex)
     {
-        List<Bullet> bullets = attacks[0].DoAttack((int)transform.localRotation.eulerAngles.z);
-        StartCoroutine(ShootBullets(bullets));
+        StartCoroutine(ShootBullets(attackIndex));
+       // List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
+      //  StartCoroutine(ShootBullets(bullets));
     }
 
     IEnumerator ShootBullets(List<Bullet> bullets)
@@ -68,4 +68,43 @@ public class Weapon : MonoBehaviour
         }
         yield return null;
         }
+
+    IEnumerator ShootBullets(int attackIndex)
+    {
+        foreach (Attack attack in attacks)
+        {
+            attack.currentTime += timeSinceLastAttack;
+        }
+        timeSinceLastAttack = 0;
+        if (attacks[attackIndex].cooldown < attacks[attackIndex].currentTime)
+        {          
+            attacks[attackIndex].currentTime = 0;
+            for (int i = 0; i < attacks[attackIndex].bulletAmount; i++)
+            {
+                float currentTime = 0;
+                Bullet bullet = attacks[attackIndex].SingleBullet((int)transform.rotation.eulerAngles.z);
+                while (currentTime < bullet.spawnTime)
+                {
+                    currentTime += Time.deltaTime;
+                    yield return null;
+
+                }
+                BulletBehaviour bulletBehaviour = pool.Dequeue();
+                //   if (!bulletBehaviour.gameObject.activeSelf)
+                //   {
+                bulletBehaviour.Init(bullet, transform.position);
+                bulletBehaviour.gameObject.SetActive(true);
+                //   }
+
+                pool.Enqueue(bulletBehaviour);
+            }
+            yield return null;
+        }
+
+        else
+        {
+            Debug.Log("Ability still on cooldown");
+            yield return null;
+        }
+    }
 }
