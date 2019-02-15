@@ -30,6 +30,8 @@ public class AttackGenerator : Attack
 
     int currentIndex = 0;
 
+    public bool okditisepisch;
+
 
     private void Awake()
     {
@@ -38,7 +40,7 @@ public class AttackGenerator : Attack
     public override List<Bullet> DoAttack(int rotationOffset)
     {
         List<Bullet> bullets = base.DoAttack(rotationOffset);
-        Bullet bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);
+        Bullet bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
         bullets.Add(bullet);
         float f = curve.Evaluate(0);
         bullet.spawnTime = timeBetweenBullets.Evaluate(0);
@@ -80,7 +82,7 @@ public class AttackGenerator : Attack
     }
     public override Bullet SingleBullet(int rotationOffset)
     {
-        Bullet   bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);
+        Bullet   bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
       float  f = curve.Evaluate(currentIndex % (curve[curve.length - 1].time + 1));
         //    f = curve.Evaluate((float)i / bulletAmount);
         foreach (AnimationCurve currentCurve in Multipliers)
