@@ -38,7 +38,7 @@ using UnityEngine.Events;
     private void Update()
     {
         movement.Move(player.GetAxis2D("Move Horizontal", "Move Vertical"));
-        //Debug.Log(player.GetAxis2D("Move Horizontal", "Move Vertical"));
+        Debug.Log(player.GetAxis2D("Move Horizontal", "Move Vertical"));
 
         if (player.GetButton("Fire"))
         {

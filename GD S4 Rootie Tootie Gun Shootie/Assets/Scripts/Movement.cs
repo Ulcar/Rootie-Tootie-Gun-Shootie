@@ -9,7 +9,7 @@ public abstract class Movement : MonoBehaviour
     public float movementSpeed = 2;
     void Start()
     {
-      //  ParentTransform = transform;
+        ParentTransform = transform;
     }
 
     // Update is called once per frame
