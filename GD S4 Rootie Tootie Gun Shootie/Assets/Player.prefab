@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8f145b3ca395f14ea057fdc26079a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: cda800d9cb425da47ac22ae5c0b85824, type: 2}
+  stats: {fileID: 0}
   bulletPrefab: {fileID: 6196698081179521727, guid: 07c3362cdd4f3fd49957df41532c04e8,
     type: 3}
   amountToPool: 100

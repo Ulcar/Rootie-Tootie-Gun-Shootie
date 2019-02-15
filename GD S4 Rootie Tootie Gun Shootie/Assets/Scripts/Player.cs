@@ -28,12 +28,12 @@ public class Player : MonoBehaviour
             Vector3 v_diff = (DebugLocation.position - transform.position);
             float Rad = Mathf.Atan2(v_diff.y, v_diff.x);
             float angle = Rad * Mathf.Rad2Deg;
-            RotatePlayer(angle, weapon);
-            RotateWeapon(weapon, angle);
+            RotatePlayer(angle);
+            RotateWeapon(angle);
         }
     }
 
-    void RotatePlayer(float angle, Weapon EquipedWeapon)
+  public  void RotatePlayer(float angle)
     {
      //   Debug.Log("Angle: " + angle);
         if (angle > 90)
@@ -48,31 +48,31 @@ public class Player : MonoBehaviour
         {
             // transform.rotation = Quaternion.Euler(0f, 180f, transform.rotation.y);
             renderer.flipX = true;
-            EquipedWeapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
+            weapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
         }
         else
         {
             // transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.y);
             renderer.flipX = false;
             
-            EquipedWeapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
+            weapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y, -0.01f);
             
         }
     }
 
-    void RotateWeapon(Weapon EquipedWeapon, float Angle)
+  public  void RotateWeapon(float Angle)
     {
       //  Debug.Log("Angle voor RotateWeapon: " + Angle);
         if (Angle >= 90 || Angle <= -90)
         {
-                EquipedWeapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
+                weapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
             weaponSprite.flipY = true;
           //  EquipedWeapon.transform.localRotation = Quaternion.Euler(0f, 0f, (Angle));
         }
         else
         {
             weaponSprite.flipY = false;
-            EquipedWeapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
+            weapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
         }
     }    
 }
