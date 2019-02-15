@@ -10,6 +10,10 @@ public abstract class Attack : ScriptableObject
 
         return bullets;
     }
+
+    public int bulletAmount;
+
+    public abstract Bullet SingleBullet(int rotationOffset);
     protected void SpawnProjectile(float x, float y, int rotation, GameObject bullet)
     {
         var bulletposition = new Vector3(x, y, 0);

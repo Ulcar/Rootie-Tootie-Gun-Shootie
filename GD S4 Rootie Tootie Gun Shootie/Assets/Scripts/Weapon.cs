@@ -40,8 +40,9 @@ public class Weapon : MonoBehaviour
 
     void Attack()
     {
-        List<Bullet> bullets = attacks[0].DoAttack((int)transform.localRotation.eulerAngles.z);
-        StartCoroutine(ShootBullets(bullets));
+        StartCoroutine(ShootBullets());
+       // List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
+      //  StartCoroutine(ShootBullets(bullets));
     }
 
     IEnumerator ShootBullets(List<Bullet> bullets)
@@ -68,4 +69,30 @@ public class Weapon : MonoBehaviour
         }
         yield return null;
         }
+
+    IEnumerator ShootBullets()
+    {
+        //TODO: move timing code from weapon to bullet itself?
+        
+        for(int i = 0; i < attacks[0].bulletAmount; i++)
+        {
+            float currentTime = 0;
+            Bullet bullet = attacks[0].SingleBullet((int)transform.rotation.eulerAngles.z);
+            while (currentTime < bullet.spawnTime)
+            {
+                currentTime += Time.deltaTime;
+                yield return null;
+
+            }
+            BulletBehaviour bulletBehaviour = pool.Dequeue();
+            //   if (!bulletBehaviour.gameObject.activeSelf)
+            //   {
+            bulletBehaviour.Init(bullet, transform.position);
+            bulletBehaviour.gameObject.SetActive(true);
+            //   }
+
+            pool.Enqueue(bulletBehaviour);
+        }
+        yield return null;
+    }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc6a9a6e3a44a74480d32cfabef48de, type: 3}
   m_Name: Basic Attack
   m_EditorClassIdentifier: 
+  bulletAmount: 3
   projectile1: {fileID: 0}
   curve:
     serializedVersion: 2
@@ -76,9 +77,9 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.001
+      inSlope: -0.001
+      outSlope: -0.001
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -86,16 +87,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bulletAmount: 3
   sprites:
   - sprite: {fileID: 21300008, guid: 980788e1f69984c478a741d707efca2d, type: 3}
     spriteNumber: 2

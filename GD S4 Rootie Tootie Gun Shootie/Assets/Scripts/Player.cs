@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 
     void RotatePlayer(float angle, Weapon EquipedWeapon)
     {
-        Debug.Log("Angle: " + angle);
+     //   Debug.Log("Angle: " + angle);
         if (angle > 90)
         {
             angle -= 360f;
@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
         else
         {
             weaponSprite.flipY = false;
+            EquipedWeapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
         }
     }    
 }

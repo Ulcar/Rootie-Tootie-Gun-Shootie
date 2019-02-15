@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edc6a9a6e3a44a74480d32cfabef48de, type: 3}
-  m_Name: Cone 4
+  m_Name: Cone 5
   m_EditorClassIdentifier: 
   projectile1: {fileID: 0}
   curve:
@@ -43,17 +43,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 3.6363637
-      outSlope: 3.6363637
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 99
-      value: 360
-      inSlope: 3.6363637
-      outSlope: 3.6363637
+      value: 0
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -76,7 +76,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.01
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -85,9 +85,9 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 4
-      value: 1
-      inSlope: 0.25
-      outSlope: 0.25
+      value: 0.01
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -95,7 +95,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bulletAmount: 200
+  bulletAmount: 5
   sprites:
   - sprite: {fileID: 21300008, guid: 980788e1f69984c478a741d707efca2d, type: 3}
     spriteNumber: 2
@@ -108,17 +108,17 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: -60
       inSlope: Infinity
-      outSlope: 36
+      outSlope: 24
       tangentMode: 69
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 5
-      value: 180
-      inSlope: 36
+      value: 60
+      inSlope: 24
       outSlope: 72
       tangentMode: 69
       weightedMode: 0
