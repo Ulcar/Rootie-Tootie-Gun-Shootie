@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInfo : ScriptableObject
+public class RoomTile : MonoBehaviour
 {
-    int maxHealth;
-    
+    public int ID;
+    public Sprite tileSprite;
     // Start is called before the first frame update
     void Start()
     {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Range(-2f,2f)]
-    public float DebugMovementspeed;
     public PlayerInfo playerInfo;
     public Weapon weapon;
     public Movement movement;
+    public float movementSpeed;
+    public HealthManager healthManager;
     public bool test = true;
     public Transform DebugLocation;
 
@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        movementSpeed = playerInfo.movementSpeed;
+        healthManager = new HealthManager(playerInfo.maxHealth, playerInfo.maxShield, playerInfo.maxHealth, playerInfo.maxShield);
     }
 
     // Update is called once per frame
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
             RotatePlayer(angle, weapon);
             RotateWeapon(weapon, angle);
         }
-        movement.Move(DebugLocation.position.x, DebugLocation.position.y, Vector3.Distance(transform.position, DebugLocation.transform.position));
+        movement.Move(DebugLocation.position.x, DebugLocation.position.y, Vector3.Distance(transform.position, DebugLocation.transform.position) * movementSpeed);
     }
 
     void RotatePlayer(float angle, Weapon EquipedWeapon)
