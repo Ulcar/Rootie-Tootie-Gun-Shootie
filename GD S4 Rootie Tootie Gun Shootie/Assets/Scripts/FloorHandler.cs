@@ -1,17 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-
-public class RoomTile : MonoBehaviour
+public class FloorHandler : MonoBehaviour
 {
-    public int ID;
-    public SpriteRenderer spriteRenderer;
+    public Room[] Rooms;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Instantiate(Rooms[0]);
     }
 
     // Update is called once per frame

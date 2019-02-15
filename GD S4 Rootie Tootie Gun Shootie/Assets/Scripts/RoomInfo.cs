@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu]
 public class RoomInfo : ScriptableObject
 {
-    public string SpriteSheetName;
+    public Texture2D SpriteSheetName;
 }
