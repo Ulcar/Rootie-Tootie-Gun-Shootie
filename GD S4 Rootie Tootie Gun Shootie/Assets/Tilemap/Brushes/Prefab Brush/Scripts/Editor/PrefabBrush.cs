@@ -9,6 +9,9 @@ namespace UnityEditor
     [CustomGridBrush(false, true, false, "Prefab Brush")]
     public class PrefabBrush : GridBrush
     {
+        public Room roomForTiles;
+        [Range(0,10)]
+        public int PrefabIndex;
         private const float k_PerlinOffset = 100000f;
         public GameObject[] m_Prefabs;
         public float m_PerlinScale = 0.5f;
@@ -32,9 +35,11 @@ namespace UnityEditor
             if (brushTarget.layer == 31)
                 return;
 
-            int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, m_PerlinScale, k_PerlinOffset)*m_Prefabs.Length), 0, m_Prefabs.Length - 1);
-            GameObject prefab = m_Prefabs[index];
+            
+            GameObject prefab = m_Prefabs[PrefabIndex];
+            
             GameObject instance = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
+            
             if (instance != null)
             {
                 Undo.MoveGameObjectToScene(instance, brushTarget.scene, "Paint Prefabs");
@@ -42,6 +47,10 @@ namespace UnityEditor
                 instance.transform.SetParent(brushTarget.transform);
                 instance.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(position.x, position.y, m_Z) + new Vector3(.5f, .5f, .5f)));
             }
+
+            prefab.GetComponent<RoomTile>().ID = PrefabIndex;
+            
+            //roomForTiles.Tiles.Add(prefab);
         }
 
         public override void Erase(GridLayout grid, GameObject brushTarget, Vector3Int position)
