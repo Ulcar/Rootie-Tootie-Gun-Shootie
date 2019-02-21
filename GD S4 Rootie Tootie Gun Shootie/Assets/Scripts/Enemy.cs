@@ -7,12 +7,12 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     EnemyStats stats;
-
     [SerializeField]
-    int currentHealth;
+    HealthManager manager;
+
     void Start()
     {
-        currentHealth = stats.MaxHealth;
+        manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
     }
 
     // Update is called once per frame
@@ -34,13 +34,9 @@ public class Enemy : MonoBehaviour
 
 
     //TODO: add animations here like flashing enemy, maybe knockback / damage type stuff here?
+    //TODO: put colision on different script?
     void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-
-        if (currentHealth <= 0)
-        {
-            Destroy(this.gameObject);
-        }
+        manager.TakeDamage(damage);
     }
 }

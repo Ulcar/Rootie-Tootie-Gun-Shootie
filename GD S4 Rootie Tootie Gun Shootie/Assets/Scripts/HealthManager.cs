@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class HealthManager
 {
+    [SerializeField]
     int health = 0;
+    [SerializeField]
     int shield = 0;
+    [SerializeField]
     int maxHealth;
+    [SerializeField]
     int maxShield;
     public HealthManager(int CurrentHealth, int CurrentShield, int MaximumHealth, int MaximumShield)
     {

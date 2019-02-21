@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     WeaponStats stats;
-    List<Attack> attacks;
+    List<Attack> attacks = new List<Attack>();
     [SerializeField]
     GameObject bulletPrefab;
 
@@ -27,7 +27,11 @@ public class Weapon : MonoBehaviour
 
         if (stats != null)
         {
-            attacks = stats.attack;
+            //copy attacks so multiple weapon scripts can have the same weapon stats
+            foreach (Attack attack in stats.attacks)
+            {
+                attacks.Add(Instantiate(attack));
+            }
         }
     }
 
@@ -103,7 +107,6 @@ public class Weapon : MonoBehaviour
 
         else
         {
-            Debug.Log("Ability still on cooldown");
             yield return null;
         }
     }
