@@ -31,7 +31,7 @@ public class AI : MonoBehaviour
     void Update()
     {
         //TODO: make getter function to check if attack is off cooldown
-        targetTime += Time.deltaTime;
+        currentTime += Time.deltaTime;
         if (currentTime > targetTime)
         {
             currentTime = 0;

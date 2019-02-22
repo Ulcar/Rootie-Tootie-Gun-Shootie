@@ -99,6 +99,10 @@ namespace Pathfinding {
 
 		/// <summary>True if the end of the current path has been reached</summary>
 		public bool reachedEndOfPath { get; private set; }
+        [SerializeField]
+        public bool enableRigidbodyUpdate = true;
+        [SerializeField]
+        public Rigidbody2D rb;
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::reachedDestination</summary>
 		public bool reachedDestination {
@@ -521,6 +525,14 @@ namespace Pathfinding {
 			return position;
 		}
 
+        public void ResetMovement()
+        {
+            canMove = true;
+            previousMovementOrigin = Vector3.zero;
+            previousMovementDirection = Vector3.zero;
+            pathSwitchInterpolationTime = float.PositiveInfinity;
+        }
+
 		/// <summary>Finds the closest point on the current path and configures the <see cref="interpolator"/></summary>
 		protected virtual void ConfigureNewPath () {
 			var hadValidPath = interpolator.valid;
@@ -549,6 +561,7 @@ namespace Pathfinding {
 		public void MovementUpdate (float deltaTime, out Vector3 nextPosition, out Quaternion nextRotation) {
 			if (updatePosition) simulatedPosition = tr.position;
 			if (updateRotation) simulatedRotation = tr.rotation;
+            
 
 			Vector3 direction;
 
@@ -563,11 +576,14 @@ namespace Pathfinding {
 			previousPosition2 = previousPosition1;
 			previousPosition1 = simulatedPosition = nextPosition;
 			simulatedRotation = nextRotation;
-			if (updatePosition) tr.position = nextPosition;
-			if (updateRotation) tr.rotation = nextRotation;
-		}
+			//if (updatePosition) tr.position = nextPosition;
+			//if (updateRotation) tr.rotation = nextRotation;
+            if (enableRigidbodyUpdate) rb.MovePosition(nextPosition);
+           // else if (updatePosition) tr.position = nextPosition;
+            if (updateRotation) tr.rotation = nextRotation;
+        }
 
-		Quaternion SimulateRotationTowards (Vector3 direction, float deltaTime) {
+        Quaternion SimulateRotationTowards (Vector3 direction, float deltaTime) {
 			// Rotate unless we are really close to the target
 			if (direction != Vector3.zero) {
 				Quaternion targetRotation = Quaternion.LookRotation(direction, orientation == OrientationMode.YAxisForward ? Vector3.back : Vector3.up);
@@ -601,8 +617,9 @@ namespace Pathfinding {
 				// would have continued to follow the previous path
 				Vector3 positionAlongPreviousPath = previousMovementOrigin + Vector3.ClampMagnitude(previousMovementDirection, speed * pathSwitchInterpolationTime);
 
-				// Interpolate between the position on the current path and the position
-				// we would have had if we would have continued along the previous path.
+                // Interpolate between the position on the current path and the position
+                // we would have had if we would have continued along the previous path.
+                Debug.Log(interpolator.position);
 				return Vector3.Lerp(positionAlongPreviousPath, interpolator.position, alpha);
 			} else {
 				return interpolator.position;

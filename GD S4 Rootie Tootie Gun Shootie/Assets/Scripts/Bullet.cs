@@ -15,6 +15,8 @@ public class Bullet
     public Vector3 direction = Vector3.right;
     public Attack childBullets;
     public int Damage;
+    public float Weight = 0;
+   
 
     public Bullet( float MovementSpeed, Vector3 direction, Sprite sprite)
     {
