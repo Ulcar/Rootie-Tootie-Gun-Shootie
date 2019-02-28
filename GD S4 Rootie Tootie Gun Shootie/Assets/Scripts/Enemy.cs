@@ -20,6 +20,9 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     float Weight;
+
+    [SerializeField]
+    Transform target;
    
 
     void Start()
@@ -36,15 +39,16 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if ((impact.x > 0.00001 || impact.y > 0.00001))
+        if ((impact.x > 0.001 || impact.y > 0.001))
         {
             rb.velocity = impact;
-            impact = Vector3.Lerp(impact, Vector3.zero, 20 * Time.deltaTime);
+            impact = Vector3.Lerp(impact, Vector3.zero, 25 * Time.deltaTime);
         }
 
         else if (!AI.canMove)
         {
             rb.velocity = Vector3.zero;
+            AI.destination = target.position;
             AI.SearchPath();
             //AI.ResetMovement();
             AI.canMove = true;
@@ -69,7 +73,7 @@ public class Enemy : MonoBehaviour
  
 
 
-    //TODO: add animations here like flashing enemy, maybe knockback / damage type stuff here?
+    //TODO: add animations here like flashing enemy, damage type stuff here?
     //TODO: put colision on different script?
     void TakeDamage(int damage, Vector2 direction, float speed)
     {

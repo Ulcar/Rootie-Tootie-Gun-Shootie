@@ -49,6 +49,11 @@ using UnityEngine.Events;
             Fire2ButtonPressed();
         }
 
+        if (player.GetButton("Dash"))
+        {
+            DashButtonPressed();
+        }
+
         if (mouseInput)
         {
             Vector3 v_diff = (MouseTargetLocation.position - transform.position);
@@ -75,7 +80,10 @@ using UnityEngine.Events;
         FireButtonPressedEvent.Invoke(1);
     }
 
-    void DashButtonPressed() { }
+    void DashButtonPressed()
+    {
+        dashButtonPressedEvent.Invoke();
+    }
 
 
 }

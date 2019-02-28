@@ -52,6 +52,11 @@ public class Weapon : MonoBehaviour
       //  StartCoroutine(ShootBullets(bullets));
     }
 
+    public bool GetCooldown(int attackIndex)
+    {
+        return attacks[attackIndex].cooldown < attacks[attackIndex].currentTime;
+    }
+
     IEnumerator ShootBullets(List<Bullet> bullets)
     {
         //TODO: move timing code from weapon to bullet itself?

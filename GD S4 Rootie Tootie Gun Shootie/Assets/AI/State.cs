@@ -12,11 +12,41 @@ using Pathfinding;
     public Transition[] transitions;
     
 
-    private void DoActions()
+    private void DoActions(EnemyAIController controller)
     {
         for (int i = 0; i < actions.Length; i++)
         {
-           // if(actions[i].GetType().GetGenericArguments()[0] == typeof())
+            actions[i].DoAction(controller);
+        }
+    }
+
+    private void CheckTransitions(EnemyAIController controller)
+    {
+        State nextState = null;
+        foreach (Transition transition in transitions)
+        {
+            
+            if(transition.DoDecisions(controller, out nextState))
+            {
+                controller.TransitionState(nextState);
+                return;
+            }
+        }
+    }
+
+    public void UpdateState(EnemyAIController controller)
+    {
+        DoActions(controller);
+        CheckTransitions(controller);
+    }
+
+    
+
+    public void StartActions(EnemyAIController controller)
+    {
+        for (int i = 0; i < actions.Length; i++)
+        {
+            actions[i].StartAction(controller);
         }
     }
 }

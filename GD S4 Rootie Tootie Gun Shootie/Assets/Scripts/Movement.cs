@@ -4,24 +4,25 @@ using UnityEngine;
 
 public abstract class Movement : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     public Transform ParentTransform;
     public float movementSpeed = 2;
+   protected Vector2 movementVector;
+   
     void Start()
     {
         ParentTransform = transform;
     }
-
-    // Update is called once per frame
-    void Update()
+  protected virtual void Update()
     {
-        
+
+            ParentTransform.Translate(movementVector * movementSpeed * Time.deltaTime);
     }
 
     public void Move(Vector2 movementVector)
     {
         //ParentTransform.position = Vector3.MoveTowards(ParentTransform.position, new Vector3(x,y,0), movementSpeed * Time.deltaTime);
-        ParentTransform.Translate(movementVector * movementSpeed * Time.deltaTime);
+        this.movementVector = movementVector;
     }
 
     //Notes

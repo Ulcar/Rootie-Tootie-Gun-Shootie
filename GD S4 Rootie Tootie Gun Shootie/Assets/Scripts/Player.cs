@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private SpriteRenderer weaponSprite;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,5 +83,16 @@ public class Player : MonoBehaviour
             weaponSprite.flipY = false;
             weapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
         }
-    }    
+    }
+
+
+    void TakeDamage(int damage)
+    {
+        healthManager.TakeDamage(damage);
+    }
+
+   public void SetInvincible(bool value)
+    {
+        healthManager.invincible = value;
+    }
 }
