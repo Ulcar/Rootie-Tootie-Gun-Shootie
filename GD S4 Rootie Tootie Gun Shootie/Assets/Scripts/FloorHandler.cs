@@ -1,20 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class FloorHandler : MonoBehaviour
 {
+    public bool floorDone = false;
+    public int AmountOfTilesHorizontal;
     public FloorInfo floorInfo;
-    public Room TestRoom;
+    //public Room TestRoom;
+    public Room[] Rooms;
+    public List<ExitDirections>[] RoomDirections;
 
+    public GameObject GridForAStar;
     bool BossRoomDone = false;
     int DirectionValue = -1;
     int x;
     int y;
-    public GenerationRoom[,] generationRooms;
+    public static GenerationRoom[,] generationRooms;
     List<GenerationRoom> Path;
     int AmountOfRoomsGenerated = 0;
     int ActuallyGenerated = 0;
+ 
     // Start is called before the first frame update
 
     public FloorHandler(FloorInfo info)
@@ -27,7 +34,6 @@ public class FloorHandler : MonoBehaviour
         Path = new List<GenerationRoom>();
         generationRooms = new GenerationRoom[floorInfo.FloorWidthHeight, floorInfo.FloorWidthHeight];
 
-
         for (int i = 0; i < floorInfo.FloorWidthHeight; i++)
         {
             for (int j = 0; j < floorInfo.FloorWidthHeight; j++)
@@ -38,9 +44,9 @@ public class FloorHandler : MonoBehaviour
 
         x = Random.Range(0, floorInfo.FloorWidthHeight);
         y = Random.Range(0, floorInfo.FloorWidthHeight);
-
+        SetupNodeSystem();
         GeneratePath();
-
+        
         for (int i = 0; i < 5; i++)
         {
             string idk = "i: " + i.ToString() + ", ";
@@ -96,10 +102,11 @@ public class FloorHandler : MonoBehaviour
             }
             Debug.Log(idk);
         }
+        floorDone = true;
     }
 
     public void GeneratePath()
-    {
+    {  
         ExitDirections[] exitDirections = { ExitDirections.Up, ExitDirections.Right, ExitDirections.Down, ExitDirections.Left };
 
         //Debug.Log("X at start: " + x.ToString());
@@ -114,7 +121,9 @@ public class FloorHandler : MonoBehaviour
 
     public void GenerateFloor(Texture2D Spritesheet)
     {
-        float offset = (TestRoom.tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.x) * 9;
+        float offset = (Rooms[0].tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.x) * AmountOfTilesHorizontal;
+        //AstarPath Astar = GridForAStar.GetComponent<AstarPath>();
+        
         for (int i = 0; i < floorInfo.FloorWidthHeight; i++)
         {
             for (int j = 0; j < floorInfo.FloorWidthHeight; j++)
@@ -122,13 +131,124 @@ public class FloorHandler : MonoBehaviour
                 if (generationRooms[i, j] != null)
                 {
                     
-                    Room RoomToInstantiate = Instantiate(TestRoom);
-                    RoomToInstantiate.RepresentedRoom = generationRooms[i, j];
-                    RoomToInstantiate.SpriteSheet = Spritesheet;
+                    List<int> PossibleRooms = new List<int>();
+                    Debug.Log("Rooms.length: " + Rooms.Length);
+                    for (int k = 0; k < Rooms.Length; k++)
+                    {
+                        bool AddRoom = true;
+                        
+                        //if (generationRooms[i, j].Nodes.Count == RoomDirections[k].Count)
+                        //{
+                        
+                       
+                            foreach (GenerationNode node in generationRooms[i, j].Nodes)
+                            {
+                                bool NodeInRightDirection = false; 
+                                foreach (ExitDirections direction in RoomDirections[k])
+                                {
+                                    if (direction == node.exitDirection)
+                                    {
+                                        NodeInRightDirection = true;
+                                    }
+                                }
+                                if (!NodeInRightDirection)
+                                {
+                                    AddRoom = false;
+                                }
+                            }
+                         /*}
+                        else
+                        {
+                            AddRoom = false;
+                        }*/
+                        
+                        if (AddRoom)
+                        {
+                            PossibleRooms.Add(k);
+                        }
+                    }
+                    Debug.Log("PossibleRoomCount: " + PossibleRooms.Count);
+                    int index = PossibleRooms[Random.Range(0, PossibleRooms.Count)];
+                    
+                    Room temp = Rooms[index];
+                    temp.representedRoomIndex = index;
+                    temp.RepresentedRoom = generationRooms[i, j];
+                    temp.SpriteSheet = Spritesheet;
+                    temp.respresentedX = i;
+                    temp.respresentedY = j;
+                    Room RoomToInstantiate = Instantiate(temp);
+                    //Debug.Log("RTI: " + RoomToInstantiate.respresentedX);
+                    //Debug.Log("TempName: " + temp.SpriteSheet.name);
+                    
                     RoomToInstantiate.transform.position = new Vector3(i * offset, j * offset, 0);
 
                     RoomToInstantiate.transform.SetParent(this.transform);
                 }
+            }
+        }
+    }
+
+    public void SetupNodeSystem()
+    {
+        RoomDirections = new List<ExitDirections>[Rooms.Length];
+        Debug.Log("RoomDirection.length: " + RoomDirections.Length);
+        for (int i = 0; i < RoomDirections.Length; i++)
+        {
+            RoomDirections[i] = new List<ExitDirections>();
+        }
+        for (int i = 0; i < Rooms.Length; i++)
+        {
+            bool Up = false;
+            bool Right = false;
+            bool Left = false;
+            bool Down = false;
+            for (int k = 0; k < Rooms[i].tilemap.transform.childCount; k++)
+            {
+                if (Rooms[i].tilemap.transform.GetChild(k).GetComponent<RoomTile>().Node)
+                {
+                    if (Rooms[i].tilemap.transform.GetChild(k).GetComponent<RoomTile>().Direction == ExitDirections.Up)
+                    {
+                        Up = true;
+                    }
+                    if (Rooms[i].tilemap.transform.GetChild(k).GetComponent<RoomTile>().Direction == ExitDirections.Right)
+                    {
+                        Right = true;
+                    }
+                    if (Rooms[i].tilemap.transform.GetChild(k).GetComponent<RoomTile>().Direction == ExitDirections.Down)
+                    {
+                        Down = true;
+                    }
+                    if (Rooms[i].tilemap.transform.GetChild(k).GetComponent<RoomTile>().Direction == ExitDirections.Left)
+                    {
+                        Left = true;
+                    }
+                }
+            }
+            if (Up)
+            {
+                RoomDirections[i].Add(ExitDirections.Up);
+            }
+            if (Right)
+            {
+                RoomDirections[i].Add(ExitDirections.Right);
+            }
+            if (Down)
+            {
+                RoomDirections[i].Add(ExitDirections.Down);
+            }
+            if (Left)
+            {
+                RoomDirections[i].Add(ExitDirections.Left);
+            }
+            int debugIndex = 0;
+            foreach (List<ExitDirections> list in RoomDirections)
+            {
+                Debug.Log("DebugIndex: " + debugIndex + ", Count: " + list.Count);
+                for (int abc = 0; abc < list.Count; abc++) { 
+                
+                    Debug.Log("Index: " + debugIndex + ", Direction: " + list[abc]);
+                }
+                debugIndex++;
             }
         }
     }
@@ -166,8 +286,7 @@ public class FloorHandler : MonoBehaviour
             {
                 if (AmountOfRoomsGenerated >= floorInfo.RoomsInFloor1 && BossRoomDone == false)
                 {
-                    //bossroom
-                    //Debug.Log("BossRoomAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa");
+                   
                     BossRoomDone = true;
                     ActuallyGenerated++;
                     GenerationRoom randomRoom = new GenerationRoom(x, y, false, true, ActuallyGenerated);

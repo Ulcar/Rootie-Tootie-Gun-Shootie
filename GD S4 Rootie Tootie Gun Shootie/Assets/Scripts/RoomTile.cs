@@ -11,5 +11,11 @@ public class RoomTile : MonoBehaviour
     public bool Node;
     public ExitDirections Direction;
     public int NodeID;
+    public bool ColliderIfNotNode = false;
+
+    void Start()
+    {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+    }
 
 }
