@@ -7,9 +7,13 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     WeaponStats stats;
-    List<Attack> attacks;
+    List<Attack> attacks = new List<Attack>();
     [SerializeField]
     GameObject bulletPrefab;
+
+    //Todo: this should be a class that both enemy and player inherit from, to enable collision checking for both
+    [SerializeField]
+    Enemy holder;
 
     Queue<BulletBehaviour> pool = new Queue<BulletBehaviour>();
     [SerializeField]
@@ -27,7 +31,11 @@ public class Weapon : MonoBehaviour
 
         if (stats != null)
         {
-            attacks = stats.attack;
+            //copy attacks so multiple weapon scripts can have the same weapon stats
+            foreach (Attack attack in stats.attacks)
+            {
+                attacks.Add(Instantiate(attack));
+            }
         }
     }
 
@@ -42,6 +50,11 @@ public class Weapon : MonoBehaviour
         StartCoroutine(ShootBullets(attackIndex));
        // List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
       //  StartCoroutine(ShootBullets(bullets));
+    }
+
+    public bool GetCooldown(int attackIndex)
+    {
+        return attacks[attackIndex].cooldown < attacks[attackIndex].currentTime;
     }
 
     IEnumerator ShootBullets(List<Bullet> bullets)
@@ -93,6 +106,8 @@ public class Weapon : MonoBehaviour
                 //   if (!bulletBehaviour.gameObject.activeSelf)
                 //   {
                 bulletBehaviour.Init(bullet, transform.position);
+                bulletBehaviour.holder = holder;
+                bulletBehaviour.parent = this;
                 bulletBehaviour.gameObject.SetActive(true);
                 //   }
 
@@ -103,7 +118,6 @@ public class Weapon : MonoBehaviour
 
         else
         {
-            Debug.Log("Ability still on cooldown");
             yield return null;
         }
     }

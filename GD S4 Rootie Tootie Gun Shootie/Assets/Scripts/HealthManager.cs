@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class HealthManager
 {
+    [SerializeField]
     int health = 0;
+    [SerializeField]
     int shield = 0;
+    [SerializeField]
     int maxHealth;
+    [SerializeField]
     int maxShield;
+
+    [SerializeField]
+   public bool invincible;
     public HealthManager(int CurrentHealth, int CurrentShield, int MaximumHealth, int MaximumShield)
     {
         maxShield = MaximumShield;
@@ -32,6 +39,10 @@ public class HealthManager
 
     public void TakeDamage(int amount)
     {
+        if (invincible)
+        {
+            return;
+        }
         if (shield > 0)
         {
             if (shield < amount)

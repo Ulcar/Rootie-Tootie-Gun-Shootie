@@ -23,6 +23,13 @@ namespace Pathfinding {
 				EditorGUI.indentLevel--;
 			}
 
+            if (PropertyField("enableRigidbodyUpdate"))
+            {
+                EditorGUI.indentLevel++;
+                PropertyField("rb");
+                EditorGUI.indentLevel--;
+            }
+
 			if (PropertyField("interpolatePathSwitches")) {
 				EditorGUI.indentLevel++;
 				FloatField("switchPathInterpolationSpeed", min: 0f);

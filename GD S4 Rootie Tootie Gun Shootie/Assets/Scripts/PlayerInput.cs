@@ -38,7 +38,7 @@ using UnityEngine.Events;
     private void Update()
     {
         movement.Move(player.GetAxis2D("Move Horizontal", "Move Vertical"));
-        Debug.Log(player.GetAxis2D("Move Horizontal", "Move Vertical"));
+        //Debug.Log(player.GetAxis2D("Move Horizontal", "Move Vertical"));
 
         if (player.GetButton("Fire"))
         {
@@ -47,6 +47,11 @@ using UnityEngine.Events;
         if (player.GetButton("Fire2"))
         {
             Fire2ButtonPressed();
+        }
+
+        if (player.GetButton("Dash"))
+        {
+            DashButtonPressed();
         }
 
         if (mouseInput)
@@ -75,7 +80,10 @@ using UnityEngine.Events;
         FireButtonPressedEvent.Invoke(1);
     }
 
-    void DashButtonPressed() { }
+    void DashButtonPressed()
+    {
+        dashButtonPressedEvent.Invoke();
+    }
 
 
 }
