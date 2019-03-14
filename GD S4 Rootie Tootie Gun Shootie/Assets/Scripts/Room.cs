@@ -50,7 +50,10 @@ public class Room : MonoBehaviour
                     if (tile.ColliderIfNotNode)
                     {
                         tilemap.transform.GetChild(i).GetComponent<BoxCollider2D>().enabled = true;
-                        tilemap.transform.GetChild(i).gameObject.layer = 9;
+                        if (tile.DefaultLayer == false)
+                        {
+                            tilemap.transform.GetChild(i).gameObject.layer = 9;
+                        }
                     }
                     tile.spriteRenderer.sprite = TileSprites[tile.ID];
                 }
@@ -60,7 +63,10 @@ public class Room : MonoBehaviour
                 if (tile.ColliderIfNotNode)
                 {
                     tilemap.transform.GetChild(i).GetComponent<BoxCollider2D>().enabled = true;
-                    tilemap.transform.GetChild(i).gameObject.layer = 9;
+                    if (tile.DefaultLayer == false)
+                    {
+                        tilemap.transform.GetChild(i).gameObject.layer = 9;
+                    }
                 }
                 tile.spriteRenderer.sprite = TileSprites[tile.ID];
             }

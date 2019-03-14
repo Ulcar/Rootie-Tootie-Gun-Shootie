@@ -14,6 +14,8 @@ public class RoomTile : MonoBehaviour
     public bool ColliderIfNotNode = false;
     public bool playerSpawnPoint;
     public bool monsterSpawnPoint;
+    public bool DefaultLayer;
+    public bool ignore;
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
