@@ -9,7 +9,7 @@ public class EnemyStats : ScriptableObject
    public int MaxHealth;
 
     [SerializeField]
-    List<Weapon> weapons;
+  public  List<WeaponStats> weapons;
     
     // Start is called before the first frame update
     void Start()
@@ -23,10 +23,6 @@ public class EnemyStats : ScriptableObject
         
     }
 
-    public void InitEnemy(List<Weapon> weapons)
-    {
-        this.weapons = weapons;
-    }
 
 
 }

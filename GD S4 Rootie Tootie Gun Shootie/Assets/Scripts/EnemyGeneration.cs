@@ -5,35 +5,45 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-   public class EnemyGeneration
+    [CreateAssetMenu]
+   public class EnemyGeneration:ScriptableObject
     {
     [SerializeField]
     List<WeaponPoolSet> weaponPoolDict;
-    Dictionary<EnemyType, GameObject> prefabDict;
+    [SerializeField]
+    List<PrefabPoolSet> prefabPoolSets;
 
-  public  void GenerateEnemy(EnemyType type)
+  public  EnemyStats GenerateEnemyStats(EnemyType type)
     {
-        int weaponCount = 2;
+        EnemyStats stats = ScriptableObject.CreateInstance<EnemyStats>();
+        int weaponCount = 1;
         List<WeaponStats> weaponPool;
         if (WeaponPoolSet.TryGetWeaponPool(weaponPoolDict, type, out weaponPool))
         {
             List<WeaponStats> enemyWeaponList = new List<WeaponStats>();
             for (int i = 0; i < weaponCount; i++)
             {
-                enemyWeaponList.Add(ScriptableObject.Instantiate(weaponPool[UnityEngine.Random.Range(0, weaponPool.Count - 1)]));
+                //copy scriptableobject in dict so the original doesn't change at runtime
+                enemyWeaponList.Add(ScriptableObject.Instantiate(weaponPool[UnityEngine.Random.Range(0, weaponPool.Count)]));
             }
+            stats.weapons = enemyWeaponList;
         }
 
-        else
-        {
-            Debug.LogWarning("This EnemyType has no WeaponPool: " + type);
-        }
+
+        return stats;
+
     }
 
-   public void SpawnEnemy(EnemyStats enemyToSpawn, EnemyType type)
+    public GameObject GenerateEnemyPrefab(EnemyType type)
     {
-        GameObject tmp = GameObject.Instantiate(prefabDict[type]);
-        tmp.GetComponent<Enemy>().Init(enemyToSpawn);
+        List<GameObject> prefabs;
+        GameObject prefab = null;
+        if (PrefabPoolSet.TryGetPrefabPool(prefabPoolSets, type, out prefabs))
+        {
+            prefab = prefabs[UnityEngine.Random.Range(0, prefabs.Count - 1)];
+        }
+
+        return prefab;
     }
 }
 
@@ -60,6 +70,30 @@ public class WeaponPoolSet
             if (set.type == type)
             {
                 stats = set.weaponPool;
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+[Serializable]
+public class PrefabPoolSet
+{
+    [SerializeField]
+    EnemyType type;
+
+    [SerializeField]
+    List<GameObject> prefabs;
+
+    public static bool TryGetPrefabPool(List<PrefabPoolSet> sets, EnemyType type, out List<GameObject> prefabs)
+    {
+        prefabs = null;
+        foreach (PrefabPoolSet set in sets)
+        {
+            if (set.type == type)
+            {
+                prefabs = set.prefabs;
                 return true;
             }
         }
