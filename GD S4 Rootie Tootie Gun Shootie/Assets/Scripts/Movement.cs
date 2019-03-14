@@ -25,6 +25,12 @@ public abstract class Movement : MonoBehaviour
         this.movementVector = movementVector;
     }
 
+    public void MoveAdditive(Vector2 movementVector)
+    {
+        this.movementVector += movementVector;
+    }
+
+
     //Notes
     //Beide movement voor de player en AI gaan joystick inputs gebruiken (Oftewel een richting en snelheid (Snelheid is trapgewijs voor de controller))
     //Childs van Movement kunnen dingen zoals flying en dashes aanmaken, Movement zelf neemt de input van de (mogelijk virtuele, voor de AI) joystick om de movement te bepalen.

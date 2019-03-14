@@ -11,14 +11,10 @@ using UnityEngine;
     [SerializeField]
     bool invincible = false;
 
-    [SerializeField]
-    Weapon characterWeapon;
-
     int currentPriority = 99999;
     private void Start()
     {
         damageable = GetComponent<IDamageable>();
-        characterWeapon = GetComponentInChildren<Weapon>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

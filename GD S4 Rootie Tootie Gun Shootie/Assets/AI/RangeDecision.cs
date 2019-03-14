@@ -21,6 +21,7 @@ public class RangeDecision : Decision
         {
             returnValue = stateToGoTo;
             controller.target = hit.transform;
+            controller.enemy.target = hit.transform;
             return true;
         }
 

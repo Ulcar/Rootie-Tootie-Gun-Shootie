@@ -22,18 +22,19 @@ public class Enemy : MonoBehaviour, IDamageable
     float Weight;
 
     [SerializeField]
-    Transform target;
+   public Transform target;
    
 
     void Start()
     {
         manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
-        
+
     }
 
     public void Init(EnemyStats stats)
     {
         this.stats = stats;
+        manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
         //Code to generate enemy from Enemystats here
     }
 
@@ -55,7 +56,6 @@ public class Enemy : MonoBehaviour, IDamageable
         else if (!AI.canMove)
         {
             rb.velocity = Vector3.zero;
-            AI.destination = target.position;
             AI.SearchPath();
             AI.canMove = true;
             impact = Vector3.zero;

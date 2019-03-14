@@ -15,9 +15,13 @@ using Pathfinding;
 
     public Weapon weapon;
 
+    public Enemy enemy;
+
     private void Start()
     {
         pathfindingAI = GetComponent<IAstarAI>();
+        weapon = GetComponentInChildren<Weapon>();
+        enemy = GetComponentInChildren<Enemy>();
         //still pretty ugly and implementation specific
         weapon.SetHolder(GetComponentInChildren<IDamageable>());
         currentState.StartActions(this);
