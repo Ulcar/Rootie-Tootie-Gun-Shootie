@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     public PlayerInfo playerInfo;
     public Weapon weapon;
@@ -15,13 +15,22 @@ public class Player : MonoBehaviour
     private SpriteRenderer renderer;
 
     [SerializeField]
+    float invulTimeOnHit = 5;
+
+    float currentTime;
+
+    [SerializeField]
     private SpriteRenderer weaponSprite;
+
+    [SerializeField]
+    CharacterCollision collision;
 
     // Start is called before the first frame update
     void Start()
     {
 
         movementSpeed = playerInfo.movementSpeed;
+        weapon.SetHolder(this);
         healthManager = new HealthManager(playerInfo.maxHealth, playerInfo.maxShield, playerInfo.maxHealth, playerInfo.maxShield);
 
     }
@@ -29,16 +38,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (test)
-        {
-            Vector3 v_diff = (DebugLocation.position - transform.position);
-            float Rad = Mathf.Atan2(v_diff.y, v_diff.x);
-            float angle = Rad * Mathf.Rad2Deg;
-            RotatePlayer(angle);
-            RotateWeapon(angle);
-        }
 
-        //movement.Move(DebugLocation.position.x, DebugLocation.position.y, Vector3.Distance(transform.position, DebugLocation.transform.position) * movementSpeed);
+        if (currentTime < invulTimeOnHit)
+        {
+            currentTime += Time.deltaTime;
+            if (currentTime > invulTimeOnHit)
+            {
+                collision.SetInvincible(false, 0);
+            }
+        }
 
     }
 
@@ -86,13 +94,15 @@ public class Player : MonoBehaviour
     }
 
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage, Vector2 direction, float speed)
     {
-        healthManager.TakeDamage(damage);
-    }
+        
+        healthManager.TakeDamage(1);
+        if (collision != null)
+        {
+            collision.SetInvincible(true, 0);
+            currentTime = 0;
+        }
 
-   public void SetInvincible(bool value)
-    {
-        healthManager.invincible = value;
     }
 }

@@ -11,9 +11,7 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     GameObject bulletPrefab;
 
-    //Todo: this should be a class that both enemy and player inherit from, to enable collision checking for both
-    [SerializeField]
-    Enemy holder;
+    IDamageable holder;
 
     Queue<BulletBehaviour> pool = new Queue<BulletBehaviour>();
     [SerializeField]
@@ -120,5 +118,10 @@ public class Weapon : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    public void SetHolder(IDamageable holder)
+    {
+        this.holder = holder;
     }
 }

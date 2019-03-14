@@ -7,8 +7,9 @@ public class EnemyStats : ScriptableObject
 {
     [SerializeField]
    public int MaxHealth;
+
     [SerializeField]
-   public List<Attack> Attacks = new List<Attack>();
+    List<Weapon> weapons;
     
     // Start is called before the first frame update
     void Start()
@@ -22,9 +23,10 @@ public class EnemyStats : ScriptableObject
         
     }
 
-
-    public void Attack(int rotationOffset)
+    public void InitEnemy(List<Weapon> weapons)
     {
-        Attacks[0].DoAttack(rotationOffset);
+        this.weapons = weapons;
     }
+
+
 }

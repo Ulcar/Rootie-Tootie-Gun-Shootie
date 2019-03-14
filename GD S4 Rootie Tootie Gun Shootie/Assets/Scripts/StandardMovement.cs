@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StandardMovement : Movement
 {
-    Collider2D col;
+    CharacterCollision collision;
     [SerializeField]
     float dashCooldown;
     float currentTime;
@@ -19,7 +19,7 @@ public class StandardMovement : Movement
     private Player player;
     void Start()
     {
-        col = GetComponent<Collider2D>();
+        collision = GetComponent<CharacterCollision>();
         baseSpeed = movementSpeed;
     }
 
@@ -28,6 +28,10 @@ public class StandardMovement : Movement
     {
         if (movementSpeed > baseSpeed)
         {
+            if (currentTime > invulTime)
+            {
+                collision.SetInvincible(false, 1);
+            }
             movementSpeed -= 16 * Time.deltaTime;
             if (movementSpeed < baseSpeed)
             {
@@ -36,10 +40,7 @@ public class StandardMovement : Movement
         }
         currentTime += Time.deltaTime;
 
-        if (currentTime > invulTime)
-        {
-            player.SetInvincible(false);
-        }
+     
         base.Update();
       
      
@@ -51,8 +52,7 @@ public class StandardMovement : Movement
         {
             movementSpeed = dashSpeed;
             currentTime = 0;
-            ///uhhhh fuck
-            player.SetInvincible(true);
+            collision.SetInvincible(true, 1);
         }
     }
 }

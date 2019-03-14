@@ -13,8 +13,7 @@ public class HealthManager
     [SerializeField]
     int maxShield;
 
-    [SerializeField]
-   public bool invincible;
+
     public HealthManager(int CurrentHealth, int CurrentShield, int MaximumHealth, int MaximumShield)
     {
         maxShield = MaximumShield;
@@ -39,10 +38,7 @@ public class HealthManager
 
     public void TakeDamage(int amount)
     {
-        if (invincible)
-        {
-            return;
-        }
+
         if (shield > 0)
         {
             if (shield < amount)
