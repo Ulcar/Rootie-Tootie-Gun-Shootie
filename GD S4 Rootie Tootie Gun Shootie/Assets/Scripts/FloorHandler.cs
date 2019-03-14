@@ -136,14 +136,40 @@ public class FloorHandler : MonoBehaviour
                     for (int k = 0; k < Rooms.Length; k++)
                     {
                         bool AddRoom = true;
-                        
+
                         //if (generationRooms[i, j].Nodes.Count == RoomDirections[k].Count)
                         //{
-                        
-                       
+
+                        if (Rooms[k].Exclusive)
+                        {
+                            if (generationRooms[i, j].Nodes.Count == RoomDirections[k].Count)
+                            {
+                                foreach (GenerationNode node in generationRooms[i, j].Nodes)
+                                {
+                                    bool NodeInRightDirection = false;
+                                    foreach (ExitDirections direction in RoomDirections[k])
+                                    {
+                                        if (direction == node.exitDirection)
+                                        {
+                                            NodeInRightDirection = true;
+                                        }
+                                    }
+                                    if (!NodeInRightDirection)
+                                    {
+                                        AddRoom = false;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                AddRoom = false;
+                            }
+                        }
+                        else
+                        {
                             foreach (GenerationNode node in generationRooms[i, j].Nodes)
                             {
-                                bool NodeInRightDirection = false; 
+                                bool NodeInRightDirection = false;
                                 foreach (ExitDirections direction in RoomDirections[k])
                                 {
                                     if (direction == node.exitDirection)
@@ -156,6 +182,7 @@ public class FloorHandler : MonoBehaviour
                                     AddRoom = false;
                                 }
                             }
+                        }
                          /*}
                         else
                         {
@@ -565,7 +592,62 @@ public class FloorHandler : MonoBehaviour
                     //Debug.Log("AmountGenerated: " + AmountOfRoomsGenerated + ", AvailableNodes: " + available);
                     for (int i = 0; i < available; i++)
                     {
-                        //if (Random.Range(0,2)==1) {
+                        if (AmountOfRoomsGenerated >= Mathf.CeilToInt(floorInfo.RoomsInFloor1 / 1.5f))
+                        {
+                            if (Random.Range(0, 2) == 1)
+                            {
+                                for (int k = 0; k < 30; k++)
+                                {
+                                    int randNumber = Random.Range(0, 4);
+                                    if (randNumber == 0 && NorthAvailable == true && AmountOfRoomsGenerated + 1 <= floorInfo.RoomsInFloor1)
+                                    {
+                                        randomRoom.Nodes.Add(new GenerationNode(ExitDirections.Up));
+                                        AmountOfRoomsGenerated++;
+                                        if (AmountOfRoomsGenerated == floorInfo.RoomsInFloor1)
+                                        {
+                                            randomRoom.BossRoomEntryRoom = true;
+                                        }
+                                        NorthAvailable = false;
+                                        break;
+                                    }
+                                    if (randNumber == 1 && EastAvailable == true && AmountOfRoomsGenerated + 1 <= floorInfo.RoomsInFloor1)
+                                    {
+                                        randomRoom.Nodes.Add(new GenerationNode(ExitDirections.Right));
+                                        AmountOfRoomsGenerated++;
+                                        if (AmountOfRoomsGenerated == floorInfo.RoomsInFloor1)
+                                        {
+                                            randomRoom.BossRoomEntryRoom = true;
+                                        }
+                                        EastAvailable = false;
+                                        break;
+                                    }
+                                    if (randNumber == 2 && SouthAvailable == true && AmountOfRoomsGenerated + 1 <= floorInfo.RoomsInFloor1)
+                                    {
+                                        randomRoom.Nodes.Add(new GenerationNode(ExitDirections.Down));
+                                        AmountOfRoomsGenerated++;
+                                        if (AmountOfRoomsGenerated == floorInfo.RoomsInFloor1)
+                                        {
+                                            randomRoom.BossRoomEntryRoom = true;
+                                        }
+                                        SouthAvailable = false;
+                                        break;
+                                    }
+                                    if (randNumber == 3 && WestAvailable == true && AmountOfRoomsGenerated + 1 <= floorInfo.RoomsInFloor1)
+                                    {
+                                        randomRoom.Nodes.Add(new GenerationNode(ExitDirections.Left));
+                                        AmountOfRoomsGenerated++;
+                                        if (AmountOfRoomsGenerated == floorInfo.RoomsInFloor1)
+                                        {
+                                            randomRoom.BossRoomEntryRoom = true;
+                                        }
+                                        WestAvailable = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
                             for (int k = 0; k < 30; k++)
                             {
                                 int randNumber = Random.Range(0, 4);
@@ -588,7 +670,7 @@ public class FloorHandler : MonoBehaviour
                                     {
                                         randomRoom.BossRoomEntryRoom = true;
                                     }
-                                     EastAvailable = false;
+                                    EastAvailable = false;
                                     break;
                                 }
                                 if (randNumber == 2 && SouthAvailable == true && AmountOfRoomsGenerated + 1 <= floorInfo.RoomsInFloor1)
@@ -614,7 +696,7 @@ public class FloorHandler : MonoBehaviour
                                     break;
                                 }
                             }
-                      //  }
+                        }
                     }
                     generationRooms[randomRoom.x, randomRoom.y] = randomRoom;
                     

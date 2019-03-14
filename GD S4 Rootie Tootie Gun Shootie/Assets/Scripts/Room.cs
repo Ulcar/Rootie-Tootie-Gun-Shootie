@@ -18,6 +18,7 @@ public class Room : MonoBehaviour
     public int respresentedX;
     public int respresentedY;
     public int representedRoomIndex;
+    public bool Exclusive;
 
     void Start()
     {
