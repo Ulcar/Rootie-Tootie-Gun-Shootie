@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Pathfinding;
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField]
     EnemyStats stats;
@@ -28,6 +28,13 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
+        
+    }
+
+    public void Init(EnemyStats stats)
+    {
+        this.stats = stats;
+        //Code to generate enemy from Enemystats here
     }
 
     // Update is called once per frame
@@ -50,32 +57,13 @@ public class Enemy : MonoBehaviour
             rb.velocity = Vector3.zero;
             AI.destination = target.position;
             AI.SearchPath();
-            //AI.ResetMovement();
             AI.canMove = true;
             impact = Vector3.zero;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        BulletBehaviour bullet = collision.GetComponent<BulletBehaviour>();
-        if(bullet != null)
-        {
-            if (bullet.holder != this)
-            {
-                TakeDamage(bullet.Bullet.Damage, bullet.transform.rotation * bullet.Bullet.direction, bullet.Bullet.MovementSpeed);
-                bullet.gameObject.SetActive(false);
-            }
-        }
-        
-    }
 
- 
-
-
-    //TODO: add animations here like flashing enemy, damage type stuff here?
-    //TODO: put colision on different script?
-    void TakeDamage(int damage, Vector2 direction, float speed)
+   public  void TakeDamage(int damage, Vector2 direction, float speed)
     {
         manager.TakeDamage(damage);
         impact += direction * speed * Weight;
@@ -84,4 +72,6 @@ public class Enemy : MonoBehaviour
             AI.canMove = false;
         }
     }
+
+
 }

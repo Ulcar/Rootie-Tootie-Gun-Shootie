@@ -5,8 +5,6 @@ using UnityEngine;
 public class AttackGenerator : Attack
 {
     [SerializeField]
-    private GameObject projectile1;
-    [SerializeField]
     AnimationCurve curve;
 
     [SerializeField]
@@ -30,13 +28,12 @@ public class AttackGenerator : Attack
 
     int currentIndex = 0;
 
-    public bool okditisepisch;
 
 
     private void Awake()
     {
     }
-    //TODO: Could be made more optimal by serialising bullets?
+    //Calculates all bullet positions at once
     public override List<Bullet> DoAttack(int rotationOffset)
     {
         List<Bullet> bullets = base.DoAttack(rotationOffset);
@@ -80,6 +77,7 @@ public class AttackGenerator : Attack
         return bullets;
 
     }
+    //calculates bullets one at a time
     public override Bullet SingleBullet(int rotationOffset)
     {
         Bullet   bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);

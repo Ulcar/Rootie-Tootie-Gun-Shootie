@@ -18,6 +18,8 @@ using Pathfinding;
     private void Start()
     {
         pathfindingAI = GetComponent<IAstarAI>();
+        //still pretty ugly and implementation specific
+        weapon.SetHolder(GetComponentInChildren<IDamageable>());
         currentState.StartActions(this);
     }
 

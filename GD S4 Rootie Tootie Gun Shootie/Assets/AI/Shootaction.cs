@@ -25,10 +25,8 @@ public class Shootaction : Action
 
         else
         {
-            if (weapon.GetCooldown(0))
-            {
-                weapon.Attack(0);
-            }        
+
+                weapon.Attack(0);      
         }
     }
 

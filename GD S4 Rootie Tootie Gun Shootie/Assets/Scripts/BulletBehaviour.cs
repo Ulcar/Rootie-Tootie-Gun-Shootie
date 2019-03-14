@@ -18,7 +18,7 @@ using UnityEngine;
     //bullets that are lighter than itself are destroyed. bullets heavier than this bullet destroy the bullet
     public float Weight;
 
-    public Enemy holder;
+    public IDamageable holder;
     public Weapon parent;
     public void Init(Bullet bullet, Vector3 position)
     {
