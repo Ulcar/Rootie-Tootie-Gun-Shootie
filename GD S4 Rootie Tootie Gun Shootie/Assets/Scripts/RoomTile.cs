@@ -12,7 +12,8 @@ public class RoomTile : MonoBehaviour
     public ExitDirections Direction;
     public int NodeID;
     public bool ColliderIfNotNode = false;
-
+    public bool playerSpawnPoint;
+    public bool monsterSpawnPoint;
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();

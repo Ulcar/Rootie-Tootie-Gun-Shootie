@@ -5,11 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class FloorHandler : MonoBehaviour
 {
+    public Room CurrentFloorStartRoom;
+    public Room CurrentFloorBossRoom;
     public bool floorDone = false;
     public int AmountOfTilesHorizontal;
     public FloorInfo floorInfo;
     //public Room TestRoom;
     public Room[] Rooms;
+    public Room[] BossRooms;
     public List<ExitDirections>[] RoomDirections;
 
     public GameObject GridForAStar;
@@ -130,19 +133,48 @@ public class FloorHandler : MonoBehaviour
             {
                 if (generationRooms[i, j] != null)
                 {
-                    
+                    Room temp;
                     List<int> PossibleRooms = new List<int>();
-                    Debug.Log("Rooms.length: " + Rooms.Length);
-                    for (int k = 0; k < Rooms.Length; k++)
+                    if (generationRooms[i, j].starterRoom)
                     {
-                        bool AddRoom = true;
-
-                        //if (generationRooms[i, j].Nodes.Count == RoomDirections[k].Count)
-                        //{
-
-                        if (Rooms[k].Exclusive)
+                        temp = floorInfo.StarterRoom;
+                        //temp.representedRoomIndex = 0;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < Rooms.Length; k++)
                         {
-                            if (generationRooms[i, j].Nodes.Count == RoomDirections[k].Count)
+                            bool AddRoom = true;
+
+                            //if (generationRooms[i, j].Nodes.Count == RoomDirections[k].Count)
+                            //{
+
+                            if (Rooms[k].Exclusive)
+                            {
+                                if (generationRooms[i, j].Nodes.Count == RoomDirections[k].Count)
+                                {
+                                    foreach (GenerationNode node in generationRooms[i, j].Nodes)
+                                    {
+                                        bool NodeInRightDirection = false;
+                                        foreach (ExitDirections direction in RoomDirections[k])
+                                        {
+                                            if (direction == node.exitDirection)
+                                            {
+                                                NodeInRightDirection = true;
+                                            }
+                                        }
+                                        if (!NodeInRightDirection)
+                                        {
+                                            AddRoom = false;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    AddRoom = false;
+                                }
+                            }
+                            else
                             {
                                 foreach (GenerationNode node in generationRooms[i, j].Nodes)
                                 {
@@ -160,45 +192,22 @@ public class FloorHandler : MonoBehaviour
                                     }
                                 }
                             }
-                            else
+                            /*}
+                           else
+                           {
+                               AddRoom = false;
+                           }*/
+
+                            if (AddRoom)
                             {
-                                AddRoom = false;
+                                PossibleRooms.Add(k);
                             }
                         }
-                        else
-                        {
-                            foreach (GenerationNode node in generationRooms[i, j].Nodes)
-                            {
-                                bool NodeInRightDirection = false;
-                                foreach (ExitDirections direction in RoomDirections[k])
-                                {
-                                    if (direction == node.exitDirection)
-                                    {
-                                        NodeInRightDirection = true;
-                                    }
-                                }
-                                if (!NodeInRightDirection)
-                                {
-                                    AddRoom = false;
-                                }
-                            }
-                        }
-                         /*}
-                        else
-                        {
-                            AddRoom = false;
-                        }*/
-                        
-                        if (AddRoom)
-                        {
-                            PossibleRooms.Add(k);
-                        }
+                        int index = PossibleRooms[Random.Range(0, PossibleRooms.Count)];
+                        temp = Rooms[index];
+                        temp.representedRoomIndex = index;
                     }
-                    Debug.Log("PossibleRoomCount: " + PossibleRooms.Count);
-                    int index = PossibleRooms[Random.Range(0, PossibleRooms.Count)];
-                    
-                    Room temp = Rooms[index];
-                    temp.representedRoomIndex = index;
+                        
                     temp.RepresentedRoom = generationRooms[i, j];
                     temp.SpriteSheet = Spritesheet;
                     temp.respresentedX = i;
@@ -206,10 +215,63 @@ public class FloorHandler : MonoBehaviour
                     Room RoomToInstantiate = Instantiate(temp);
                     //Debug.Log("RTI: " + RoomToInstantiate.respresentedX);
                     //Debug.Log("TempName: " + temp.SpriteSheet.name);
-                    
+
                     RoomToInstantiate.transform.position = new Vector3(i * offset, j * offset, 0);
 
                     RoomToInstantiate.transform.SetParent(this.transform);
+                    if (generationRooms[i, j].bossRoom)
+                    {
+                        RoomToInstantiate.BossRoom = true;
+                        CurrentFloorBossRoom = RoomToInstantiate;
+                    }
+                    else if (generationRooms[i, j].starterRoom)
+                    {
+                        RoomToInstantiate.StarterRoom = true;
+                        CurrentFloorStartRoom = RoomToInstantiate;
+                        List<RoomTile> Spawnpoints = new List<RoomTile>();
+                        Debug.Log("RoomChildCount: " + RoomToInstantiate.tilemap.transform.childCount);
+                        for (int l = 0; l < RoomToInstantiate.tilemap.transform.childCount; l++)
+                        {
+                            RoomTile tile = RoomToInstantiate.tilemap.transform.GetChild(l).GetComponent<RoomTile>();
+                            if (tile == null)
+                            {
+                                Debug.Log("Tile is null");
+                            }
+                            Debug.Log(tile.playerSpawnPoint);
+                            if (tile.playerSpawnPoint)
+                            {
+                                Spawnpoints.Add(tile);
+                            }
+                        }
+                        int RandomRange = Random.Range(0, Spawnpoints.Count);
+                        Debug.Log("RandomRange: " + RandomRange);
+                        Debug.Log("Spawnpoints: " + Spawnpoints.Count);
+                        Transform chosenSpawnPoint = Spawnpoints[RandomRange].transform;
+
+                        GameManager.instance.player.transform.position = new Vector3(chosenSpawnPoint.position.x + Rooms[0].tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.x / 2, chosenSpawnPoint.position.y + Rooms[0].tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.y / 2, 0);
+
+                    }
+                    else
+                    {
+                        List<RoomTile> MobSpawnPoints = new List<RoomTile>();
+                        for (int l = 0; l < RoomToInstantiate.tilemap.transform.childCount; l++)
+                        {
+                            RoomTile tile = RoomToInstantiate.tilemap.transform.GetChild(l).GetComponent<RoomTile>();
+                            if (tile.monsterSpawnPoint)
+                            {
+                                MobSpawnPoints.Add(tile);
+                            }
+                        }
+                        for (int MobCount = 0; MobCount < RoomToInstantiate.AmountOfMobsInRoom; MobCount++)
+                        {
+                            GameObject EnemyToInstantiate = Instantiate(floorInfo.Enemies[Random.Range(0,floorInfo.Enemies.Length)]);
+                            EnemyToInstantiate.GetComponent<EnemyAIController>().target = GameManager.instance.player.transform;
+                            int SpawnIndex = Random.Range(0, MobSpawnPoints.Count);
+                            EnemyToInstantiate.transform.position = new Vector3(MobSpawnPoints[SpawnIndex].transform.position.x, MobSpawnPoints[SpawnIndex].transform.position.y, -2);
+                            EnemyToInstantiate.transform.parent = RoomToInstantiate.transform;
+                            MobSpawnPoints.Remove(MobSpawnPoints[SpawnIndex]);
+                        }
+                    }
                 }
             }
         }
@@ -218,7 +280,6 @@ public class FloorHandler : MonoBehaviour
     public void SetupNodeSystem()
     {
         RoomDirections = new List<ExitDirections>[Rooms.Length];
-        Debug.Log("RoomDirection.length: " + RoomDirections.Length);
         for (int i = 0; i < RoomDirections.Length; i++)
         {
             RoomDirections[i] = new List<ExitDirections>();
@@ -267,16 +328,6 @@ public class FloorHandler : MonoBehaviour
             {
                 RoomDirections[i].Add(ExitDirections.Left);
             }
-            int debugIndex = 0;
-            foreach (List<ExitDirections> list in RoomDirections)
-            {
-                Debug.Log("DebugIndex: " + debugIndex + ", Count: " + list.Count);
-                for (int abc = 0; abc < list.Count; abc++) { 
-                
-                    Debug.Log("Index: " + debugIndex + ", Direction: " + list[abc]);
-                }
-                debugIndex++;
-            }
         }
     }
 
@@ -298,7 +349,6 @@ public class FloorHandler : MonoBehaviour
                     generationRooms[x, y] = StarterRoom;
                     IncrementXY(DirectionValue);
                     AmountOfRoomsGenerated++;
-                    
                     GenerateRoom(DirectionsArray);
                 }
                 else

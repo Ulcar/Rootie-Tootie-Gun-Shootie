@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public int Floor = 0;
     public FloorHandler floorHandler;
     RoomGenerator roomGenerator;
+    public Player player;
+    
     bool scan = false;
     
     // Start is called before the first frame update
@@ -32,9 +34,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void FillTileInfo()
+    void SetupPlayer()
     {
-
+        
     }
 
 
