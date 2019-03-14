@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 namespace UnityEditor
 {
+
     [CreateAssetMenu(fileName = "Prefab brush", menuName = "Brushes/Prefab brush")]
     [CustomGridBrush(false, true, false, "Prefab Brush")]
+
+    
     public class PrefabBrush : GridBrush
     {
-        public Room roomForTiles;
+     
         [Range(0,10)]
         public int PrefabIndex;
         private const float k_PerlinOffset = 100000f;
@@ -18,6 +23,7 @@ namespace UnityEditor
         public int m_Z;
         private GameObject prev_brushTarget;
         private Vector3Int prev_position;
+
 
         public override void Paint(GridLayout grid, GameObject brushTarget, Vector3Int position)
         {
@@ -35,8 +41,9 @@ namespace UnityEditor
             if (brushTarget.layer == 31)
                 return;
 
-            
-            GameObject prefab = m_Prefabs[PrefabIndex];
+            Debug.Log(EditModeTestScript.StaticRangeNumber);
+
+            GameObject prefab = m_Prefabs[0];
             
             GameObject instance = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
             
@@ -44,11 +51,20 @@ namespace UnityEditor
             {
                 Undo.MoveGameObjectToScene(instance, brushTarget.scene, "Paint Prefabs");
                 Undo.RegisterCreatedObjectUndo((Object)instance, "Paint Prefabs");
-                instance.transform.SetParent(brushTarget.transform);
+                instance.transform.SetParent(EditModeTestScript.StaticTilemap.transform);
                 instance.transform.position = grid.LocalToWorld(grid.CellToLocalInterpolated(new Vector3Int(position.x, position.y, m_Z) + new Vector3(.5f, .5f, .5f)));
             }
-
-            prefab.GetComponent<RoomTile>().ID = PrefabIndex;
+            instance.GetComponent<RoomTile>().spriteRenderer.sprite = EditModeTestScript.sprites[EditModeTestScript.StaticRangeNumber];
+            instance.GetComponent<RoomTile>().ID = EditModeTestScript.StaticRangeNumber;
+            if (EditModeTestScript.StaticWall)
+            {
+                instance.GetComponent<BoxCollider2D>().enabled = true;
+                instance.layer = 9;
+            }
+            if (EditModeTestScript.StaticAlwaysOntop)
+            {
+                instance.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            }
             
             //roomForTiles.Tiles.Add(prefab);
         }
