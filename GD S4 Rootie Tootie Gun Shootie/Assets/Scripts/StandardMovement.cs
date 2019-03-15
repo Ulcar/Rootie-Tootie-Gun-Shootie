@@ -26,6 +26,15 @@ public class StandardMovement : Movement
     // Update is called once per frame
    override protected void Update()
     {
+     
+     
+        base.Update();
+      
+     
+    }
+
+    override protected void FixedUpdate()
+    {
         if (movementSpeed > baseSpeed)
         {
             if (currentTime > invulTime)
@@ -39,11 +48,7 @@ public class StandardMovement : Movement
             }
         }
         currentTime += Time.deltaTime;
-
-     
-        base.Update();
-      
-     
+        base.FixedUpdate();
     }
 
     public void Dash()

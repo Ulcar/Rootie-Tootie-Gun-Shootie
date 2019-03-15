@@ -6,8 +6,11 @@ public abstract class Movement : MonoBehaviour
 {
 
     public Transform ParentTransform;
+    public Rigidbody2D ParentRigidbody;
     public float movementSpeed = 2;
-   protected Vector2 movementVector;
+   public Vector2 movementVector;
+    public Vector2 ColisionDirection = Vector2.zero;
+    public bool DownHit, UpHit, LeftHit, RightHit;
    
     void Start()
     {
@@ -16,18 +19,44 @@ public abstract class Movement : MonoBehaviour
   protected virtual void Update()
     {
 
-            ParentTransform.Translate(movementVector * movementSpeed * Time.deltaTime);
+        //  ParentTransform.Translate(movementVector * movementSpeed * Time.deltaTime);
+       
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        ParentRigidbody.velocity = (movementVector) * movementSpeed;
     }
 
     public void Move(Vector2 movementVector)
     {
         //ParentTransform.position = Vector3.MoveTowards(ParentTransform.position, new Vector3(x,y,0), movementSpeed * Time.deltaTime);
+       if (DownHit)
+        {
+            movementVector = movementVector + new Vector2(0, 1);
+        }
+      else  if (UpHit)
+        {
+            movementVector = movementVector + new Vector2(0, -1);
+        }
+
+       if (LeftHit)
+        {
+            movementVector = movementVector + new Vector2(1, 0);
+        }
+
+     else   if (RightHit)
+        {
+            movementVector = movementVector + new Vector2(-1, 0);
+        } 
         this.movementVector = movementVector;
+       
     }
 
     public void MoveAdditive(Vector2 movementVector)
     {
         this.movementVector += movementVector;
+        Debug.Log("Current Vector: " + this.movementVector);
     }
 
 

@@ -9,29 +9,90 @@ using UnityEngine;
     {
 
     Movement movement;
+    BoxCollider2D col;
     private void Start()
     {
         movement = GetComponentInParent<Movement>();
+        col = GetComponent<BoxCollider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void FixedUpdate()
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+
+
+
+           RaycastHit2D bottomHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall"));
+           Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2);
+
+           RaycastHit2D bottomHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall"));
+           Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2);
+
+           RaycastHit2D LeftHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left , 1 << LayerMask.NameToLayer("Wall"));
+           Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left);
+
+           RaycastHit2D RightHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right, 1 << LayerMask.NameToLayer("Wall"));
+           Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right);
+
+           RaycastHit2D TopHit = Physics2D.Linecast(col.bounds.center, (col.bounds.center + col.bounds.extents.y * Vector3.up) + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall"));
+           Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.left / 2);
+
+           RaycastHit2D TopHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall"));
+           Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2);
+
+
+           if (LeftHit)
+           {
+               movement.LeftHit = true;
+           }
+
+           else
+           {
+               movement.LeftHit = false;
+           }
+
+           if (bottomHit)
+           {
+               movement.DownHit = true;
+           }
+
+           else
+           {
+               movement.DownHit = false;
+           }
+
+
+
+           if (RightHit)
+           {
+               movement.RightHit = true;
+           }
+
+           else
+           {
+               movement.RightHit = false;
+
+           }
+
+           if (TopHit || TopHit2)
+           {
+               movement.UpHit = true;
+           }
+
+           else
+           {
+               movement.UpHit = false;
+           }
+
+           //hit a blind spot
+        if(!bottomHit && !bottomHit2 && !TopHit && !TopHit2 && !LeftHit && !RightHit)
         {
-            ContactPoint2D[] contacts = { };
-            collision.GetContacts(contacts);
-            Vector3 dir = contacts[0].point;
-            dir = -dir.normalized;
-            movement.MoveAdditive(dir);
+            RaycastHit2D hit = Physics2D.BoxCast(col.bounds.center, col.size, 0, Vector2.zero, 1, 1 << LayerMask.NameToLayer("Wall"));
+            movement.ColisionDirection = hit.point - (Vector2)col.bounds.center;
         }
+
+    
        
-
-
-
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        movement.Move(Vector2.zero);
-    }
 }
