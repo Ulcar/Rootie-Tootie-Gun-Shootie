@@ -10,7 +10,12 @@ public class GameManager : MonoBehaviour
     public FloorHandler floorHandler;
     RoomGenerator roomGenerator;
     public Player player;
-    
+
+    public Sprite[] updownIdleOpenMovingWallSprites;
+    public Sprite[] updownIdleClosedMovingWallSprites;
+    public Sprite[] leftrightIdleOpenMovingWallSprites;
+    public Sprite[] leftrightIdleClosedMovingWallSprites;
+
     bool scan = false;
     
     // Start is called before the first frame update

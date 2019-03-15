@@ -619,7 +619,7 @@ namespace Pathfinding {
 
                 // Interpolate between the position on the current path and the position
                 // we would have had if we would have continued along the previous path.
-                Debug.Log(interpolator.position);
+                //Debug.Log(interpolator.position);
 				return Vector3.Lerp(positionAlongPreviousPath, interpolator.position, alpha);
 			} else {
 				return interpolator.position;
