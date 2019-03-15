@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Collections;
 [System.Serializable]
 public class Bullet
     {
@@ -32,6 +33,25 @@ public class Bullet
         if (childBullets != null)
         {
             childBullets.DoAttack((int)Rotation.z);
+            
         }
     }
+
+    IEnumerator Spawn()
+    {
+
+
+        if (childBullets != null)
+        {
+            for (int i = 0; i < childBullets.bulletAmount; i++)
+            {
+
+            }
+        }
+
+
+        yield return null;
+    }
+
+
     }
