@@ -16,7 +16,7 @@ public class EditModeTestScript : MonoBehaviour
     public Tilemap tilemap;
     public FloorInfo floorInfo;
     public static Sprite[] sprites;
-    [Range(0, 81)]
+    [Range(0, 91)]
     public int RangeNumber;
     public static int StaticRangeNumber;
     public Sprite White;
@@ -29,7 +29,7 @@ public class EditModeTestScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("StartOfzo");
+        
     }
 
     void Awake()
