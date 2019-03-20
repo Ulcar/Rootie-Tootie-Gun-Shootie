@@ -5,8 +5,7 @@ using UnityEngine;
 public class GateScript : MonoBehaviour
 {
     bool GateOpen = true;
-
-    public SpriteRenderer renderer;
+    public bool Node;
     public Animator animator;
     public bool GatePermOpened = false;
     public bool GateLocked = false;
@@ -14,7 +13,6 @@ public class GateScript : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -23,18 +21,29 @@ public class GateScript : MonoBehaviour
 
     }
 
-    public void MoveGate()
+    public void LockGate()
     {
-        if (GateOpen && !GateLocked)
+        if (!GateLocked && !GatePermOpened && Node)
         {
-            animator.SetTrigger("CloseGate");
-            GateOpen = false;
             GateLocked = true;
+            animator.SetTrigger("CloseGate");
         }
-        else
+    }
+
+    public void PermOpenGate()
+    {
+        if (!GatePermOpened && Node)
+        {
+            GatePermOpened = true;
+            animator.SetTrigger("OpenGate");
+        }
+    }
+
+    public void NormalOpenGate()
+    {
+        if (!GatePermOpened && Node)
         {
             animator.SetTrigger("OpenGate");
-            GateOpen = true;
         }
     }
 }
