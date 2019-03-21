@@ -27,10 +27,11 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+        
         switch (currentState)
         {
             case States.Player:
+                transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
                 PlayerState();
                 break;
             case States.Room:
@@ -70,6 +71,7 @@ public class CameraScript : MonoBehaviour
     }
     void roomState()
     {
+        // CAMERA "DISTANCE" FROM PLAYER
         if (MainCamera.orthographicSize <= 5.99)
         {
             MainCamera.orthographicSize = MainCamera.orthographicSize + ((8.3f / MainCamera.orthographicSize) - 1.4f)/4;
@@ -79,9 +81,82 @@ public class CameraScript : MonoBehaviour
             MainCamera.orthographicSize = 6;
         }
 
-        if (MainCamera.transform.position.x + MainCamera.orthographicSize >= RoomPlayerIsIn.transform.position.x + RoomPlayerIsIn.tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.x * 20) 
+        // ROOM SNAP X
+        if (MainCamera.transform.position.x + 10 > RoomPlayerIsIn.transform.position.x + 10) 
         {
-            MainCamera.transform.position = new Vector3(RoomPlayerIsIn.transform.position.x + RoomPlayerIsIn.tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.x * 20, MainCamera.transform.position.y, MainCamera.transform.position.z);
+            float diff = (MainCamera.transform.position.x + 10) - (RoomPlayerIsIn.transform.position.x + 10);
+            if (diff >= 0.1)
+            {
+                float result = (diff / 1) / debugSize;
+                Debug.Log("XDiff: " + diff + ", Result: " + result);
+                float x = MainCamera.transform.position.x - result;
+                MainCamera.transform.position = new Vector3(x, MainCamera.transform.position.y, MainCamera.transform.position.z);
+            }
+            else
+            {
+                MainCamera.transform.position = new Vector3(RoomPlayerIsIn.transform.position.x, MainCamera.transform.position.y, MainCamera.transform.position.z);
+            }
+        }
+        if (MainCamera.transform.position.x - 10 < RoomPlayerIsIn.transform.position.x - 10)
+        {
+
+            float diff = (RoomPlayerIsIn.transform.position.x - 10) - (MainCamera.transform.position.x - 10);
+            if (diff >= 0.1)
+            {
+                float result = (diff / 1) / debugSize;
+                Debug.Log("XDiff: " + diff + ", Result: " + result);
+                float x = MainCamera.transform.position.x + result;
+                MainCamera.transform.position = new Vector3(x, MainCamera.transform.position.y, MainCamera.transform.position.z);
+            }
+            else
+            {
+                MainCamera.transform.position = new Vector3(RoomPlayerIsIn.transform.position.x, MainCamera.transform.position.y, MainCamera.transform.position.z);
+            }
+        }
+
+        // ROOM SNAP Y
+        if (MainCamera.transform.position.y + 6 > RoomPlayerIsIn.transform.position.y + 10)
+        {
+            Debug.Log("ABC1");
+            float diff = (MainCamera.transform.position.y + 6) - (RoomPlayerIsIn.transform.position.y + 10);
+            if (diff >= 0.1)
+            {
+                float result = (diff / 1) / debugSize;
+                Debug.Log("YDiff: " + diff + ", Result: " + result);
+                float y = MainCamera.transform.position.y - result;
+                //MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, RoomPlayerIsIn.transform.position.y + 4, MainCamera.transform.position.z);
+                MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, y, MainCamera.transform.position.z);
+            }
+            else
+            {
+                MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, RoomPlayerIsIn.transform.position.y + 4, MainCamera.transform.position.z);
+            }
+        }
+        else if (MainCamera.transform.position.y - 6 < RoomPlayerIsIn.transform.position.y - 10)
+        {
+            Debug.Log("ABC2");
+            float diff = (RoomPlayerIsIn.transform.position.y - 10) - (MainCamera.transform.position.y - 6);
+            if (diff >= 0.1)
+            {
+                float result = (diff / 1) / debugSize;
+                Debug.Log("YDiff2: " + diff + ", Result2: " + result);
+                float y = MainCamera.transform.position.y + result;
+
+                MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, y, MainCamera.transform.position.z);
+            }
+            else
+            {
+                MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, RoomPlayerIsIn.transform.position.y - 4, MainCamera.transform.position.z);
+            }
+        }
+        else
+        {
+            Vector3 temp = MainCamera.transform.position;
+            MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, player.transform.position.y, MainCamera.transform.position.z);
+            if (MainCamera.transform.position.y - 6 < RoomPlayerIsIn.transform.position.y - 10 || MainCamera.transform.position.y + 6 > RoomPlayerIsIn.transform.position.y + 10)
+            {
+                MainCamera.transform.position = temp;
+            }
         }
     }
 }
