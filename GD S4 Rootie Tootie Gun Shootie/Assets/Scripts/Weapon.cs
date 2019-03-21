@@ -31,11 +31,18 @@ public class Weapon : MonoBehaviour
         timeSinceLastAttack += Time.deltaTime;
     }
 
-   public void Attack(int attackIndex)
+   public void Attack(int attackIndex, float rotation)
     {
-        StartCoroutine(ShootBullets(attackIndex));
+        StartCoroutine(ShootBullets(attackIndex, rotation));
        // List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
       //  StartCoroutine(ShootBullets(bullets));
+    }
+
+    public void Attack(int attackIndex)
+    {
+        StartCoroutine(ShootBullets(attackIndex, transform.rotation.eulerAngles.z));
+        // List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
+        //  StartCoroutine(ShootBullets(bullets));
     }
 
     public bool GetCooldown(int attackIndex)
@@ -68,45 +75,56 @@ public class Weapon : MonoBehaviour
         yield return null;
         }
 
-    IEnumerator ShootBullets(int attackIndex)
+    IEnumerator ShootBullets(int attackIndex, float rotation)
     {
-        foreach (Attack attack in attacks)
+        if (attacks[attackIndex] != null)
         {
-            attack.currentTime += timeSinceLastAttack;
-        }
-        timeSinceLastAttack = 0;
-        if (attacks[attackIndex].cooldown < attacks[attackIndex].currentTime)
-        {          
-            attacks[attackIndex].currentTime = 0;
-            for (int i = 0; i < attacks[attackIndex].bulletAmount; i++)
+            foreach (Attack attack in attacks)
             {
-                float currentTime = 0;
-                Bullet bullet = attacks[attackIndex].SingleBullet((int)transform.rotation.eulerAngles.z);
-                while (currentTime < bullet.spawnTime)
-                {
-                    currentTime += Time.deltaTime;
-                    yield return null;
-
-                }
-                BulletBehaviour bulletBehaviour = ObjectPool.instance.Dequeue();
-                //   if (!bulletBehaviour.gameObject.activeSelf)
-                //   {
-                bulletBehaviour.Init(bullet, transform.position);
-                bulletBehaviour.holder = holder;
-                bulletBehaviour.parent = this;
-                //setting layer for now, so Enemies don't collide with each other at all
-                bulletBehaviour.gameObject.layer = gameObject.layer;
-                bulletBehaviour.gameObject.SetActive(true);
-                //   }
-
-                ObjectPool.instance.Enqueue(bulletBehaviour);
+                attack.currentTime += timeSinceLastAttack;
             }
-            yield return null;
+            timeSinceLastAttack = 0;
+
+            if (attacks[attackIndex].cooldown < attacks[attackIndex].currentTime)
+            {
+                attacks[attackIndex].currentTime = 0;
+                for (int i = 0; i < attacks[attackIndex].bulletAmount; i++)
+                {
+                    float currentTime = 0;
+                    Bullet bullet = attacks[attackIndex].SingleBullet((int)rotation);
+                    while (currentTime < bullet.spawnTime)
+                    {
+                        currentTime += Time.deltaTime;
+                        if (currentTime < bullet.spawnTime)
+                        {
+                            yield return null;
+                        }
+                    }
+                    BulletBehaviour bulletBehaviour = ObjectPool.instance.Dequeue();
+                    //   if (!bulletBehaviour.gameObject.activeSelf)
+                    //   {
+                    bulletBehaviour.Init(bullet, transform.position);
+                    bulletBehaviour.holder = holder;
+                    bulletBehaviour.parent = this;
+                    //setting layer for now, so Enemies don't collide with each other at all
+                    bulletBehaviour.gameObject.layer = gameObject.layer;
+                    bulletBehaviour.gameObject.SetActive(true);
+                    //   }
+
+                    ObjectPool.instance.Enqueue(bulletBehaviour);
+                }
+                yield return null;
+            }
+
+            else
+            {
+                yield return null;
+            }
         }
 
         else
         {
-            yield return null;
+            Debug.LogWarning("Attack Does not exist");
         }
     }
 

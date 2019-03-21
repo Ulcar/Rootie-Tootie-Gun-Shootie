@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 public class Room : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -96,10 +97,12 @@ public class Room : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            Enemy TempEnemy = transform.GetChild(i).GetComponent<Enemy>();
+            Enemy TempEnemy = transform.GetChild(i).GetComponentInChildren<Enemy>();
             if (TempEnemy != null)
             {
+                TempEnemy.OnDeath.AddListener(OnDeath);
                 RoomEnemies.Add(TempEnemy);
+                
             }
         }
     }
@@ -110,6 +113,11 @@ public class Room : MonoBehaviour
         {
             //PermOpenAllGates();
         }
+    }
+
+    void OnDeath(Enemy enemy)
+    {
+        RoomEnemies.Remove(enemy);
     }
 
     void Awake()

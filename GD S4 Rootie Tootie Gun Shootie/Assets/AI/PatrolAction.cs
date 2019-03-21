@@ -19,7 +19,7 @@ using Pathfinding;
     {
         nodeIndex = 0;
         movementScript = controller.pathfindingAI;
-        movementScript.destination = nodes[nodeIndex];
+        movementScript.destination = controller.transform.TransformPoint(nodes[nodeIndex]);
        
 
         

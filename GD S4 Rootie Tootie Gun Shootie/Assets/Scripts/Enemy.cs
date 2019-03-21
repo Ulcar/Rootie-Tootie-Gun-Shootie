@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Pathfinding;
+using UnityEngine.Events;
 public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField]
@@ -23,12 +24,14 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [SerializeField]
    public Transform target;
+
+    public EnemyDeathEvent OnDeath = new EnemyDeathEvent();
    
 
     void Start()
     {
         manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
-
+        manager.OnDeath.AddListener(OnDeathEvent);
     }
 
     public void Init(EnemyStats stats)
@@ -36,7 +39,14 @@ public class Enemy : MonoBehaviour, IDamageable
         this.stats = stats;
         manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
         GetComponent<Weapon>().stats = stats.weapons[0];
+        manager.OnDeath.AddListener(OnDeathEvent);
         //Code to generate enemy from Enemystats here
+    }
+
+    void OnDeathEvent()
+    {
+        OnDeath.Invoke(this);
+        Destroy(gameObject.transform.parent.gameObject);
     }
 
     // Update is called once per frame
@@ -74,5 +84,10 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+
+}
+
+public class EnemyDeathEvent : UnityEvent<Enemy>
+{
 
 }
