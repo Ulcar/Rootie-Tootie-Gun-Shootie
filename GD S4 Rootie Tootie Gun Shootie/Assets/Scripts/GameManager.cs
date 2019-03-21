@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public FloorHandler floorHandler;
     RoomGenerator roomGenerator;
     public Player player;
+    public Camera MainCamera;
 
     public Sprite[] updownIdleOpenMovingWallSprites;
     public Sprite[] updownIdleClosedMovingWallSprites;
