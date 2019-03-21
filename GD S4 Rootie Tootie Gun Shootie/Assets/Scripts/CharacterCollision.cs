@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-
+using UnityEngine.Events;
     public class CharacterCollision:MonoBehaviour
     {
     IDamageable damageable;
     [SerializeField]
     bool invincible = false;
+
+    public UnityEvent OnInvincible;
 
     int currentPriority = 99999;
     private void Start()
@@ -44,6 +46,7 @@ using UnityEngine;
             {
                 currentPriority = 99999;
             }
+            OnInvincible.Invoke();
         }
 
 

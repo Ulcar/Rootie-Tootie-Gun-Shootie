@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    WeaponStats stats;
+   public WeaponStats stats;
     List<Attack> attacks = new List<Attack>();
 
     IDamageable holder;
@@ -94,6 +94,8 @@ public class Weapon : MonoBehaviour
                 bulletBehaviour.Init(bullet, transform.position);
                 bulletBehaviour.holder = holder;
                 bulletBehaviour.parent = this;
+                //setting layer for now, so Enemies don't collide with each other at all
+                bulletBehaviour.gameObject.layer = gameObject.layer;
                 bulletBehaviour.gameObject.SetActive(true);
                 //   }
 

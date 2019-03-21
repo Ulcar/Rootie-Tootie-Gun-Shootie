@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 [System.Serializable]
 public class HealthManager
 {
@@ -12,6 +13,9 @@ public class HealthManager
     int maxHealth;
     [SerializeField]
     int maxShield;
+
+    public UnityEvent OnDeath;
+    
 
 
     public HealthManager(int CurrentHealth, int CurrentShield, int MaximumHealth, int MaximumShield)

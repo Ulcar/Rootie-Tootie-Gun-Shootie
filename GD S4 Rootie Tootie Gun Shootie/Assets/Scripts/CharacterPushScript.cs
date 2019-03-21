@@ -9,11 +9,11 @@ using UnityEngine;
     {
 
     Movement movement;
-    BoxCollider2D col;
+    Collider2D col;
     private void Start()
     {
         movement = GetComponentInParent<Movement>();
-        col = GetComponent<BoxCollider2D>();
+        col = GetComponent<Collider2D>();
     }
 
 
@@ -87,8 +87,14 @@ using UnityEngine;
            //hit a blind spot
         if(!bottomHit && !bottomHit2 && !TopHit && !TopHit2 && !LeftHit && !RightHit)
         {
-            RaycastHit2D hit = Physics2D.BoxCast(col.bounds.center, col.size, 0, Vector2.zero, 1, 1 << LayerMask.NameToLayer("Wall"));
-            movement.ColisionDirection = hit.point - (Vector2)col.bounds.center;
+           
+            RaycastHit2D hit = Physics2D.BoxCast(col.bounds.center, col.bounds.extents, 0, Vector2.zero, 1, 1 << LayerMask.NameToLayer("Wall"));
+            if (hit)
+            {
+                Debug.Log("Blind spot");
+                movement.ColisionDirection = hit.point - (Vector2)col.bounds.center;
+            }
+            
         }
 
     
