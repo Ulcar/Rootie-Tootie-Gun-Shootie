@@ -111,7 +111,8 @@ public class Room : MonoBehaviour
     {
         if (RoomEnemies.Count <= 0)
         {
-            //PermOpenAllGates();
+            PermOpenAllGates();
+            GameManager.instance.MainCamera.GetComponent<CameraScript>().PlayerMode();
         }
     }
 
