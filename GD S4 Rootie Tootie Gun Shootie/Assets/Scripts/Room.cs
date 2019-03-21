@@ -111,7 +111,7 @@ public class Room : MonoBehaviour
     {
         if (RoomEnemies.Count <= 0)
         {
-            PermOpenAllGates();
+            //PermOpenAllGates();
         }
     }
 
@@ -129,6 +129,7 @@ public class Room : MonoBehaviour
     {
         if (!StarterRoom)
         {
+            Debug.Log(Gates.Count);
             foreach (GateScript gate in Gates)
             {
                 gate.LockGate();
@@ -152,6 +153,14 @@ public class Room : MonoBehaviour
         foreach (GateScript gate in Gates)
         {
             gate.NormalOpenGate();
+        }
+    }
+
+    public void CameraRoomMode()
+    {
+        if (!GameManager.instance.MainCamera.GetComponent<CameraScript>().InRoomMode)
+        {
+            GameManager.instance.MainCamera.GetComponent<CameraScript>().RoomMode(this);
         }
     }
 

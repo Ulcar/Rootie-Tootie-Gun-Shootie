@@ -6,9 +6,22 @@ public class GateTriggerScript : MonoBehaviour
 {
     public Room parentRoom;
 
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
     void OnTriggerEnter2D(Collider2D col)
     {
-        parentRoom.CloseAllGates();   
+        if (!parentRoom.StarterRoom)
+        {
+            parentRoom.CloseAllGates();
+            parentRoom.CameraRoomMode();
+        }
     }
 
 
