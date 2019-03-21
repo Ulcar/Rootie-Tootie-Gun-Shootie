@@ -22,6 +22,7 @@ public class Room : MonoBehaviour
     public int representedRoomIndex;
     public bool Exclusive;
     public int AmountOfMobsInRoom;
+    int TotalSpawnedEnemiesInRoom = 0;
     List<Enemy> RoomEnemies = new List<Enemy>();
     List<GateScript> Gates = new List<GateScript>();
 
@@ -102,14 +103,14 @@ public class Room : MonoBehaviour
             {
                 TempEnemy.OnDeath.AddListener(OnDeath);
                 RoomEnemies.Add(TempEnemy);
-                
+                TotalSpawnedEnemiesInRoom++;
             }
         }
     }
 
     void Update()
     {
-        if (RoomEnemies.Count <= 0)
+        if (RoomEnemies.Count <= 0 && TotalSpawnedEnemiesInRoom > 0)
         {
             PermOpenAllGates();
             GameManager.instance.MainCamera.GetComponent<CameraScript>().PlayerMode();
