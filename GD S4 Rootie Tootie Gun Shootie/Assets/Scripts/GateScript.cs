@@ -35,6 +35,7 @@ public class GateScript : MonoBehaviour
         if (!GatePermOpened && Node)
         {
             GatePermOpened = true;
+            GateLocked = false;
             animator.SetTrigger("OpenGate");
         }
     }
