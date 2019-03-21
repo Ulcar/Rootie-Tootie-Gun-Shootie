@@ -23,13 +23,19 @@ public class Shootaction : Action
         if (currentTime > targetTime)
         {
             currentTime = 0;
-            weapon.Attack(1, Vector2.Angle(controller.transform.position, controller.target.position));
+            Vector2 C = controller.transform.position - controller.target.position;
+            float Angle = Mathf.Atan2(C.y, C.x);
+            float AngleInDegrees = Angle * Mathf.Rad2Deg;
+            weapon.Attack(1, AngleInDegrees);
         }
 
         else
         {
 
-            weapon.Attack(0, Vector2.Angle(controller.transform.position, controller.target.position));
+            Vector2 C = controller.transform.position - controller.target.position;
+            float Angle = Mathf.Atan2(C.y, C.x);
+            float AngleInDegrees = Angle * Mathf.Rad2Deg;
+            weapon.Attack(0, AngleInDegrees);
         }
     }
 
