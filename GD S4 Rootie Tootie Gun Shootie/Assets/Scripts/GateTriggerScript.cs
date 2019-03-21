@@ -20,7 +20,6 @@ public class GateTriggerScript : MonoBehaviour
         if (!parentRoom.StarterRoom && col.tag == "Player")
         {
             parentRoom.CloseAllGates();
-            parentRoom.CameraRoomMode();
         }
     }
 

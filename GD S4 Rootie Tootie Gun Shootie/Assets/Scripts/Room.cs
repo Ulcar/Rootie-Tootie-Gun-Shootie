@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Room : MonoBehaviour
 {
     // Start is called before the first frame update
+    public bool permOpen = false;
     public Texture2D SpriteSheet;
     public bool BossRoom;
     public bool StarterRoom;
@@ -112,8 +113,11 @@ public class Room : MonoBehaviour
     {
         if (RoomEnemies.Count <= 0 && TotalSpawnedEnemiesInRoom > 0)
         {
-            PermOpenAllGates();
-            GameManager.instance.MainCamera.GetComponent<CameraScript>().PlayerMode();
+            if (!permOpen)
+            {
+                PermOpenAllGates();
+                GameManager.instance.MainCamera.GetComponent<CameraScript>().PlayerMode();
+            }
         }
     }
 
@@ -136,6 +140,10 @@ public class Room : MonoBehaviour
             {
                 gate.LockGate();
             }
+            if (GameManager.instance.MainCamera.GetComponent<CameraScript>().currentState == CameraScript.States.Player && !permOpen)
+            {
+                CameraRoomMode();
+            }
         }
     }
     public void PermOpenAllGates()
@@ -146,6 +154,7 @@ public class Room : MonoBehaviour
             {
                 gate.PermOpenGate();
             }
+            permOpen = true;
         }
     }
 
