@@ -24,6 +24,9 @@ public class FloorHandler : MonoBehaviour
     List<GenerationRoom> Path;
     int AmountOfRoomsGenerated = 0;
     int ActuallyGenerated = 0;
+
+    [SerializeField]
+    EnemyGeneration generation;
  
     // Start is called before the first frame update
 
@@ -264,17 +267,37 @@ public class FloorHandler : MonoBehaviour
                         }
                         for (int MobCount = 0; MobCount < RoomToInstantiate.AmountOfMobsInRoom; MobCount++)
                         {
-                            GameObject EnemyToInstantiate = Instantiate(floorInfo.Enemies[Random.Range(0,floorInfo.Enemies.Length)]);
+                            // Spawn enemy here
+                            //should randomise enemy type later
+                            int SpawnIndex = Random.Range(0, MobSpawnPoints.Count);
+                         GameObject enemy =   SpawnEnemy(EnemyType.Ranged, RoomToInstantiate.transform, new Vector3(MobSpawnPoints[SpawnIndex].transform.position.x, MobSpawnPoints[SpawnIndex].transform.position.y, -2));
+                            RoomToInstantiate.enemiesToSpawn.Add(enemy);
+
+
+                            //old code commented out
+                           /* GameObject EnemyToInstantiate = Instantiate(floorInfo.Enemies[Random.Range(0,floorInfo.Enemies.Length)]);
                             EnemyToInstantiate.GetComponent<EnemyAIController>().target = GameManager.instance.player.transform;
                             int SpawnIndex = Random.Range(0, MobSpawnPoints.Count);
-                            EnemyToInstantiate.transform.position = new Vector3(MobSpawnPoints[SpawnIndex].transform.position.x, MobSpawnPoints[SpawnIndex].transform.position.y, -2);
+                            EnemyToInstantiate.transform.position =;
                             EnemyToInstantiate.transform.parent = RoomToInstantiate.transform;
-                            MobSpawnPoints.Remove(MobSpawnPoints[SpawnIndex]);
+                            MobSpawnPoints.Remove(MobSpawnPoints[SpawnIndex]); */
+
                         }
                     }
                 }
             }
         }
+    }
+    //enemy Spawning code, using EnemyGeneration Class
+    GameObject SpawnEnemy(EnemyType type, Transform parent, Vector3 spawnPosition)
+    {
+        GameObject tmp = generation.GenerateEnemyPrefab(type);
+        GameObject enemyToSpawn = Instantiate(tmp);
+        EnemyStats stats = generation.GenerateEnemyStats(type);
+        enemyToSpawn.GetComponentInChildren<Enemy>().Init(stats);
+        enemyToSpawn.transform.position = spawnPosition;
+        enemyToSpawn.transform.parent = parent;
+        return enemyToSpawn;
     }
 
     public void SetupNodeSystem()

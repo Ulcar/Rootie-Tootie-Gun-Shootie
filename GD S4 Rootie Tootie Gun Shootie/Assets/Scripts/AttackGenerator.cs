@@ -54,8 +54,7 @@ public class AttackGenerator : Attack
             //    f = curve.Evaluate((float)i / bulletAmount);
             foreach (AnimationCurve currentCurve in Multipliers)
             {
-                //bullet based on value between 0 and 1
-                //f *= currentCurve.Evaluate((float)i / bulletAmount);
+                //bullet based on value between 0 and 1e                //f *= currentCurve.Evaluate((float)i / bulletAmount);
                 f *= currentCurve.Evaluate(i % (currentCurve[currentCurve.length - 1].time + 1));
             }
             bullet.spawnTime = timeBetweenBullets.Evaluate(i % (timeBetweenBullets[timeBetweenBullets.length - 1].time + 1));

@@ -12,10 +12,7 @@ public class EnemyGenerationBehaviourTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            SpawnEnemy();
-        }
+
     }
 
     // Update is called once per frame
@@ -25,11 +22,5 @@ public class EnemyGenerationBehaviourTest : MonoBehaviour
     }
 
 
-    void SpawnEnemy()
-    {
-     GameObject tmp =    generation.GenerateEnemyPrefab(type);
-      GameObject enemyToSpawn = Instantiate(tmp);
-        EnemyStats stats = generation.GenerateEnemyStats(type);
-        enemyToSpawn.GetComponentInChildren<Enemy>().Init(stats);
-    }
+  
 }

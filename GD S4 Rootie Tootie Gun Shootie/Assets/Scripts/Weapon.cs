@@ -6,26 +6,14 @@ public class Weapon : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    WeaponStats stats;
+   public WeaponStats stats;
     List<Attack> attacks = new List<Attack>();
-    [SerializeField]
-    GameObject bulletPrefab;
 
     IDamageable holder;
-
-    Queue<BulletBehaviour> pool = new Queue<BulletBehaviour>();
-    [SerializeField]
-    int amountToPool;
-
     float timeSinceLastAttack = 100;
     void Start()
     {
-        for (int i = 0; i < amountToPool; i++)
-        {
-            GameObject tmp = Instantiate(bulletPrefab);
-            pool.Enqueue(tmp.GetComponent<BulletBehaviour>());
-            tmp.SetActive(false);
-        }
+
 
         if (stats != null)
         {
@@ -68,14 +56,14 @@ public class Weapon : MonoBehaviour
                 yield return null;
 
             }
-            BulletBehaviour bulletBehaviour = pool.Dequeue();
+            BulletBehaviour bulletBehaviour = ObjectPool.instance.Dequeue();
          //   if (!bulletBehaviour.gameObject.activeSelf)
          //   {
                 bulletBehaviour.Init(bullet, transform.position);
                 bulletBehaviour.gameObject.SetActive(true);
          //   }
 
-            pool.Enqueue(bulletBehaviour);
+            ObjectPool.instance.Enqueue(bulletBehaviour);
         }
         yield return null;
         }
@@ -100,16 +88,18 @@ public class Weapon : MonoBehaviour
                     yield return null;
 
                 }
-                BulletBehaviour bulletBehaviour = pool.Dequeue();
+                BulletBehaviour bulletBehaviour = ObjectPool.instance.Dequeue();
                 //   if (!bulletBehaviour.gameObject.activeSelf)
                 //   {
                 bulletBehaviour.Init(bullet, transform.position);
                 bulletBehaviour.holder = holder;
                 bulletBehaviour.parent = this;
+                //setting layer for now, so Enemies don't collide with each other at all
+                bulletBehaviour.gameObject.layer = gameObject.layer;
                 bulletBehaviour.gameObject.SetActive(true);
                 //   }
 
-                pool.Enqueue(bulletBehaviour);
+                ObjectPool.instance.Enqueue(bulletBehaviour);
             }
             yield return null;
         }

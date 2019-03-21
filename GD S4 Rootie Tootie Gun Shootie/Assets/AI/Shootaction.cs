@@ -13,6 +13,9 @@ public class Shootaction : Action
     [SerializeField]
     float targetTime = 5f;
 
+    [SerializeField]
+    float BaseAttackCooldown = 1f;
+
     public override void DoAction(EnemyAIController controller)
     {
         //TODO: make getter function to check if attack is off cooldown

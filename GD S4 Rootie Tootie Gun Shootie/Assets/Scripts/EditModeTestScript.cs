@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+#if UNITY_EDITOR
+using UnityEditor;
 [ExecuteInEditMode]
 [CustomPropertyDrawer(typeof(EditModeTestScript))]
+#endif
 public class EditModeTestScript : MonoBehaviour
 {
     public bool Wall;

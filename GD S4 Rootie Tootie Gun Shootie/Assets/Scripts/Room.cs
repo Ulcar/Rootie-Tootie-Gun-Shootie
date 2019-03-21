@@ -12,7 +12,8 @@ public class Room : MonoBehaviour
     public Sprite[] TileSprites;
     public List<RoomTile> NodeTiles;
     public Tilemap tilemap;
-    public GenerationRoom RepresentedRoom; 
+    public GenerationRoom RepresentedRoom;
+    public List<GameObject> enemiesToSpawn;
     [Range(0, 2)]
     public int index;
     public int respresentedX;

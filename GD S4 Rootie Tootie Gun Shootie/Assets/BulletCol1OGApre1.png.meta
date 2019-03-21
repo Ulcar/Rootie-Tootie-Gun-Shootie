@@ -1,0 +1,448 @@
+fileFormatVersion: 2
+guid: 9c56fc8ac3d787a4db90dc1035fa8686
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Circle orange
+    21300002: Circle Red-yellow
+    21300004: Circle red
+    21300006: Circle yellow
+    21300008: Circle blue
+    21300010: Circle Green
+    21300012: BulletCol1OGApre1_6
+    21300014: BulletCol1OGApre1_7
+    21300016: BulletCol1OGApre1_8
+    21300018: BulletCol1OGApre1_9
+    21300020: BulletCol1OGApre1_10
+    21300022: BulletCol1OGApre1_11
+    21300024: BulletCol1OGApre1_12
+    21300026: BulletCol1OGApre1_13
+    21300028: BulletCol1OGApre1_14
+    21300030: BulletCol1OGApre1_15
+    21300032: BulletCol1OGApre1_16
+    21300034: BulletCol1OGApre1_17
+    21300036: BulletCol1OGApre1_18
+    21300038: BulletCol1OGApre1_19
+    21300040: BulletCol1OGApre1_20
+    21300042: BulletCol1OGApre1_21
+    21300044: BulletCol1OGApre1_22
+    21300046: BulletCol1OGApre1_23
+    21300048: BulletCol1OGApre1_24
+    21300050: BulletCol1OGApre1_25
+    21300052: BulletCol1OGApre1_26
+    21300054: BulletCol1OGApre1_27
+    21300056: BulletCol1OGApre1_28
+    21300058: BulletCol1OGApre1_29
+    21300060: BulletCol1OGApre1_30
+    21300062: BulletCol1OGApre1_31
+    21300064: BulletCol1OGApre1_32
+    21300066: BulletCol1OGApre1_33
+    21300068: BulletCol1OGApre1_34
+    21300070: BulletCol1OGApre1_35
+    21300072: BulletCol1OGApre1_36
+    21300074: BulletCol1OGApre1_37
+    21300076: BulletCol1OGApre1_38
+    21300078: BulletCol1OGApre1_39
+    21300080: BulletCol1OGApre1_40
+    21300082: BulletCol1OGApre1_41
+    21300084: BulletCol1OGApre1_42
+    21300086: BulletCol1OGApre1_43
+    21300088: BulletCol1OGApre1_44
+    21300090: BulletCol1OGApre1_45
+    21300092: BulletCol1OGApre1_46
+    21300094: BulletCol1OGApre1_47
+    21300096: BulletCol1OGApre1_48
+    21300098: BulletCol1OGApre1_49
+    21300100: BulletCol1OGApre1_50
+    21300102: BulletCol1OGApre1_51
+    21300104: BulletCol1OGApre1_52
+    21300106: BulletCol1OGApre1_53
+    21300108: BulletCol1OGApre1_54
+    21300110: BulletCol1OGApre1_55
+    21300112: BulletCol1OGApre1_56
+    21300114: BulletCol1OGApre1_57
+    21300116: BulletCol1OGApre1_58
+    21300118: BulletCol1OGApre1_59
+    21300120: BulletCol1OGApre1_60
+    21300122: BulletCol1OGApre1_61
+    21300124: BulletCol1OGApre1_62
+    21300126: BulletCol1OGApre1_63
+    21300128: BulletCol1OGApre1_64
+    21300130: BulletCol1OGApre1_65
+    21300132: BulletCol1OGApre1_66
+    21300134: BulletCol1OGApre1_67
+    21300136: BulletCol1OGApre1_68
+    21300138: BulletCol1OGApre1_69
+    21300140: BulletCol1OGApre1_70
+    21300142: BulletCol1OGApre1_71
+    21300144: BulletCol1OGApre1_72
+    21300146: BulletCol1OGApre1_73
+    21300148: BulletCol1OGApre1_74
+    21300150: BulletCol1OGApre1_75
+    21300152: BulletCol1OGApre1_76
+    21300154: BulletCol1OGApre1_77
+    21300156: BulletCol1OGApre1_78
+    21300158: BulletCol1OGApre1_79
+    21300160: BulletCol1OGApre1_80
+    21300162: BulletCol1OGApre1_81
+    21300164: BulletCol1OGApre1_82
+    21300166: BulletCol1OGApre1_83
+    21300168: BulletCol1OGApre1_84
+    21300170: BulletCol1OGApre1_85
+    21300172: BulletCol1OGApre1_86
+    21300174: BulletCol1OGApre1_87
+    21300176: BulletCol1OGApre1_88
+    21300178: BulletCol1OGApre1_89
+    21300180: BulletCol1OGApre1_90
+    21300182: BulletCol1OGApre1_91
+    21300184: BulletCol1OGApre1_92
+    21300186: BulletCol1OGApre1_93
+    21300188: BulletCol1OGApre1_94
+    21300190: BulletCol1OGApre1_95
+    21300192: BulletCol1OGApre1_96
+    21300194: BulletCol1OGApre1_97
+    21300196: BulletCol1OGApre1_98
+    21300198: BulletCol1OGApre1_99
+    21300200: BulletCol1OGApre1_100
+    21300202: BulletCol1OGApre1_101
+    21300204: BulletCol1OGApre1_102
+    21300206: BulletCol1OGApre1_103
+    21300208: BulletCol1OGApre1_104
+    21300210: BulletCol1OGApre1_105
+    21300212: BulletCol1OGApre1_106
+    21300214: BulletCol1OGApre1_107
+    21300216: BulletCol1OGApre1_108
+    21300218: BulletCol1OGApre1_109
+    21300220: BulletCol1OGApre1_110
+    21300222: BulletCol1OGApre1_111
+    21300224: BulletCol1OGApre1_112
+    21300226: BulletCol1OGApre1_113
+    21300228: BulletCol1OGApre1_114
+    21300230: BulletCol1OGApre1_115
+    21300232: BulletCol1OGApre1_116
+    21300234: BulletCol1OGApre1_117
+    21300236: BulletCol1OGApre1_118
+    21300238: BulletCol1OGApre1_119
+    21300240: BulletCol1OGApre1_120
+    21300242: BulletCol1OGApre1_121
+    21300244: BulletCol1OGApre1_122
+    21300246: BulletCol1OGApre1_123
+    21300248: BulletCol1OGApre1_124
+    21300250: BulletCol1OGApre1_125
+    21300252: BulletCol1OGApre1_126
+    21300254: BulletCol1OGApre1_127
+    21300256: BulletCol1OGApre1_128
+    21300258: BulletCol1OGApre1_129
+    21300260: BulletCol1OGApre1_130
+    21300262: BulletCol1OGApre1_131
+    21300264: BulletCol1OGApre1_132
+    21300266: BulletCol1OGApre1_133
+    21300268: BulletCol1OGApre1_134
+    21300270: BulletCol1OGApre1_135
+    21300272: BulletCol1OGApre1_136
+    21300274: BulletCol1OGApre1_137
+    21300276: BulletCol1OGApre1_138
+    21300278: BulletCol1OGApre1_139
+    21300280: BulletCol1OGApre1_140
+    21300282: BulletCol1OGApre1_141
+    21300284: BulletCol1OGApre1_142
+    21300286: BulletCol1OGApre1_143
+    21300288: BulletCol1OGApre1_144
+    21300290: BulletCol1OGApre1_145
+    21300292: BulletCol1OGApre1_146
+    21300294: BulletCol1OGApre1_147
+    21300296: BulletCol1OGApre1_148
+    21300298: BulletCol1OGApre1_149
+    21300300: BulletCol1OGApre1_150
+    21300302: BulletCol1OGApre1_151
+    21300304: BulletCol1OGApre1_152
+    21300306: BulletCol1OGApre1_153
+    21300308: BulletCol1OGApre1_154
+    21300310: BulletCol1OGApre1_155
+    21300312: BulletCol1OGApre1_156
+    21300314: BulletCol1OGApre1_157
+    21300316: BulletCol1OGApre1_158
+    21300318: BulletCol1OGApre1_159
+    21300320: BulletCol1OGApre1_160
+    21300322: BulletCol1OGApre1_161
+    21300324: BulletCol1OGApre1_162
+    21300326: BulletCol1OGApre1_163
+    21300328: BulletCol1OGApre1_164
+    21300330: BulletCol1OGApre1_165
+    21300332: BulletCol1OGApre1_166
+    21300334: BulletCol1OGApre1_167
+    21300336: BulletCol1OGApre1_168
+    21300338: BulletCol1OGApre1_169
+    21300340: BulletCol1OGApre1_170
+    21300342: BulletCol1OGApre1_171
+    21300344: BulletCol1OGApre1_172
+    21300346: BulletCol1OGApre1_173
+    21300348: BulletCol1OGApre1_174
+    21300350: BulletCol1OGApre1_175
+    21300352: BulletCol1OGApre1_176
+    21300354: BulletCol1OGApre1_177
+    21300356: BulletCol1OGApre1_178
+    21300358: BulletCol1OGApre1_179
+    21300360: BulletCol1OGApre1_180
+    21300362: BulletCol1OGApre1_181
+    21300364: BulletCol1OGApre1_182
+    21300366: BulletCol1OGApre1_183
+    21300368: BulletCol1OGApre1_184
+    21300370: BulletCol1OGApre1_185
+    21300372: BulletCol1OGApre1_186
+    21300374: Line Vertical
+    21300376: Line Horizontal
+  externalObjects: {}
+  serializedVersion: 9
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Circle orange
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 43
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd5293b41c86ed74fac56eec5008c679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle Red-yellow
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 43
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e41739b8149121145a6e73afdac7f047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle red
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 19
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2370d4dba123392468343784cd8054b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle yellow
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 19
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bd6269cb2645d9458d866975a3cbc06
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle blue
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 19
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6096ea106c8f986468caa784379bd2ef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle Green
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 19
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dd37d7b75137474a8a253d6e3c4cd16
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Line Vertical
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 20
+        width: 11
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d913f736cdfd0cd448058e37c76b4363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Line Horizontal
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 34
+        width: 39
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e889345c53a7e6f4897cf1ea61b47bc5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 17caaecd7ca8db442b709047f30a5a7d
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

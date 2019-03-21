@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         this.stats = stats;
         manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
+        GetComponent<Weapon>().stats = stats.weapons[0];
         //Code to generate enemy from Enemystats here
     }
 
