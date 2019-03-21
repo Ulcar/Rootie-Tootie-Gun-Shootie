@@ -21,6 +21,8 @@ public class Room : MonoBehaviour
     public int representedRoomIndex;
     public bool Exclusive;
     public int AmountOfMobsInRoom;
+    List<Enemy> RoomEnemies = new List<Enemy>();
+    List<GateScript> Gates = new List<GateScript>();
 
     void Start()
     {
@@ -30,6 +32,16 @@ public class Room : MonoBehaviour
 
         for (int i = 0; i < tilemap.transform.childCount; i++)
         {
+            GateScript gate = tilemap.transform.GetChild(i).GetComponent<GateScript>();
+            if (gate != null)
+            {
+                Gates.Add(gate);
+            }
+            GateTriggerScript trigger = tilemap.transform.GetChild(i).GetComponent<GateTriggerScript>();
+            if (trigger != null)
+            {
+                trigger.parentRoom = this;
+            }
             RoomTile tile = tilemap.transform.GetChild(i).GetComponent<RoomTile>();
             //Debug.Log("TileID: " + tile.ID + ", TileNodeID: " + tile.NodeID);
             if (tile.Node)
@@ -45,6 +57,10 @@ public class Room : MonoBehaviour
                 if (Node)
                 {
                     tile.spriteRenderer.sprite = TileSprites[tile.NodeID];
+                    if (gate != null)
+                    {
+                        gate.Node = true;
+                    }
                 }
                 else
                 {
@@ -55,6 +71,11 @@ public class Room : MonoBehaviour
                         {
                             tilemap.transform.GetChild(i).gameObject.layer = 9;
                         }
+                    }
+                    if (gate != null)
+                    {
+                        gate.Node = false;
+                        gate.GetComponent<Animator>().enabled = false;
                     }
                     tile.spriteRenderer.sprite = TileSprites[tile.ID];
                 }
@@ -71,8 +92,58 @@ public class Room : MonoBehaviour
                 }
                 tile.spriteRenderer.sprite = TileSprites[tile.ID];
             }
-            
-            
+        }
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Enemy TempEnemy = transform.GetChild(i).GetComponent<Enemy>();
+            if (TempEnemy != null)
+            {
+                RoomEnemies.Add(TempEnemy);
+            }
+        }
+    }
+
+    void Update()
+    {
+        if (RoomEnemies.Count <= 0)
+        {
+            PermOpenAllGates();
+        }
+    }
+
+    void Awake()
+    {
+        OpenAllGates();
+    }
+
+    public void CloseAllGates()
+    {
+        if (!StarterRoom)
+        {
+            foreach (GateScript gate in Gates)
+            {
+                gate.LockGate();
+            }
+        }
+    }
+    public void PermOpenAllGates()
+    {
+        if (!StarterRoom)
+        {
+            foreach (GateScript gate in Gates)
+            {
+                gate.PermOpenGate();
+            }
+        }
+    }
+
+    public void OpenAllGates()
+    {
+        Debug.Log(Gates.Count);
+        foreach (GateScript gate in Gates)
+        {
+            gate.NormalOpenGate();
         }
     }
 

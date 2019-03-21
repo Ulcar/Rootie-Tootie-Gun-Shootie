@@ -50,7 +50,7 @@ public class Player : MonoBehaviour, IDamageable
 
     }
 
-  public  void RotatePlayer(float angle)
+  public void RotatePlayer(float angle)
     {
      //   Debug.Log("Angle: " + angle);
         if (angle > 90)
