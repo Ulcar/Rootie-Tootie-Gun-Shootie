@@ -28,6 +28,9 @@ public class AttackGenerator : Attack
 
     int currentIndex = 0;
 
+    [SerializeField]
+    bool NoRotation = false;
+
 
 
     private void Awake()
@@ -79,6 +82,11 @@ public class AttackGenerator : Attack
     //calculates bullets one at a time
     public override Bullet SingleBullet(int rotationOffset)
     {
+        if (NoRotation)
+        {
+            rotationOffset = 0;
+        }
+
         Bullet   bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
       float  f = curve.Evaluate(currentIndex % (curve[curve.length - 1].time + 1));
         //    f = curve.Evaluate((float)i / bulletAmount);

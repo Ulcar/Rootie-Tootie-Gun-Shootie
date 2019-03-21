@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class HealthManager
 {
     [SerializeField]
-    int health = 0;
+   public int health { get; private set; }
     [SerializeField]
     int shield = 0;
     [SerializeField]
@@ -14,7 +14,7 @@ public class HealthManager
     [SerializeField]
     int maxShield;
 
-    public UnityEvent OnDeath;
+    public UnityEvent OnDeath = new UnityEvent();
     
 
 
@@ -25,20 +25,7 @@ public class HealthManager
         health = CurrentHealth;
         shield = CurrentShield;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (health <= 0)
-        {
-            Debug.Log("Dead af niBBa");
-        }
-    }
+  
 
     public void TakeDamage(int amount)
     {
@@ -58,7 +45,7 @@ public class HealthManager
         else
         {
             health -= amount;
-            if (health < 0)
+            if (health <= 0)
             {
                 health = 0;
                 Death();
@@ -111,6 +98,6 @@ public class HealthManager
 
     private void Death()
     {
-        Debug.Log("Dead AF niBBA");
+        OnDeath.Invoke();
     }
 }

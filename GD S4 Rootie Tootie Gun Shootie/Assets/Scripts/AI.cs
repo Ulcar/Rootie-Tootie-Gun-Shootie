@@ -35,12 +35,12 @@ public class AI : MonoBehaviour
         if (currentTime > targetTime)
         {
             currentTime = 0;
-            weapon.Attack(1);
+          //  weapon.Attack(1);
         }
 
         else
         {
-            weapon.Attack(0);
+        //    weapon.Attack(0);
         }
     }
 

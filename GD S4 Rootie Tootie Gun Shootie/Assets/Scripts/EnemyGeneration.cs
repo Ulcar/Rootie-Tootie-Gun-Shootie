@@ -13,6 +13,9 @@ using UnityEngine;
     [SerializeField]
     List<PrefabPoolSet> prefabPoolSets;
 
+    [SerializeField]
+    int RangedMinRange, RangedMaxRange;
+
   public  EnemyStats GenerateEnemyStats(EnemyType type)
     {
         EnemyStats stats = ScriptableObject.CreateInstance<EnemyStats>();
@@ -27,6 +30,19 @@ using UnityEngine;
                 enemyWeaponList.Add(ScriptableObject.Instantiate(weaponPool[UnityEngine.Random.Range(0, weaponPool.Count)]));
             }
             stats.weapons = enemyWeaponList;
+            switch (type)
+            {
+                case EnemyType.Ranged:
+                    stats.MaxHealth = UnityEngine.Random.Range(RangedMinRange, RangedMaxRange);
+                    break;
+
+                case EnemyType.Melee:
+                    stats.MaxHealth = UnityEngine.Random.Range(RangedMinRange, RangedMaxRange);
+                    break;
+                case EnemyType.Sniper:
+                    stats.MaxHealth = UnityEngine.Random.Range(RangedMinRange, RangedMaxRange);
+                    break;
+            }
         }
 
 

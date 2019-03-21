@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class Player : MonoBehaviour, IDamageable
 {
     public PlayerInfo playerInfo;
@@ -25,6 +25,8 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField]
     CharacterCollision collision;
 
+    public UnityEvent OnDeath;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +34,16 @@ public class Player : MonoBehaviour, IDamageable
         movementSpeed = playerInfo.movementSpeed;
         weapon.SetHolder(this);
         healthManager = new HealthManager(playerInfo.maxHealth, playerInfo.maxShield, playerInfo.maxHealth, playerInfo.maxShield);
+        healthManager.OnDeath.AddListener(OnDeathEvent);
+
 
     }
 
+    void OnDeathEvent()
+    {
+        OnDeath.Invoke();
+    }
+    
     // Update is called once per frame
     void Update()
     {

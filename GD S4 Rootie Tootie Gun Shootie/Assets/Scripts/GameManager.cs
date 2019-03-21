@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         {
             AstarPath.active.Scan();
             scan = true;
+            player.OnDeath.AddListener(OnDeath);
         }
     }
 
