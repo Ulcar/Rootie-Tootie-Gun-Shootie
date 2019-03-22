@@ -22,22 +22,22 @@ using UnityEngine;
 
 
 
-           RaycastHit2D bottomHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall"));
+           RaycastHit2D bottomHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2);
 
-           RaycastHit2D bottomHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall"));
+           RaycastHit2D bottomHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2);
 
-           RaycastHit2D LeftHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left , 1 << LayerMask.NameToLayer("Wall"));
+           RaycastHit2D LeftHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left , 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left);
 
-           RaycastHit2D RightHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right, 1 << LayerMask.NameToLayer("Wall"));
+           RaycastHit2D RightHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right);
 
-           RaycastHit2D TopHit = Physics2D.Linecast(col.bounds.center, (col.bounds.center + col.bounds.extents.y * Vector3.up) + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall"));
+           RaycastHit2D TopHit = Physics2D.Linecast(col.bounds.center, (col.bounds.center + col.bounds.extents.y * Vector3.up) + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.left / 2);
 
-           RaycastHit2D TopHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall"));
+           RaycastHit2D TopHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2);
 
 

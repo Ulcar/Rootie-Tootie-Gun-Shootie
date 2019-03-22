@@ -5,6 +5,7 @@ using UnityEngine;
 public class GateTriggerScript : MonoBehaviour
 {
     public Room parentRoom;
+    public bool permOpen = false;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class GateTriggerScript : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (!parentRoom.StarterRoom && col.tag == "Player")
+        if (!parentRoom.StarterRoom && col.tag == "Player" && !permOpen)
         {
             parentRoom.CloseAllGates();
             parentRoom.CameraRoomMode();

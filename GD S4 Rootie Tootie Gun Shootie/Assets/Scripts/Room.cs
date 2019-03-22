@@ -25,6 +25,9 @@ public class Room : MonoBehaviour
     int TotalSpawnedEnemiesInRoom = 0;
     List<Enemy> RoomEnemies = new List<Enemy>();
     List<GateScript> Gates = new List<GateScript>();
+    List<GateTriggerScript> triggers = new List<GateTriggerScript>();
+
+    private bool permGatesOpened = false;
 
     void Start()
     {
@@ -43,6 +46,7 @@ public class Room : MonoBehaviour
             if (trigger != null)
             {
                 trigger.parentRoom = this;
+                triggers.Add(trigger);
             }
             RoomTile tile = tilemap.transform.GetChild(i).GetComponent<RoomTile>();
             //Debug.Log("TileID: " + tile.ID + ", TileNodeID: " + tile.NodeID);
@@ -110,7 +114,7 @@ public class Room : MonoBehaviour
 
     void Update()
     {
-        if (RoomEnemies.Count <= 0 && TotalSpawnedEnemiesInRoom > 0)
+        if (RoomEnemies.Count <= 0 && TotalSpawnedEnemiesInRoom > 0 && !permGatesOpened)
         {
             PermOpenAllGates();
             GameManager.instance.MainCamera.GetComponent<CameraScript>().PlayerMode();
@@ -146,6 +150,11 @@ public class Room : MonoBehaviour
             {
                 gate.PermOpenGate();
             }
+            foreach (GateTriggerScript trigger in triggers)
+            {
+                trigger.permOpen = true;
+            }
+            permGatesOpened = true;
         }
     }
 
@@ -156,6 +165,7 @@ public class Room : MonoBehaviour
         {
             gate.NormalOpenGate();
         }
+       
     }
 
     public void CameraRoomMode()
