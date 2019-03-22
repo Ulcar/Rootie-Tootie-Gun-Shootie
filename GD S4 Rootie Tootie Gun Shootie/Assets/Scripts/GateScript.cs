@@ -27,6 +27,8 @@ public class GateScript : MonoBehaviour
         {
             GateLocked = true;
             animator.SetTrigger("CloseGate");
+            gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            gameObject.layer = LayerMask.NameToLayer("Wall");
         }
     }
 
@@ -37,6 +39,8 @@ public class GateScript : MonoBehaviour
             GatePermOpened = true;
             GateLocked = false;
             animator.SetTrigger("OpenGate");
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            gameObject.layer = LayerMask.NameToLayer("Default");
         }
     }
 
@@ -45,6 +49,8 @@ public class GateScript : MonoBehaviour
         if (!GatePermOpened && Node)
         {
             animator.SetTrigger("OpenGate");
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            gameObject.layer = LayerMask.NameToLayer("Default");
         }
     }
 }

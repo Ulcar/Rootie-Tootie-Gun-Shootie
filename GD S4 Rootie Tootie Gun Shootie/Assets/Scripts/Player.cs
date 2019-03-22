@@ -86,9 +86,9 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-  public  void RotateWeapon(float Angle)
+  public void RotateWeapon(float Angle)
     {
-      //  Debug.Log("Angle voor RotateWeapon: " + Angle);
+       Debug.Log("Angle voor RotateWeapon: " + Angle);
         if (Angle >= 90 || Angle <= -90)
         {
                 weapon.transform.localRotation = Quaternion.Euler(0, 0, (Angle));
