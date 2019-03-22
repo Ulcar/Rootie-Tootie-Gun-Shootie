@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Room : MonoBehaviour
 {
     // Start is called before the first frame update
+    public bool permOpen = false;
     public Texture2D SpriteSheet;
     public bool BossRoom;
     public bool StarterRoom;
@@ -25,9 +26,6 @@ public class Room : MonoBehaviour
     int TotalSpawnedEnemiesInRoom = 0;
     List<Enemy> RoomEnemies = new List<Enemy>();
     List<GateScript> Gates = new List<GateScript>();
-    List<GateTriggerScript> triggers = new List<GateTriggerScript>();
-
-    private bool permGatesOpened = false;
 
     void Start()
     {
@@ -46,7 +44,6 @@ public class Room : MonoBehaviour
             if (trigger != null)
             {
                 trigger.parentRoom = this;
-                triggers.Add(trigger);
             }
             RoomTile tile = tilemap.transform.GetChild(i).GetComponent<RoomTile>();
             //Debug.Log("TileID: " + tile.ID + ", TileNodeID: " + tile.NodeID);
@@ -114,10 +111,13 @@ public class Room : MonoBehaviour
 
     void Update()
     {
-        if (RoomEnemies.Count <= 0 && TotalSpawnedEnemiesInRoom > 0 && !permGatesOpened)
+        if (RoomEnemies.Count <= 0 && TotalSpawnedEnemiesInRoom > 0)
         {
-            PermOpenAllGates();
-            GameManager.instance.MainCamera.GetComponent<CameraScript>().PlayerMode();
+            if (!permOpen)
+            {
+                PermOpenAllGates();
+                GameManager.instance.MainCamera.GetComponent<CameraScript>().PlayerMode();
+            }
         }
     }
 
@@ -140,6 +140,10 @@ public class Room : MonoBehaviour
             {
                 gate.LockGate();
             }
+            if (GameManager.instance.MainCamera.GetComponent<CameraScript>().currentState == CameraScript.States.Player && !permOpen)
+            {
+                CameraRoomMode();
+            }
         }
     }
     public void PermOpenAllGates()
@@ -150,11 +154,7 @@ public class Room : MonoBehaviour
             {
                 gate.PermOpenGate();
             }
-            foreach (GateTriggerScript trigger in triggers)
-            {
-                trigger.permOpen = true;
-            }
-            permGatesOpened = true;
+            permOpen = true;
         }
     }
 
@@ -165,7 +165,6 @@ public class Room : MonoBehaviour
         {
             gate.NormalOpenGate();
         }
-       
     }
 
     public void CameraRoomMode()
