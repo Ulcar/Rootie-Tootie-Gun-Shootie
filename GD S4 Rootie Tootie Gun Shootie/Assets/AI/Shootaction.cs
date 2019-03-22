@@ -23,13 +23,18 @@ public class Shootaction : Action
         if (currentTime > targetTime)
         {
             currentTime = 0;
-            weapon.Attack(1, Vector2.Angle(controller.transform.position, controller.target.position));
+            if (weapon != null)
+            {
+                weapon.Attack(1, Vector2.Angle(controller.transform.position, controller.target.position));
+            }
         }
 
         else
         {
-
-            weapon.Attack(0, Vector2.Angle(controller.transform.position, controller.target.position));
+            if (weapon != null)
+            {
+                weapon.Attack(0, Vector2.Angle(controller.transform.position, controller.target.position));
+            }
         }
     }
 

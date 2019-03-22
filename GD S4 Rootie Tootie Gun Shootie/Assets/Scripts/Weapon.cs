@@ -132,4 +132,9 @@ public class Weapon : MonoBehaviour
     {
         this.holder = holder;
     }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }
