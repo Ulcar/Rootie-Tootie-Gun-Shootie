@@ -19,10 +19,10 @@ using Pathfinding;
     {
         nodeIndex = 0;
         movementScript = controller.pathfindingAI;
-        movementScript.destination = controller.transform.TransformPoint(nodes[nodeIndex]);
-       
+        movementScript.destination =  nodes[nodeIndex] + controller.transform.position;
 
-        
+
+
     }
     public override void DoAction(EnemyAIController controller)
     {
@@ -31,10 +31,11 @@ using Pathfinding;
             nodeIndex++;
             
             if (nodeIndex >= nodes.Count)
-            {
+            {   
                 nodeIndex = 0;
             }
             movementScript.destination = nodes[nodeIndex] + controller.transform.position;
+            movementScript.SearchPath();
             
         }
     }
