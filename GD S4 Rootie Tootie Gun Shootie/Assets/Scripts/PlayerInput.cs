@@ -19,6 +19,12 @@ using UnityEngine.Events;
     FireEvent FireButtonPressedEvent;
 
     [SerializeField]
+    FireEvent SwitchWeaponButtonPressedEvent;
+
+    [SerializeField]
+    FireEvent PickUpButtonPressedEvent;
+
+    [SerializeField]
     UnityEvent dashButtonPressedEvent;
 
     [SerializeField]
@@ -47,6 +53,14 @@ using UnityEngine.Events;
         if (player.GetButton("Fire2"))
         {
             Fire2ButtonPressed();
+        }
+        if (player.GetButtonDown("Switch Weapon"))
+        {
+            SwitchWeaponButtonPressed();
+        }
+        if (player.GetButtonDown("PickUp"))
+        {
+            PickUpButtonPressed();
         }
 
         if (player.GetButton("Dash"))
@@ -85,6 +99,15 @@ using UnityEngine.Events;
         dashButtonPressedEvent.Invoke();
     }
 
+    void SwitchWeaponButtonPressed()
+    {
+        SwitchWeaponButtonPressedEvent.Invoke(0);
+    }
+
+    void PickUpButtonPressed()
+    {
+        PickUpButtonPressedEvent.Invoke(0);
+    }
 
 }
 [System.Serializable]

@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour, IPickupable
 {
     // Start is called before the first frame update
     [SerializeField]
    public WeaponStats stats;
     List<Attack> attacks = new List<Attack>();
-
+    public string WeaponName;
     IDamageable holder;
     float timeSinceLastAttack = 100;
     void Start()
     {
-
-
         if (stats != null)
         {
             //copy attacks so multiple weapon scripts can have the same weapon stats
@@ -22,6 +20,7 @@ public class Weapon : MonoBehaviour
             {
                 attacks.Add(Instantiate(attack));
             }
+            WeaponName = stats.WeaponName;
         }
     }
 
@@ -136,5 +135,10 @@ public class Weapon : MonoBehaviour
     private void OnDestroy()
     {
         StopAllCoroutines();
+    }
+
+    public void PickUp()
+    {
+
     }
 }

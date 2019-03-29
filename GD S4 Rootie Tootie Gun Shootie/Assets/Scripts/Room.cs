@@ -11,6 +11,7 @@ public class Room : MonoBehaviour
     public Texture2D SpriteSheet;
     public bool BossRoom;
     public bool StarterRoom;
+    public bool ShopRoom;
     public Sprite[] TileSprites;
     public List<RoomTile> NodeTiles;
     public Tilemap tilemap;
@@ -26,11 +27,14 @@ public class Room : MonoBehaviour
     int TotalSpawnedEnemiesInRoom = 0;
     List<Enemy> RoomEnemies = new List<Enemy>();
     List<GateScript> Gates = new List<GateScript>();
+    public int CoinsForRoom;
+    public int HealthForRoom;
+    
 
     void Start()
     {
         NodeTiles = new List<RoomTile>();
-        Debug.Log("SpriteSheetName: " + SpriteSheet.name + ", Boss: " + BossRoom + ", Start: " + StarterRoom);
+        //Debug.Log("SpriteSheetName: " + SpriteSheet.name + ", Boss: " + BossRoom + ", Start: " + StarterRoom);
         TileSprites = Resources.LoadAll<Sprite>(SpriteSheet.name);
 
         for (int i = 0; i < tilemap.transform.childCount; i++)
@@ -135,7 +139,7 @@ public class Room : MonoBehaviour
     {
         if (!StarterRoom)
         {
-            Debug.Log(Gates.Count);
+            //Debug.Log(Gates.Count);
             foreach (GateScript gate in Gates)
             {
                 gate.LockGate();
@@ -160,7 +164,7 @@ public class Room : MonoBehaviour
 
     public void OpenAllGates()
     {
-        Debug.Log(Gates.Count);
+        //Debug.Log(Gates.Count);
         foreach (GateScript gate in Gates)
         {
             gate.NormalOpenGate();
@@ -180,6 +184,60 @@ public class Room : MonoBehaviour
         if (!GameManager.instance.MainCamera.GetComponent<CameraScript>().InRoomMode)
         {
             GameManager.instance.MainCamera.GetComponent<CameraScript>().RoomMode(this);
+            GameManager.instance.RoomPlayerIsIn = this;
+        }
+    }
+
+    public void DivideResourcesOverMobs()
+    {
+        if (CoinsForRoom > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                
+                EnemyAIController temp = transform.GetChild(i).GetComponent<EnemyAIController>();
+                if (temp != null && CoinsForRoom > 0)
+                {
+                    int Bounty = Mathf.RoundToInt((GameManager.instance.floorHandler.floorInfo.coinBaseline * temp.enemy.CoinWeight) * Random.Range(0.80f, 1.20f));
+                    if (CoinsForRoom - Bounty < 0)
+                    {
+                        temp.enemy.CoinBounty = CoinsForRoom;
+                        CoinsForRoom = 0;
+                        i = transform.childCount;
+                    }
+                    else
+                    {
+                        temp.enemy.CoinBounty = Bounty;
+                        CoinsForRoom -= Bounty;
+                    }
+                }
+                else
+                {
+                    Debug.Log("NULL");
+                }
+            }
+        }
+        if (HealthForRoom > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                EnemyAIController temp = transform.GetChild(i).GetComponent<EnemyAIController>();
+                if (temp != null && HealthForRoom > 0)
+                {
+                    int Bounty = Random.Range(1,GameManager.instance.floorHandler.floorInfo.healthBaseline);
+                    if (HealthForRoom - Bounty < 0)
+                    {
+                        temp.enemy.HealthBounty = HealthForRoom;
+                        HealthForRoom = 0;
+                        i = transform.childCount;
+                    }
+                    else
+                    {
+                        temp.enemy.HealthBounty = Bounty;
+                        HealthForRoom -= Bounty;
+                    }
+                }
+            }
         }
     }
 

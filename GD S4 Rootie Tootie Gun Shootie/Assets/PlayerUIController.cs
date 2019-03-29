@@ -5,11 +5,6 @@ using UnityEngine.UI;
 public class PlayerUIController : MonoBehaviour
 {
     [SerializeField]
-    Image health;
-    [SerializeField]
-    float maxHealth;
-
-    [SerializeField]
     Player player;
 
 
@@ -22,6 +17,30 @@ public class PlayerUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.health.fillAmount = (player.healthManager.health / maxHealth);
+        UpdateAbilityBar();
+    }
+
+    public void UpdateWeapons()
+    {
+        GameManager.instance.PrimaryWeapon.sprite = player.GetComponent<PlayerInventoryScript>().Primary.GetComponent<SpriteRenderer>().sprite;
+        
+        if (player.GetComponent<PlayerInventoryScript>().Secondary != null)
+        {
+            GameManager.instance.SecondaryWeapon.enabled = true;
+            GameManager.instance.SecondaryWeapon.sprite = player.GetComponent<PlayerInventoryScript>().Secondary.GetComponent<SpriteRenderer>().sprite;
+        }
+        else
+        {
+            GameManager.instance.SecondaryWeapon.enabled = false;
+        }
+    }
+
+    void UpdateAbilityBar()
+    {
+        StandardMovement Standard = player.movement as StandardMovement;
+        if (Standard != null)
+        {
+            GameManager.instance.AbilityBarFiller.fillAmount = (Standard.currentTime / Standard.dashCooldown);
+        }
     }
 }
