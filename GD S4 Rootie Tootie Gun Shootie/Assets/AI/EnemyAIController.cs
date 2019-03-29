@@ -20,11 +20,13 @@ using Pathfinding;
     private void Start()
     {
         pathfindingAI = GetComponent<IAstarAI>();
-        weapon = GetComponentInChildren<Weapon>();
-        enemy = GetComponentInChildren<Enemy>();
+        weapon = GetComponentInChildren<Weapon>(true);
+        enemy = GetComponentInChildren<Enemy>(true);
         //still pretty ugly and implementation specific
-        weapon.SetHolder(GetComponentInChildren<IDamageable>());
+        weapon.SetHolder(GetComponentInChildren<IDamageable>(true));
+        currentState = Instantiate(currentState);
         currentState.StartActions(this);
+        currentState.InstantiateTransitions(this);
     }
 
     private void Update()
@@ -32,9 +34,15 @@ using Pathfinding;
         currentState.UpdateState(this);
     }
 
+    public void Init()
+    {
+        
+    }
+
     public void TransitionState(State newState)
     {
         currentState = newState;
+        currentState.InstantiateTransitions(this);
         currentState.StartActions(this);
     }
 }

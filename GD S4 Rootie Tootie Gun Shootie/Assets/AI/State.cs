@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Pathfinding;
 [CreateAssetMenu]
-   public class State:ScriptableObject
-    {
+public class State : ScriptableObject
+{
     public Action[] actions;
     public Transition[] transitions;
-    
+
 
     private void DoActions(EnemyAIController controller)
     {
@@ -25,8 +25,8 @@ using Pathfinding;
         State nextState = null;
         foreach (Transition transition in transitions)
         {
-            
-            if(transition.DoDecisions(controller, out nextState))
+
+            if (transition.DoDecisions(controller, out nextState))
             {
                 controller.TransitionState(nextState);
                 return;
@@ -40,13 +40,25 @@ using Pathfinding;
         CheckTransitions(controller);
     }
 
-    
+
 
     public void StartActions(EnemyAIController controller)
     {
         for (int i = 0; i < actions.Length; i++)
         {
+            actions[i] = Instantiate(actions[i]);
             actions[i].StartAction(controller);
+        }
+    }
+
+    public void InstantiateTransitions(EnemyAIController controller)
+    {
+        foreach (Transition transition in transitions)
+        {
+            for(int i = 0; i < transition.Decisions.Count; i++)
+            {
+                transition.Decisions[i] = Instantiate(transition.Decisions[i]);
+            }
         }
     }
 }

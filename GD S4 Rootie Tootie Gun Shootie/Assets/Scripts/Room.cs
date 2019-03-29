@@ -167,6 +167,14 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void EnableEnemies()
+    {
+        foreach (Enemy enemy in RoomEnemies)
+        {
+            enemy.transform.parent.gameObject.SetActive(true);
+        }
+    }
+
     public void CameraRoomMode()
     {
         if (!GameManager.instance.MainCamera.GetComponent<CameraScript>().InRoomMode)

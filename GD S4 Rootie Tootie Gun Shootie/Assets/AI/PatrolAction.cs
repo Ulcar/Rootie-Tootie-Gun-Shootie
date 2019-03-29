@@ -13,31 +13,55 @@ using Pathfinding;
     [SerializeField]
     List<Vector3> nodes;
     int nodeIndex = 0;
+    bool waitFrame = false;
+
+    [SerializeField]
+    float switchTime = 2;
+    float currentTime = 0;
+    Vector3 initialPos;
 
 
     public override void StartAction(EnemyAIController controller)
     {
-        nodeIndex = 0;
+        initialPos = controller.transform.position;
+        nodeIndex = 1;
         movementScript = controller.pathfindingAI;
-        movementScript.destination =  nodes[nodeIndex] + controller.transform.position;
+        nodes[0] = Vector3.zero;
+        movementScript.destination =  nodes[nodeIndex] + initialPos;
+        movementScript.SearchPath();
+        //wait a frame, because properties like reachedDestination only update the next frame
+        waitFrame = true;
 
 
 
     }
     public override void DoAction(EnemyAIController controller)
     {
-        if (movementScript.reachedDestination)
+        if (movementScript.reachedEndOfPath && !movementScript.pathPending && !waitFrame)
         {
-            nodeIndex++;
-            
-            if (nodeIndex >= nodes.Count)
-            {   
-                nodeIndex = 0;
+
+            currentTime += Time.deltaTime;
+            if(currentTime > switchTime)
+            {
+                nodeIndex++;
+                if (nodeIndex >= nodes.Count)
+                {
+                    nodeIndex = 0;
+                }
+                movementScript.destination = nodes[nodeIndex] + initialPos;
+                movementScript.SearchPath();
+                waitFrame = true;
+                currentTime = 0;
             }
-            movementScript.destination = nodes[nodeIndex] + controller.transform.position;
-            movementScript.SearchPath();
-            
+          
+
         }
+        else
+        {
+            waitFrame = false;
+        }
+
+        
     }
 
     public override void ExitAction(EnemyAIController controller)

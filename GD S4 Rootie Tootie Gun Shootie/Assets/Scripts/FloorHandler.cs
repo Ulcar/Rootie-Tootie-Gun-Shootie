@@ -272,6 +272,7 @@ public class FloorHandler : MonoBehaviour
                             int SpawnIndex = Random.Range(0, MobSpawnPoints.Count);
                          GameObject enemy =   SpawnEnemy(EnemyType.Ranged, RoomToInstantiate.transform, new Vector3(MobSpawnPoints[SpawnIndex].transform.position.x, MobSpawnPoints[SpawnIndex].transform.position.y, -2));
                             RoomToInstantiate.enemiesToSpawn.Add(enemy);
+                            enemy.SetActive(false);
 
 
                             //old code commented out
