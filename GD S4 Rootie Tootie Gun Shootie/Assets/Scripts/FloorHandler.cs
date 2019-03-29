@@ -25,6 +25,8 @@ public class FloorHandler : MonoBehaviour
     int AmountOfRoomsGenerated = 0;
     int ActuallyGenerated = 0;
 
+    int FloorCoinAmountLeft;
+    int FloorHearthAmountLeft;
     [SerializeField]
     EnemyGeneration generation;
  
@@ -36,7 +38,8 @@ public class FloorHandler : MonoBehaviour
     }
     void Start()
     {
-        
+        FloorCoinAmountLeft = floorInfo.CoinsForFloor;
+        FloorHearthAmountLeft = floorInfo.HealthDropsForFloor;
         Path = new List<GenerationRoom>();
         generationRooms = new GenerationRoom[floorInfo.FloorWidthHeight, floorInfo.FloorWidthHeight];
 
@@ -52,7 +55,7 @@ public class FloorHandler : MonoBehaviour
         y = Random.Range(0, floorInfo.FloorWidthHeight);
         SetupNodeSystem();
         GeneratePath();
-        
+        /*
         for (int i = 0; i < 5; i++)
         {
             string idk = "i: " + i.ToString() + ", ";
@@ -105,9 +108,12 @@ public class FloorHandler : MonoBehaviour
                         }
                     }
                 }
+                
             }
             Debug.Log(idk);
+            
         }
+        */
         floorDone = true;
     }
 
@@ -225,6 +231,7 @@ public class FloorHandler : MonoBehaviour
                     if (generationRooms[i, j].bossRoom)
                     {
                         RoomToInstantiate.BossRoom = true;
+                        
                         CurrentFloorBossRoom = RoomToInstantiate;
                     }
                     else if (generationRooms[i, j].starterRoom)
@@ -232,7 +239,7 @@ public class FloorHandler : MonoBehaviour
                         RoomToInstantiate.StarterRoom = true;
                         CurrentFloorStartRoom = RoomToInstantiate;
                         List<RoomTile> Spawnpoints = new List<RoomTile>();
-                        Debug.Log("RoomChildCount: " + RoomToInstantiate.tilemap.transform.childCount);
+                        //Debug.Log("RoomChildCount: " + RoomToInstantiate.tilemap.transform.childCount);
                         for (int l = 0; l < RoomToInstantiate.tilemap.transform.childCount; l++)
                         {
                             RoomTile tile = RoomToInstantiate.tilemap.transform.GetChild(l).GetComponent<RoomTile>();
@@ -240,19 +247,21 @@ public class FloorHandler : MonoBehaviour
                             {
                                 Debug.Log("Tile is null");
                             }
-                            Debug.Log(tile.playerSpawnPoint);
+                            //Debug.Log(tile.playerSpawnPoint);
                             if (tile.playerSpawnPoint)
                             {
                                 Spawnpoints.Add(tile);
                             }
                         }
                         int RandomRange = Random.Range(0, Spawnpoints.Count);
-                        Debug.Log("RandomRange: " + RandomRange);
-                        Debug.Log("Spawnpoints: " + Spawnpoints.Count);
+                        //Debug.Log("RandomRange: " + RandomRange);
+                        //Debug.Log("Spawnpoints: " + Spawnpoints.Count);
                         Transform chosenSpawnPoint = Spawnpoints[RandomRange].transform;
 
                         GameManager.instance.player.transform.position = new Vector3(chosenSpawnPoint.position.x + Rooms[0].tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.x / 2, chosenSpawnPoint.position.y + Rooms[0].tilemap.transform.GetChild(0).GetComponent<SpriteRenderer>().bounds.size.y / 2, 0);
+                        GameManager.instance.MainCamera.transform.position = new Vector3(GameManager.instance.player.transform.position.x, GameManager.instance.player.transform.position.y, -10);
 
+                        GameManager.instance.RoomPlayerIsIn = RoomToInstantiate;
                     }
                     else
                     {
@@ -286,6 +295,42 @@ public class FloorHandler : MonoBehaviour
                     }
                 }
             }
+        }
+
+        int Temp = 0;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponent<Room>().BossRoom == false && transform.GetChild(i).GetComponent<Room>().ShopRoom == false && transform.GetChild(i).GetComponent<Room>().StarterRoom == false)
+            {
+                Temp += 1;
+            }
+        }
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponent<Room>().BossRoom == false && transform.GetChild(i).GetComponent<Room>().ShopRoom == false && transform.GetChild(i).GetComponent<Room>().StarterRoom == false)
+            {
+                transform.GetChild(i).GetComponent<Room>().CoinsForRoom = Mathf.RoundToInt((floorInfo.CoinsForFloor / Temp) * Random.Range(0.70f, 1.30f));
+            }
+        }
+        for (int i = 0; i < 30; i++)
+        {
+            if (FloorHearthAmountLeft > 0)
+            {
+                int RandomNumber = Random.Range(0, transform.childCount);
+                if (transform.GetChild(RandomNumber).GetComponent<Room>().BossRoom == false && transform.GetChild(RandomNumber).GetComponent<Room>().ShopRoom == false && transform.GetChild(RandomNumber).GetComponent<Room>().StarterRoom == false)
+                {
+                    transform.GetChild(RandomNumber).GetComponent<Room>().HealthForRoom += 1;
+                    FloorHearthAmountLeft -= 1;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<Room>().DivideResourcesOverMobs();
         }
     }
     //enemy Spawning code, using EnemyGeneration Class

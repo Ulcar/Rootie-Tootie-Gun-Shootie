@@ -6,8 +6,8 @@ public class StandardMovement : Movement
 {
     CharacterCollision collision;
     [SerializeField]
-    float dashCooldown;
-    float currentTime;
+    public float dashCooldown;
+    public float currentTime;
     float baseSpeed;
     [SerializeField]
     float dashSpeed;

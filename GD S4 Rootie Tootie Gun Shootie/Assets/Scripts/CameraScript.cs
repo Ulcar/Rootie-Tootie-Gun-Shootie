@@ -59,18 +59,18 @@ public class CameraScript : MonoBehaviour
     void PlayerState()
     {
         float diff = MainCamera.transform.position.x - player.transform.position.x;
-        Debug.Log("Diff for X: " + diff); 
-        if (diff >= 0.1)
+        //Debug.Log("Diff for X: " + diff); 
+        if (diff >= 0.01)
         {
-            float result = (diff / 1) / 15;
+            float result = (diff / 1) / debugSize;
             //Debug.Log("XDiff: " + diff + ", Result: " + result);
             float x = MainCamera.transform.position.x - result;
             MainCamera.transform.position = new Vector3(x, MainCamera.transform.position.y, MainCamera.transform.position.z);
         }
-        else if (diff <= -0.1)
+        else if (diff <= -0.01)
         {
-            float result = (diff / 1) / 15;
-            Debug.Log("XDiff: " + diff + ", Result: " + result);
+            float result = (diff / 1) / debugSize;
+            //Debug.Log("XDiff: " + diff + ", Result: " + result);
             float x = MainCamera.transform.position.x - result;
             MainCamera.transform.position = new Vector3(x, MainCamera.transform.position.y, MainCamera.transform.position.z);
         }
@@ -82,19 +82,19 @@ public class CameraScript : MonoBehaviour
         float Yone = player.transform.position.y;
         float Ytwo = MainCamera.transform.position.y;
         float diff2 = (Yone - Ytwo) ;
-        Debug.Log("PlayerY: " + player.transform.position.y + "MainCameraY: " + MainCamera.transform.position.y);
-        Debug.Log("Diff2 for Y: " + diff2);
-        if (diff2 >= 0.1)
+        //Debug.Log("PlayerY: " + player.transform.position.y + "MainCameraY: " + MainCamera.transform.position.y);
+        //Debug.Log("Diff2 for Y: " + diff2);
+        if (diff2 >= 0.01)
         {
-            float result = (diff2 / 1) / 15;
-            Debug.Log("YDiff2: " + diff2 + ", Result: " + result);
+            float result = (diff2 / 1) / 10;
+            //Debug.Log("YDiff2: " + diff2 + ", Result: " + result);
             float y = MainCamera.transform.position.y + result;
             MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, y, MainCamera.transform.position.z);
         }
         
-        else if (diff2 <= -0.1)
+        else if (diff2 <= -0.01)
         {
-            float result = (diff2 / 1) / 15;
+            float result = (diff2 / 1) / 10;
             //Debug.Log("XDiff: " + diff + ", Result: " + result);
             float y = MainCamera.transform.position.y + result;
             MainCamera.transform.position = new Vector3(MainCamera.transform.position.x, y, MainCamera.transform.position.z);

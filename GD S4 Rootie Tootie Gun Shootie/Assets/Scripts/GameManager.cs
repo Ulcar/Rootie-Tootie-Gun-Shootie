@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public FloorInfo[] FloorInfos;
@@ -11,13 +12,20 @@ public class GameManager : MonoBehaviour
     RoomGenerator roomGenerator;
     public Player player;
     public Camera MainCamera;
-
-    public Sprite[] updownIdleOpenMovingWallSprites;
-    public Sprite[] updownIdleClosedMovingWallSprites;
-    public Sprite[] leftrightIdleOpenMovingWallSprites;
-    public Sprite[] leftrightIdleClosedMovingWallSprites;
-
+    public Image HealthImage;
     bool scan = false;
+    public Image HurtOverlay;
+    public Image AbilityBarFiller;
+    public Image PrimaryWeapon;
+    public Image SecondaryWeapon;
+    public Room RoomPlayerIsIn;
+    public HearthDropScript healthOrb;
+    public CoinDropScript Coin;
+    public Sprite BronzeCoin;
+    public Sprite SilverCoin;
+    public Sprite GoldCoin;
+    public Sprite PlatinumCoin;
+    
     
     // Start is called before the first frame update
     void Awake()
@@ -39,6 +47,7 @@ public class GameManager : MonoBehaviour
             scan = true;
             player.OnDeath.AddListener(OnDeath);
         }
+        
     }
 
     void SetupPlayer()
