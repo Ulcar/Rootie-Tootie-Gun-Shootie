@@ -12,14 +12,26 @@ using UnityEngine.Events;
     bool invincible = false;
 
     public UnityEvent OnInvincible;
+    [SerializeField]
+    CircleCollider2D col;
 
     int currentPriority = 99999;
     private void Start()
     {
         damageable = GetComponent<IDamageable>();
+        col = GetComponentInParent<CircleCollider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
+    {
+       RaycastHit2D[] hits =  Physics2D.CircleCastAll(transform.position + (Vector3)col.offset, col.radius, Vector2.zero);
+        foreach (RaycastHit2D hit in hits)
+        {
+            OnHit(hit.collider);
+        }
+    }
+
+    private void OnHit(Collider2D collision)
     {
       
         BulletBehaviour bullet = collision.GetComponent<BulletBehaviour>();       

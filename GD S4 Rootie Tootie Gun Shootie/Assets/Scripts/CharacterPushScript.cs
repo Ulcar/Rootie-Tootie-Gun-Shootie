@@ -22,23 +22,23 @@ using UnityEngine;
 
 
 
-           RaycastHit2D bottomHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
+           RaycastHit2D bottomHit = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.right / 2);
 
-           RaycastHit2D bottomHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
+           RaycastHit2D bottomHit2 = Physics2D.Linecast(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.down + col.bounds.extents.x * Vector3.left / 2);
 
-           RaycastHit2D[] LeftHit = Physics2D.LinecastAll(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left , 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
+           RaycastHit2D[] LeftHit = Physics2D.LinecastAll(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left , 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.left);
 
-           RaycastHit2D[] RightHit = Physics2D.LinecastAll(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall"));
+           RaycastHit2D[] RightHit = Physics2D.LinecastAll(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole"));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right);
 
         List<RaycastHit2D> TopHit = new List<RaycastHit2D>();
-        TopHit.AddRange(Physics2D.LinecastAll(col.bounds.center, (col.bounds.center + col.bounds.extents.y * Vector3.up) + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall")));
+        TopHit.AddRange(Physics2D.LinecastAll(col.bounds.center, (col.bounds.center + col.bounds.extents.y * Vector3.up) + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole")));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.left / 2);
 
-           TopHit.AddRange(Physics2D.LinecastAll(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall")));
+           TopHit.AddRange(Physics2D.LinecastAll(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole")));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2);
 
 
@@ -71,11 +71,9 @@ using UnityEngine;
            if (bottomHit)
            {
                movement.DownHit = true;
-            foreach (RaycastHit2D hit in LeftHit)
-            {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall"))
+                if (bottomHit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall"))
                 {
-                    if (!hit.collider.GetComponent<RoomTile>().ignore)
+                    if (!bottomHit.collider.GetComponent<RoomTile>().ignore)
                     {
                         movement.DownHit= true;
                     }
@@ -83,9 +81,7 @@ using UnityEngine;
                     {
                         movement.DownHit = false;
                     }
-                    break;
                 }
-            }
         }
 
            else

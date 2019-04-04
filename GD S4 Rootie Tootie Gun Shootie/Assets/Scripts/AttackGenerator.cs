@@ -14,7 +14,7 @@ public class AttackGenerator : Attack
     List<AnimationCurve> Multipliers;
     //TODO: make list of basebullets instead of sprites
     [SerializeField]
-    Bullet baseBullet;
+    List<Bullet> baseBullets;
 
     [SerializeField]
     AnimationCurve timeBetweenBullets;
@@ -40,6 +40,14 @@ public class AttackGenerator : Attack
     public override List<Bullet> DoAttack(int rotationOffset)
     {
         List<Bullet> bullets = base.DoAttack(rotationOffset);
+        Bullet baseBullet = baseBullets[0];
+        foreach (Bullet bul in baseBullets)
+        {
+            if ((currentIndex % bul.bulletIndex == 0))
+            {
+                baseBullet = bul;
+            }
+        }
         Bullet bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
         bullets.Add(bullet);
         float f = curve.Evaluate(0);
@@ -48,7 +56,7 @@ public class AttackGenerator : Attack
         {
             f *= currentCurve.Evaluate(0);
         }
-        SpawnPosition(rotationCurve.Evaluate(0) + rotationOffset, bullet, f);
+        SpawnPosition(rotationCurve.Evaluate(0) + rotationOffset, bullet, f, baseBullet.Damage);
         for (int i = 1; i <= bulletAmount - 1; i++)
         {
             bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);
@@ -73,7 +81,7 @@ public class AttackGenerator : Attack
                 }
             }
             //  bullet.spawnTime =   timeBetweenBullets.Evaluate((float)i / bulletAmount);
-            SpawnPosition(rotationCurve.Evaluate(i % (rotationCurve[rotationCurve.length - 1].time + 1)) + rotationOffset, bullet, f);
+            SpawnPosition(rotationCurve.Evaluate(i % (rotationCurve[rotationCurve.length - 1].time + 1)) + rotationOffset, bullet, f, baseBullet.Damage);
             // SpawnPosition(rotationCurve.Evaluate((float)i / bulletAmount) + rotationOffset, bullet, f);
         }
         return bullets;
@@ -86,7 +94,18 @@ public class AttackGenerator : Attack
         {
             rotationOffset = 0;
         }
-
+        Bullet baseBullet = baseBullets[0];
+        foreach (Bullet bul in baseBullets)
+        {
+            if (bul.bulletIndex == 0)
+            {
+                bul.bulletIndex = 1;
+            }
+            if ((currentIndex % bul.bulletIndex == 0))
+            {
+                baseBullet = bul;
+            }
+        }
         Bullet   bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
       float  f = curve.Evaluate(currentIndex % (curve[curve.length - 1].time + 1));
         //    f = curve.Evaluate((float)i / bulletAmount);
@@ -108,7 +127,7 @@ public class AttackGenerator : Attack
                 break;
             }
         }
-        SpawnPosition(rotationCurve.Evaluate(currentIndex % (rotationCurve[rotationCurve.length - 1].time + 1)) + rotationOffset, bullet, f);
+        SpawnPosition(rotationCurve.Evaluate(currentIndex % (rotationCurve[rotationCurve.length - 1].time + 1)) + rotationOffset, bullet, f, baseBullet.Damage);
 
         currentIndex++;
         if (currentIndex >= bulletAmount)
@@ -119,22 +138,22 @@ public class AttackGenerator : Attack
     }
 
 
-    void Spawnbullet(float x, float y, float rotation, Bullet bullet)
+    void Spawnbullet(float x, float y, float rotation, int damage, Bullet bullet)
     {
         var bulletposition = new Vector3(x, y, 0);
         bullet.Position = bulletposition;
         bullet.Rotation = Quaternion.Euler(0, 0, rotation);
-        bullet.Damage = baseBullet.Damage;
+        bullet.Damage = damage;
 
 
     }
 
-    void SpawnPosition(float rotation, Bullet bullet, float r)
+    void SpawnPosition(float rotation, Bullet bullet, float r, int damage)
     {
         float xposition = Mathf.Cos((rotation * Mathf.PI) / 180) * r;
         float yposition = Mathf.Sin((rotation * Mathf.PI) / 180) * r;
       //  Debug.Log(r);
-        Spawnbullet(xposition, yposition, rotation, bullet);
+        Spawnbullet(xposition, yposition, rotation, damage, bullet);
     }
     [System.Serializable]
     class SpriteData:IComparer<SpriteData>

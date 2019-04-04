@@ -63,9 +63,7 @@ public class Weapon : MonoBehaviour, IPickupable
 
             }
             BulletBehaviour bulletBehaviour = ObjectPool.instance.Dequeue();
-         //   if (!bulletBehaviour.gameObject.activeSelf)
-         //   {
-                bulletBehaviour.Init(bullet, transform.position);
+                bulletBehaviour.Init(bullet, transform.position);  
                 bulletBehaviour.gameObject.SetActive(true);
          //   }
 
@@ -99,9 +97,10 @@ public class Weapon : MonoBehaviour, IPickupable
                             yield return null;
                         }
                     }
-                    BulletBehaviour bulletBehaviour = ObjectPool.instance.Dequeue();
-                    //   if (!bulletBehaviour.gameObject.activeSelf)
-                    //   {
+                    BulletBehaviour bulletBehaviour = null;
+                    bulletBehaviour = ObjectPool.instance.Dequeue(bullet.type);
+                   
+                 
                     bulletBehaviour.Init(bullet, transform.position);
                     bulletBehaviour.holder = holder;
                     bulletBehaviour.parent = this;
@@ -109,8 +108,7 @@ public class Weapon : MonoBehaviour, IPickupable
                     bulletBehaviour.gameObject.layer = gameObject.layer;
                     bulletBehaviour.gameObject.SetActive(true);
                     //   }
-
-                    ObjectPool.instance.Enqueue(bulletBehaviour);
+                    ObjectPool.instance.Enqueue(bulletBehaviour, bullet.type);
                 }
                 yield return null;
             }
