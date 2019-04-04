@@ -43,4 +43,9 @@ public class PlayerUIController : MonoBehaviour
             GameManager.instance.AbilityBarFiller.fillAmount = (Standard.currentTime / Standard.dashCooldown);
         }
     }
+
+    public void UpdateCoins()
+    {
+        GameManager.instance.CoinsText.text = player.Coins.ToString();
+    }
 }

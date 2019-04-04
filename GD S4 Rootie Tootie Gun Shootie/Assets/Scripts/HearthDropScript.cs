@@ -13,7 +13,7 @@ public class HearthDropScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, GameManager.instance.player.transform.position) <= 3 && GameManager.instance.player.healthManager.health < GameManager.instance.player.healthManager.maxHealth)
+        if (Vector2.Distance(transform.position, GameManager.instance.player.transform.position) <= 2 && GameManager.instance.player.healthManager.health < GameManager.instance.player.healthManager.maxHealth)
         {
             float step = 0.035f / Vector2.Distance(transform.position, GameManager.instance.player.transform.position);
             Vector3 actualTarget = new Vector3(GameManager.instance.player.transform.position.x, GameManager.instance.player.transform.position.y, transform.position.z);

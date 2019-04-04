@@ -9,6 +9,8 @@ public class FloorInfo : ScriptableObject
     public Texture2D Floor1SpriteSheet;
     public int FloorWidthHeight;
     public Room StarterRoom;
+    public Room ShopRoom;
+    public GameObject[] ItemsForShop;
     public GameObject[] Enemies;
     public int HealthDropsForFloor;
     public int HealthPerRoomLimit;

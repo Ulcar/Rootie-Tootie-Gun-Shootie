@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public Sprite SilverCoin;
     public Sprite GoldCoin;
     public Sprite PlatinumCoin;
+    public Text CoinsText;
     
     
     // Start is called before the first frame update

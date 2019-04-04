@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class FloorHandler : MonoBehaviour
 {
+    bool ShopSpawned;
     public Room CurrentFloorStartRoom;
     public Room CurrentFloorBossRoom;
     public bool floorDone = false;
@@ -55,7 +56,7 @@ public class FloorHandler : MonoBehaviour
         y = Random.Range(0, floorInfo.FloorWidthHeight);
         SetupNodeSystem();
         GeneratePath();
-        /*
+        
         for (int i = 0; i < 5; i++)
         {
             string idk = "i: " + i.ToString() + ", ";
@@ -113,7 +114,7 @@ public class FloorHandler : MonoBehaviour
             Debug.Log(idk);
             
         }
-        */
+        
         floorDone = true;
     }
 
@@ -148,6 +149,10 @@ public class FloorHandler : MonoBehaviour
                     {
                         temp = floorInfo.StarterRoom;
                         //temp.representedRoomIndex = 0;
+                    }
+                    else if (generationRooms[i, j].ShopRoom)
+                    {
+                        temp = floorInfo.ShopRoom;
                     }
                     else
                     {
@@ -231,8 +236,50 @@ public class FloorHandler : MonoBehaviour
                     if (generationRooms[i, j].bossRoom)
                     {
                         RoomToInstantiate.BossRoom = true;
-                        
+
                         CurrentFloorBossRoom = RoomToInstantiate;
+                    }
+                    else if (generationRooms[i, j].ShopRoom)
+                    {
+                        RoomToInstantiate.ShopRoom = true;
+                        List<RoomTile> Shoptiles = new List<RoomTile>();
+                        for (int l = 0; l < RoomToInstantiate.tilemap.transform.childCount; l++)
+                        {
+                            RoomTile tile = RoomToInstantiate.tilemap.transform.GetChild(l).GetComponent<RoomTile>();
+                            if (tile == null)
+                            {
+                                Debug.Log("Tile is null");
+                            }
+                            //Debug.Log(tile.playerSpawnPoint);
+                            if (tile.ShopTile)
+                            {
+                                Shoptiles.Add(tile);
+                            }
+                        }
+                        List<bool> TakenItems = new List<bool>();
+                        for (int abc = 0; abc < floorInfo.ItemsForShop.Length; abc++)
+                        {
+                            TakenItems.Add(false);
+                        }
+                        for (int Weapon = 0; Weapon < Shoptiles.Count; Weapon++)
+                        {
+                            for (int tries = 0; tries < 30; tries++)
+                            {
+                                int r = Random.Range(0, floorInfo.ItemsForShop.Length); 
+                                {
+                                    if (TakenItems[r] == false)
+                                    {
+                                        GameObject item = Instantiate(floorInfo.ItemsForShop[r]);
+                                        item.transform.position = Shoptiles[Weapon].transform.GetChild(0).transform.position;
+                                        item.transform.SetParent(Shoptiles[Weapon].transform);
+                                        item.GetComponent<BuyableItem>().Price = Mathf.RoundToInt(item.GetComponent<BuyableItem>().Price * Random.Range(0.80f, 1.20f));
+                                        item.GetComponent<BuyableItem>().ForSale = true;
+                                        tries = 31;
+                                        TakenItems[r] = true;
+                                    }
+                                }
+                            }
+                        }
                     }
                     else if (generationRooms[i, j].starterRoom)
                     {
@@ -279,18 +326,18 @@ public class FloorHandler : MonoBehaviour
                             // Spawn enemy here
                             //should randomise enemy type later
                             int SpawnIndex = Random.Range(0, MobSpawnPoints.Count);
-                         GameObject enemy =   SpawnEnemy(EnemyType.Ranged, RoomToInstantiate.transform, new Vector3(MobSpawnPoints[SpawnIndex].transform.position.x, MobSpawnPoints[SpawnIndex].transform.position.y, -2));
+                            GameObject enemy = SpawnEnemy(EnemyType.Ranged, RoomToInstantiate.transform, new Vector3(MobSpawnPoints[SpawnIndex].transform.position.x, MobSpawnPoints[SpawnIndex].transform.position.y, -2));
                             RoomToInstantiate.enemiesToSpawn.Add(enemy);
                             enemy.SetActive(false);
 
 
                             //old code commented out
-                           /* GameObject EnemyToInstantiate = Instantiate(floorInfo.Enemies[Random.Range(0,floorInfo.Enemies.Length)]);
-                            EnemyToInstantiate.GetComponent<EnemyAIController>().target = GameManager.instance.player.transform;
-                            int SpawnIndex = Random.Range(0, MobSpawnPoints.Count);
-                            EnemyToInstantiate.transform.position =;
-                            EnemyToInstantiate.transform.parent = RoomToInstantiate.transform;
-                            MobSpawnPoints.Remove(MobSpawnPoints[SpawnIndex]); */
+                            /* GameObject EnemyToInstantiate = Instantiate(floorInfo.Enemies[Random.Range(0,floorInfo.Enemies.Length)]);
+                             EnemyToInstantiate.GetComponent<EnemyAIController>().target = GameManager.instance.player.transform;
+                             int SpawnIndex = Random.Range(0, MobSpawnPoints.Count);
+                             EnemyToInstantiate.transform.position =;
+                             EnemyToInstantiate.transform.parent = RoomToInstantiate.transform;
+                             MobSpawnPoints.Remove(MobSpawnPoints[SpawnIndex]); */
 
                         }
                     }
@@ -410,7 +457,7 @@ public class FloorHandler : MonoBehaviour
             {
                 //StarterRoom
                 ActuallyGenerated++;
-                GenerationRoom StarterRoom = new GenerationRoom(x, y, true, false, ActuallyGenerated);
+                GenerationRoom StarterRoom = new GenerationRoom(x, y, true, false, false, ActuallyGenerated);
                 //Debug.Log("StarterRoomX: " + StarterRoom.x + ", StarterRoomY: " + StarterRoom.y);
                 if (CheckAvailability())
                 {
@@ -425,20 +472,18 @@ public class FloorHandler : MonoBehaviour
                     Debug.Log("Unable to add node because direction is not available, exiting.");
                     return;
                 }
-                
-
             }
             else
             {
                 if (AmountOfRoomsGenerated >= floorInfo.RoomsInFloor1 && BossRoomDone == false)
                 {
-                   
+
                     BossRoomDone = true;
                     ActuallyGenerated++;
-                    GenerationRoom randomRoom = new GenerationRoom(x, y, false, true, ActuallyGenerated);
+                    GenerationRoom randomRoom = new GenerationRoom(x, y, false, true, false, ActuallyGenerated);
                     if (randomRoom.y + 1 < floorInfo.FloorWidthHeight)
                     {
-                        
+
                         if (generationRooms[randomRoom.x, randomRoom.y + 1] != null)
                         {
                             if (generationRooms[randomRoom.x, randomRoom.y + 1].BossRoomEntryRoom)
@@ -550,7 +595,7 @@ public class FloorHandler : MonoBehaviour
                     {
                         if (generationRooms[randomRoom.x, randomRoom.y - 1] != null)
                         {
-                            for (int i = 0; i <  generationRooms[randomRoom.x, randomRoom.y - 1].Nodes.Count; i++)
+                            for (int i = 0; i < generationRooms[randomRoom.x, randomRoom.y - 1].Nodes.Count; i++)
                             {
                                 if (generationRooms[randomRoom.x, randomRoom.y - 1].Nodes[i].exitDirection == ExitDirections.Up)
                                 {
@@ -585,9 +630,18 @@ public class FloorHandler : MonoBehaviour
                 {
                     //Regular room
                     ActuallyGenerated++;
-                    GenerationRoom randomRoom = new GenerationRoom(x, y, false, false, ActuallyGenerated);
-                    
-                   // Debug.Log("randomRoomNr: " + AmountOfRoomsGenerated + ", X: " + randomRoom.x + ", Y: " + randomRoom.y);
+                    GenerationRoom randomRoom;
+                    if (AmountOfRoomsGenerated > floorInfo.RoomsInFloor1 / 2 && !ShopSpawned)
+                    {
+                        randomRoom = new GenerationRoom(x, y, false, false, true, ActuallyGenerated);
+                        ShopSpawned = true;
+                    }
+                    else
+                    {
+                        randomRoom = new GenerationRoom(x, y, false, false, false, ActuallyGenerated);
+                    }
+
+                    // Debug.Log("randomRoomNr: " + AmountOfRoomsGenerated + ", X: " + randomRoom.x + ", Y: " + randomRoom.y);
                     //Debug.Log("randomRoomNr: " + AmountOfRoomsGenerated + ", CurrentX: " + x + ", CurrentY: " + y);
                     bool NorthAvailable = true;
                     bool EastAvailable = true;
@@ -615,7 +669,7 @@ public class FloorHandler : MonoBehaviour
                                         node.ConnectNodes(OtherNode);
                                         OtherNode.ConnectNodes(node);
                                         randomRoom.Nodes.Add(node);
-                                       // Debug.Log("CBA0");
+                                        // Debug.Log("CBA0");
                                     }
                                 }
                             }
@@ -628,7 +682,7 @@ public class FloorHandler : MonoBehaviour
                     }
                     else
                     {
-                       // Debug.Log("DebugXWest: " + x + ", DebugYWest: " + y);
+                        // Debug.Log("DebugXWest: " + x + ", DebugYWest: " + y);
                         if (generationRooms[x - 1, y] != null)
                         {
                             if (generationRooms[x - 1, y].bossRoom == false)
@@ -656,12 +710,12 @@ public class FloorHandler : MonoBehaviour
                     }
                     else
                     {
-                       // Debug.Log("DebugXNorth: " + x + ", DebugYNorth: " + y);
+                        // Debug.Log("DebugXNorth: " + x + ", DebugYNorth: " + y);
                         if (generationRooms[x, y + 1] != null)
                         {
                             if (generationRooms[x, y + 1].bossRoom == false)
                             {
-                               // Debug.Log("ABC2");
+                                // Debug.Log("ABC2");
                                 NorthAvailable = false;
                                 GenerationNode node = new GenerationNode(ExitDirections.Up);
                                 foreach (GenerationNode OtherNode in generationRooms[x, y + 1].Nodes)
@@ -684,7 +738,7 @@ public class FloorHandler : MonoBehaviour
                     }
                     else
                     {
-                       // Debug.Log("DebugXSouth: " + x + ", DebugYSouth: " + y);
+                        // Debug.Log("DebugXSouth: " + x + ", DebugYSouth: " + y);
                         if (generationRooms[x, y - 1] != null)
                         {
                             if (generationRooms[x, y - 1].bossRoom == false)
@@ -703,7 +757,7 @@ public class FloorHandler : MonoBehaviour
                                     }
                                 }
                             }
-                            
+
                         }
                     }
                     //Debug.Log("North: " + NorthAvailable + ", East: " + EastAvailable + ", South: " + SouthAvailable + ", West: " + WestAvailable);
@@ -818,18 +872,19 @@ public class FloorHandler : MonoBehaviour
                         }
                     }
                     generationRooms[randomRoom.x, randomRoom.y] = randomRoom;
-                    
+
                     //Debug.Log("Actually Generated: " + ActuallyGenerated);
                     bool up = true;
                     bool right = true;
                     bool down = true;
                     bool left = true;
                     //Debug.Log("Before Node shit, roomID: " + randomRoom.ID + ", NodeCount: " + randomRoom.Nodes.Count);
-                    for (int i = 0; i < randomRoom.Nodes.Count; i++) {  
+                    for (int i = 0; i < randomRoom.Nodes.Count; i++)
+                    {
                         //Debug.Log("NodeDingOfzo, roomID: " + randomRoom.ID);
                         x = randomRoom.x;
                         y = randomRoom.y;
-                        if (randomRoom.Nodes[i].exitDirection == ExitDirections.Up && up && generationRooms[x,y+1] == null)
+                        if (randomRoom.Nodes[i].exitDirection == ExitDirections.Up && up && generationRooms[x, y + 1] == null)
                         {
                             up = false;
                             y++;

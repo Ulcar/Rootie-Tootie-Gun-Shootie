@@ -40,15 +40,17 @@ public class Room : MonoBehaviour
         for (int i = 0; i < tilemap.transform.childCount; i++)
         {
             GateScript gate = tilemap.transform.GetChild(i).GetComponent<GateScript>();
-            if (gate != null)
-            {
-                Gates.Add(gate);
-            }
-            GateTriggerScript trigger = tilemap.transform.GetChild(i).GetComponent<GateTriggerScript>();
-            if (trigger != null)
-            {
-                trigger.parentRoom = this;
-            }
+                
+                if (gate != null)
+                {
+                    Gates.Add(gate);
+                }
+                GateTriggerScript trigger = tilemap.transform.GetChild(i).GetComponent<GateTriggerScript>();
+                if (trigger != null)
+                {
+                    trigger.parentRoom = this;
+                }
+            
             RoomTile tile = tilemap.transform.GetChild(i).GetComponent<RoomTile>();
             //Debug.Log("TileID: " + tile.ID + ", TileNodeID: " + tile.NodeID);
             if (tile.Node)
@@ -100,16 +102,22 @@ public class Room : MonoBehaviour
                 tile.spriteRenderer.sprite = TileSprites[tile.ID];
             }
         }
-
-        for (int i = 0; i < transform.childCount; i++)
+        if (!ShopRoom)
         {
-            Enemy TempEnemy = transform.GetChild(i).GetComponentInChildren<Enemy>();
-            if (TempEnemy != null)
+            for (int i = 0; i < transform.childCount; i++)
             {
-                TempEnemy.OnDeath.AddListener(OnDeath);
-                RoomEnemies.Add(TempEnemy);
-                TotalSpawnedEnemiesInRoom++;
+                Enemy TempEnemy = transform.GetChild(i).GetComponentInChildren<Enemy>();
+                if (TempEnemy != null)
+                {
+                    TempEnemy.OnDeath.AddListener(OnDeath);
+                    RoomEnemies.Add(TempEnemy);
+                    TotalSpawnedEnemiesInRoom++;
+                }
             }
+        }
+        if (ShopRoom)
+        {
+            PermOpenAllGates();
         }
     }
 
@@ -137,7 +145,7 @@ public class Room : MonoBehaviour
 
     public void CloseAllGates()
     {
-        if (!StarterRoom)
+        if (!StarterRoom && !ShopRoom)
         {
             //Debug.Log(Gates.Count);
             foreach (GateScript gate in Gates)
@@ -152,7 +160,7 @@ public class Room : MonoBehaviour
     }
     public void PermOpenAllGates()
     {
-        if (!StarterRoom)
+        if (!StarterRoom && !ShopRoom)
         {
             foreach (GateScript gate in Gates)
             {
@@ -173,9 +181,12 @@ public class Room : MonoBehaviour
 
     public void EnableEnemies()
     {
-        foreach (Enemy enemy in RoomEnemies)
+        if (!StarterRoom && !ShopRoom)
         {
-            enemy.transform.parent.gameObject.SetActive(true);
+            foreach (Enemy enemy in RoomEnemies)
+            {
+                enemy.transform.parent.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -190,51 +201,56 @@ public class Room : MonoBehaviour
 
     public void DivideResourcesOverMobs()
     {
-        if (CoinsForRoom > 0)
+        if (!StarterRoom && !ShopRoom)
         {
-            for (int i = 0; i < transform.childCount; i++)
+            if (CoinsForRoom > 0)
             {
-                
-                EnemyAIController temp = transform.GetChild(i).GetComponent<EnemyAIController>();
-                if (temp != null && CoinsForRoom > 0)
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    int Bounty = Mathf.RoundToInt((GameManager.instance.floorHandler.floorInfo.coinBaseline * temp.enemy.CoinWeight) * Random.Range(0.80f, 1.20f));
-                    if (CoinsForRoom - Bounty < 0)
+
+                    EnemyAIController temp = transform.GetChild(i).GetComponent<EnemyAIController>();
+                    if (temp != null && CoinsForRoom > 0)
                     {
-                        temp.enemy.CoinBounty = CoinsForRoom;
-                        CoinsForRoom = 0;
-                        i = transform.childCount;
+                        int temp1 = (GameManager.instance.floorHandler.floorInfo.coinBaseline);
+                        float temp2 = temp.enemy.CoinWeight;
+                        int Bounty = Mathf.RoundToInt((temp1 * temp2) * Random.Range(0.80f, 1.20f));
+                        if (CoinsForRoom - Bounty < 0)
+                        {
+                            temp.enemy.CoinBounty = CoinsForRoom;
+                            CoinsForRoom = 0;
+                            i = transform.childCount;
+                        }
+                        else
+                        {
+                            temp.enemy.CoinBounty = Bounty;
+                            CoinsForRoom -= Bounty;
+                        }
                     }
                     else
                     {
-                        temp.enemy.CoinBounty = Bounty;
-                        CoinsForRoom -= Bounty;
+                        Debug.Log("NULL");
                     }
-                }
-                else
-                {
-                    Debug.Log("NULL");
                 }
             }
-        }
-        if (HealthForRoom > 0)
-        {
-            for (int i = 0; i < transform.childCount; i++)
+            if (HealthForRoom > 0)
             {
-                EnemyAIController temp = transform.GetChild(i).GetComponent<EnemyAIController>();
-                if (temp != null && HealthForRoom > 0)
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    int Bounty = Random.Range(1,GameManager.instance.floorHandler.floorInfo.healthBaseline);
-                    if (HealthForRoom - Bounty < 0)
+                    EnemyAIController temp = transform.GetChild(i).GetComponent<EnemyAIController>();
+                    if (temp != null && HealthForRoom > 0)
                     {
-                        temp.enemy.HealthBounty = HealthForRoom;
-                        HealthForRoom = 0;
-                        i = transform.childCount;
-                    }
-                    else
-                    {
-                        temp.enemy.HealthBounty = Bounty;
-                        HealthForRoom -= Bounty;
+                        int Bounty = Random.Range(1, GameManager.instance.floorHandler.floorInfo.healthBaseline);
+                        if (HealthForRoom - Bounty < 0)
+                        {
+                            temp.enemy.HealthBounty = HealthForRoom;
+                            HealthForRoom = 0;
+                            i = transform.childCount;
+                        }
+                        else
+                        {
+                            temp.enemy.HealthBounty = Bounty;
+                            HealthForRoom -= Bounty;
+                        }
                     }
                 }
             }

@@ -19,7 +19,7 @@ public class EditModeTestScript : MonoBehaviour
     public Tilemap tilemap;
     public FloorInfo floorInfo;
     public static Sprite[] sprites;
-    [Range(0, 91)]
+    [Range(0, 95)]
     public int RangeNumber;
     public static int StaticRangeNumber;
     public Sprite White;
