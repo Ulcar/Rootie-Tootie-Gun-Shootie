@@ -6,6 +6,7 @@ using Pathfinding;
 using UnityEngine.Events;
 public class Enemy : MonoBehaviour, IDamageable
 {
+    public SpriteRenderer Renderer;
     [SerializeField]
     EnemyStats stats;
     [SerializeField]
@@ -89,11 +90,15 @@ public class Enemy : MonoBehaviour, IDamageable
                 CoinDropScript coin = Instantiate(GameManager.instance.Coin);
                 coin.transform.SetParent(GameManager.instance.RoomPlayerIsIn.transform);
                 coin.transform.position = transform.position;
-                coin.yVelocity = UnityEngine.Random.Range(0.1f, 0.3f);
-                coin.xVelocity = -.1f;
-                coin.transform.rotation = new Quaternion(0,(angle*count)-45,0,0);
+                coin.yVelocity = UnityEngine.Random.Range(0.001f, 0.003f);
+          
+                    coin.xVelocity = .001f * (Mathf.Pow(( 4*(count - Mathf.RoundToInt(numberOfCoinsToSpawn/2)) ),2) + 0.001f);
+  
+                coin.FloorY = transform.position.y;
+                //coin.transform.rotation = new Quaternion(0,(angle*count)-45,0,0);
+                coin.transform.rotation = Quaternion.Euler(0, 0, (angle * count) - 45);
                 count++;
-                coin.gravity = 0.5f;
+                coin.gravity = 0.03f;
                 if (CoinBounty - 50 > 0)
                 {
                     CoinBounty -= 50;
@@ -150,7 +155,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
    public  void TakeDamage(int damage, Vector2 direction, float speed)
     {
+        
+
         manager.TakeDamage(damage);
+        StartCoroutine("RedHue");
         impact += direction * speed * Weight;
         if (AI != null)
         {
@@ -158,6 +166,18 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+
+    public IEnumerator RedHue()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Color c = new Color(255, 0, 0);
+            Renderer.color = c;
+            yield return null;
+        }
+        Color a = new Color(255, 255, 255);
+        Renderer.color = a;
+    }
 
 }
 

@@ -16,6 +16,7 @@ public class RoomTile : MonoBehaviour
     public bool monsterSpawnPoint;
     public bool DefaultLayer;
     public bool ignore;
+    public bool ShopTile;
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();

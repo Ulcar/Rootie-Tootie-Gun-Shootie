@@ -11,8 +11,9 @@ public class GenerationRoom
     public bool starterRoom = false;
     public bool bossRoom = false;
     public bool BossRoomEntryRoom = false;
+    public bool ShopRoom = false;
 
-    public GenerationRoom(int X, int Y, bool StarterRoom, bool BossRoom, int id)
+    public GenerationRoom(int X, int Y, bool StarterRoom, bool BossRoom, bool shopRoom, int id)
     {
         ID = id;
         if (X > -1)
@@ -31,6 +32,7 @@ public class GenerationRoom
         {
             Debug.Log("Room added with Y lesser than 0");
         }
+        ShopRoom = shopRoom;
         starterRoom = StarterRoom;
         bossRoom = BossRoom;
         Nodes = new List<GenerationNode>();
