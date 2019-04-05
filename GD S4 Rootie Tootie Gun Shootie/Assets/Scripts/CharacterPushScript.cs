@@ -48,7 +48,7 @@ using UnityEngine;
             movement.LeftHit = true;
             foreach (RaycastHit2D hit in LeftHit)
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall"))
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall") || hit.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
                 {
                     if (!hit.collider.GetComponent<RoomTile>().ignore)
                     {
@@ -72,7 +72,7 @@ using UnityEngine;
            if (bottomHit)
            {
                movement.DownHit = true;
-                if (bottomHit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall"))
+                if (bottomHit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall") || bottomHit.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
                 {
                     if (!bottomHit.collider.GetComponent<RoomTile>().ignore)
                     {
@@ -97,7 +97,7 @@ using UnityEngine;
                movement.RightHit = true;
             foreach (RaycastHit2D hit in LeftHit)
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall"))
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall") || hit.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
                 {
                     if (!hit.collider.GetComponent<RoomTile>().ignore)
                     {
@@ -123,7 +123,7 @@ using UnityEngine;
             movement.UpHit = true;
             foreach (RaycastHit2D hit in TopHit)
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall"))
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PlayerWall") || hit.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
                 {
                     if (!hit.collider.GetComponent<RoomTile>().ignore)
                     {
