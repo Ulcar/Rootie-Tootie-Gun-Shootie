@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IDamageable
     public Transform DebugLocation;
     [SerializeField]
     private SpriteRenderer renderer;
-    GameObject WeaponReadyForPickup;
+    public GameObject WeaponReadyForPickup;
     public float PickupRange;
     public float tossSpeed;
     public BoxCollider2D BoundBox;
@@ -37,13 +37,12 @@ public class Player : MonoBehaviour, IDamageable
     // Start is called before the first frame update
     void Start()
     {
-
+        GetComponent<PlayerUIController>().UpdateCoins();
         movementSpeed = playerInfo.movementSpeed;
         weapon.GetComponent<Weapon>().SetHolder(this);
         healthManager = new HealthManager(playerInfo.maxHealth, playerInfo.maxShield, playerInfo.maxHealth, playerInfo.maxShield);
         healthManager.OnDeath.AddListener(OnDeathEvent);
         healthManager.UpdateHealthUI(healthManager.health);
-
     }
 
     void OnDeathEvent()
@@ -71,36 +70,123 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (WeaponReadyForPickup != null)
         {
-            if (GetComponent<PlayerInventoryScript>().Secondary != null)
+            BuyableItem item = WeaponReadyForPickup.GetComponent<BuyableItem>();
+            if (item != null)
             {
-                if (TossWeapon())
+                if (!item.ForSale)
                 {
-                    Debug.Log("Tossweapon() true");
-                    GameObject NewGun = Instantiate(WeaponReadyForPickup);
-                    NewGun.transform.SetParent(transform);
-                    GetComponent<PlayerInventoryScript>().Primary = NewGun;
-                    weaponSprite = NewGun.GetComponent<SpriteRenderer>();
-                    NewGun.GetComponent<Weapon>().SetHolder(this);
-                    Destroy(WeaponReadyForPickup);
-                    WeaponReadyForPickup = null;
-                    weapon = NewGun;
-                    weapon.transform.localPosition = new Vector3(-0.06200001f, 0.163f, -1);
-                    weapon.GetComponent<Tossable>().CurrentlyBeingTossed = false;
-                    weapon.GetComponent<Tossable>().tossSpeed = 0;
-                    weapon.GetComponent<Tossable>().FloorY = 0;
-                    GetComponent<PlayerUIController>().UpdateWeapons();
+                    if (GetComponent<PlayerInventoryScript>().Secondary != null)
+                    {
+                        if (TossWeapon())
+                        {
+                            Debug.Log("Tossweapon() true");
+                            GameObject NewGun = Instantiate(WeaponReadyForPickup);
+                            NewGun.transform.SetParent(transform);
+                            GetComponent<PlayerInventoryScript>().Primary = NewGun;
+                            weaponSprite = NewGun.GetComponent<SpriteRenderer>();
+                            NewGun.GetComponent<Weapon>().SetHolder(this);
+                            Destroy(WeaponReadyForPickup);
+                            WeaponReadyForPickup = null;
+                            weapon = NewGun;
+                            weapon.transform.localPosition = new Vector3(-0.06200001f, 0.163f, -1);
+                            weapon.GetComponent<Tossable>().CurrentlyBeingTossed = false;
+                            weapon.GetComponent<Tossable>().tossSpeed = 0;
+                            weapon.GetComponent<Tossable>().FloorY = 0;
+                            GetComponent<PlayerUIController>().UpdateWeapons();
+                        }
+                    }
+                    else
+                    {
+                        GetComponent<PlayerInventoryScript>().Secondary = WeaponReadyForPickup;
+                        //Destroy(WeaponReadyForPickup);
+                        WeaponReadyForPickup.transform.position = new Vector3(10000, 10000, 0); //Help
+                        WeaponReadyForPickup.transform.SetParent(transform);
+                        WeaponReadyForPickup = null;
+                        weapon.GetComponent<Weapon>().SetHolder(this);
+
+                        GetComponent<PlayerUIController>().UpdateWeapons();
+                    }
+                }
+                else
+                {
+                    if (item.Price <= Coins)
+                    {
+                        GameManager.instance.RoomPlayerIsIn.itemForSale.Remove(WeaponReadyForPickup);
+                        WeaponReadyForPickup.transform.parent.GetComponent<ShopTileScript>().SellItem();
+                        WeaponReadyForPickup.GetComponent<BuyableItem>().ForSale = false;
+                        Coins -= item.Price;
+                        GameManager.instance.player.GetComponent<PlayerUIController>().UpdateCoins();
+                        if (GetComponent<PlayerInventoryScript>().Secondary != null)
+                        {
+                            if (TossWeapon())
+                            {
+                                Debug.Log("Tossweapon() true");
+                                GameObject NewGun = Instantiate(WeaponReadyForPickup);
+                                NewGun.transform.SetParent(transform);
+                                GetComponent<PlayerInventoryScript>().Primary = NewGun;
+                                weaponSprite = NewGun.GetComponent<SpriteRenderer>();
+                                NewGun.GetComponent<Weapon>().SetHolder(this);
+                                Destroy(WeaponReadyForPickup);
+                                WeaponReadyForPickup = null;
+                                weapon = NewGun;
+                                weapon.transform.localPosition = new Vector3(-0.06200001f, 0.163f, -1);
+                                weapon.GetComponent<Tossable>().CurrentlyBeingTossed = false;
+                                weapon.GetComponent<Tossable>().tossSpeed = 0;
+                                weapon.GetComponent<Tossable>().FloorY = 0;
+                                GetComponent<PlayerUIController>().UpdateWeapons();
+                            }
+                        }
+                        else
+                        {
+                            GetComponent<PlayerInventoryScript>().Secondary = WeaponReadyForPickup;
+                            //Destroy(WeaponReadyForPickup);
+                            WeaponReadyForPickup.transform.position = new Vector3(10000, 10000, 0); //Help
+                            WeaponReadyForPickup.transform.SetParent(transform);
+                            WeaponReadyForPickup = null;
+                            weapon.GetComponent<Weapon>().SetHolder(this);
+
+                            GetComponent<PlayerUIController>().UpdateWeapons();
+                        }
+                    }
+                    else
+                    {
+                        item.CashFlashing();
+                    }
                 }
             }
             else
             {
-                GetComponent<PlayerInventoryScript>().Secondary = WeaponReadyForPickup;
-                //Destroy(WeaponReadyForPickup);
-                WeaponReadyForPickup.transform.position = new Vector3(10000, 10000, 0); //Help
-                WeaponReadyForPickup.transform.SetParent(transform);
-                WeaponReadyForPickup = null;
-                weapon.GetComponent<Weapon>().SetHolder(this);
-                
-                GetComponent<PlayerUIController>().UpdateWeapons();
+                if (GetComponent<PlayerInventoryScript>().Secondary != null)
+                {
+                    if (TossWeapon())
+                    {
+                        Debug.Log("Tossweapon() true");
+                        GameObject NewGun = Instantiate(WeaponReadyForPickup);
+                        NewGun.transform.SetParent(transform);
+                        GetComponent<PlayerInventoryScript>().Primary = NewGun;
+                        weaponSprite = NewGun.GetComponent<SpriteRenderer>();
+                        NewGun.GetComponent<Weapon>().SetHolder(this);
+                        Destroy(WeaponReadyForPickup);
+                        WeaponReadyForPickup = null;
+                        weapon = NewGun;
+                        weapon.transform.localPosition = new Vector3(-0.06200001f, 0.163f, -1);
+                        weapon.GetComponent<Tossable>().CurrentlyBeingTossed = false;
+                        weapon.GetComponent<Tossable>().tossSpeed = 0;
+                        weapon.GetComponent<Tossable>().FloorY = 0;
+                        GetComponent<PlayerUIController>().UpdateWeapons();
+                    }
+                }
+                else
+                {
+                    GetComponent<PlayerInventoryScript>().Secondary = WeaponReadyForPickup;
+                    //Destroy(WeaponReadyForPickup);
+                    WeaponReadyForPickup.transform.position = new Vector3(10000, 10000, 0); //Help
+                    WeaponReadyForPickup.transform.SetParent(transform);
+                    WeaponReadyForPickup = null;
+                    weapon.GetComponent<Weapon>().SetHolder(this);
+
+                    GetComponent<PlayerUIController>().UpdateWeapons();
+                }
             }
         }
     }
@@ -211,6 +297,35 @@ public class Player : MonoBehaviour, IDamageable
         float distance = 0;
         if (GameManager.instance.RoomPlayerIsIn != null)
         {
+            if (GameManager.instance.RoomPlayerIsIn.ShopRoom)
+            {
+                for (int i = 0; i < GameManager.instance.RoomPlayerIsIn.itemForSale.Count; i++)
+                {
+                    if (temp == null)
+                    {
+                        //a = √b^2+c^2
+                        float b = transform.position.y - GameManager.instance.RoomPlayerIsIn.itemForSale[i].transform.position.y; //y axis
+                        float c = transform.position.x - GameManager.instance.RoomPlayerIsIn.itemForSale[i].transform.position.x; //x axis
+                        float result = Mathf.Sqrt(Mathf.Pow(b, 2) + Mathf.Pow(c, 2));
+                        if (result <= PickupRange && result >= -PickupRange)
+                        {
+                            temp = GameManager.instance.RoomPlayerIsIn.itemForSale[i].gameObject;
+                            distance = result;
+                        }
+                    }
+                    else
+                    {
+                        float b = transform.position.y - GameManager.instance.RoomPlayerIsIn.itemForSale[i].transform.position.y; //y axis
+                        float c = transform.position.x - GameManager.instance.RoomPlayerIsIn.itemForSale[i].transform.position.x; //x axis
+                        float result = Mathf.Sqrt(Mathf.Pow(b, 2) + Mathf.Pow(c, 2));
+                        if (result < distance)
+                        {
+                            distance = result;
+                            temp = GameManager.instance.RoomPlayerIsIn.itemForSale[i].gameObject;
+                        }
+                    }
+                }
+            }
             for (int i = 0; i < GameManager.instance.RoomPlayerIsIn.transform.childCount; i++)
             {
                 if (GameManager.instance.RoomPlayerIsIn.transform.GetChild(i).GetComponent<Weapon>() != null)
@@ -227,7 +342,7 @@ public class Player : MonoBehaviour, IDamageable
                             distance = result;
                         }
                     }
-                    else 
+                    else
                     {
                         float b = transform.position.y - GameManager.instance.RoomPlayerIsIn.transform.GetChild(i).transform.position.y; //y axis
                         float c = transform.position.x - GameManager.instance.RoomPlayerIsIn.transform.GetChild(i).transform.position.x; //x axis

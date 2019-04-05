@@ -29,11 +29,14 @@ public class Room : MonoBehaviour
     List<GateScript> Gates = new List<GateScript>();
     public int CoinsForRoom;
     public int HealthForRoom;
+
+    public List<GameObject> itemForSale;
     
 
     void Start()
     {
         NodeTiles = new List<RoomTile>();
+        itemForSale = new List<GameObject>();
         //Debug.Log("SpriteSheetName: " + SpriteSheet.name + ", Boss: " + BossRoom + ", Start: " + StarterRoom);
         TileSprites = Resources.LoadAll<Sprite>(SpriteSheet.name);
 
@@ -52,6 +55,7 @@ public class Room : MonoBehaviour
                 }
             
             RoomTile tile = tilemap.transform.GetChild(i).GetComponent<RoomTile>();
+            ShopTileScript shoptile = tilemap.transform.GetChild(i).GetComponent<ShopTileScript>();
             //Debug.Log("TileID: " + tile.ID + ", TileNodeID: " + tile.NodeID);
             if (tile.Node)
             {
@@ -101,6 +105,17 @@ public class Room : MonoBehaviour
                 }
                 tile.spriteRenderer.sprite = TileSprites[tile.ID];
             }
+            if (shoptile != null)
+            {
+                for (int k = 0; k < shoptile.transform.childCount; k++)
+                {
+                    Weapon wep = shoptile.transform.GetChild(k).GetComponent<Weapon>();
+                    if (wep != null)
+                    {
+                        itemForSale.Add(shoptile.transform.GetChild(k).gameObject);
+                    }
+                }
+            }
         }
         if (!ShopRoom)
         {
@@ -118,6 +133,7 @@ public class Room : MonoBehaviour
         if (ShopRoom)
         {
             PermOpenAllGates();
+            
         }
     }
 
@@ -157,6 +173,7 @@ public class Room : MonoBehaviour
                 CameraRoomMode();
             }
         }
+        GameManager.instance.RoomPlayerIsIn = this;
     }
     public void PermOpenAllGates()
     {
@@ -195,7 +212,6 @@ public class Room : MonoBehaviour
         if (!GameManager.instance.MainCamera.GetComponent<CameraScript>().InRoomMode)
         {
             GameManager.instance.MainCamera.GetComponent<CameraScript>().RoomMode(this);
-            GameManager.instance.RoomPlayerIsIn = this;
         }
     }
 
