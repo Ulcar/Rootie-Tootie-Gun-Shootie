@@ -19,10 +19,13 @@ public class RangeDecision : Decision
         hits = Physics2D.CircleCastAll(controller.transform.position, radius, direction, 0, 1 << LayerMask.NameToLayer("Player"));
         foreach (RaycastHit2D hit in hits)
         {
-            returnValue = stateToGoTo;
-            controller.target = hit.transform;
-            controller.enemy.target = hit.transform;
-            return true;
+            if (hit.collider.tag == "Player")
+            {
+                returnValue = stateToGoTo;
+                controller.target = hit.transform;
+                controller.enemy.target = hit.transform;
+                return true;
+            }
         }
 
         return false;

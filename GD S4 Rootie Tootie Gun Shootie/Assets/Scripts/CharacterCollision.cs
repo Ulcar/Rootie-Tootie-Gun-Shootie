@@ -38,7 +38,7 @@ using UnityEngine.Events;
         BulletBehaviour bullet = collision.GetComponent<BulletBehaviour>();       
         if (bullet != null)
         {
-            if (bullet.holder != damageable)
+            if (bullet.holder != damageable && damageable.GetType() != bullet.holder.GetType())
             {
                 bullet.gameObject.SetActive(false);
                 if (invincible)
