@@ -19,6 +19,8 @@ using Pathfinding;
     float switchTime = 2;
     float currentTime = 0;
     Vector3 initialPos;
+    [SerializeField]
+    bool flying = false;
 
 
     public override void StartAction(EnemyAIController controller)

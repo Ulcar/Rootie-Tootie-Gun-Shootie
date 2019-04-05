@@ -41,7 +41,8 @@ using Pathfinding;
 
     public void TransitionState(State newState)
     {
-        currentState = newState;
+        currentState = Instantiate(newState);
+        
         currentState.InstantiateTransitions(this);
         currentState.StartActions(this);
     }

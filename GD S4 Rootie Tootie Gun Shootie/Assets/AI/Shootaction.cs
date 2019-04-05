@@ -25,7 +25,8 @@ public class Shootaction : Action
             currentTime = 0;
             if (weapon != null)
             {
-                weapon.Attack(1, Vector2.Angle(controller.transform.position, controller.target.position));
+               weapon.Attack(1,  (Mathf.Atan2(controller.target.position.y - controller.transform.position.y, controller.target.position.x - controller.transform.position.x) * 180 / Mathf.PI));
+                
             }
         }
 
@@ -33,7 +34,7 @@ public class Shootaction : Action
         {
             if (weapon != null)
             {
-                weapon.Attack(0, Vector2.Angle(controller.transform.position, controller.target.position));
+                weapon.Attack(0, (Mathf.Atan2(controller.target.position.y - controller.transform.position.y, controller.target.position.x - controller.transform.position.x) * 180 / Mathf.PI));
             }
         }
     }

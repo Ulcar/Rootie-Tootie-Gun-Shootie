@@ -12,14 +12,27 @@ using UnityEngine.Events;
     bool invincible = false;
 
     public UnityEvent OnInvincible;
+    [SerializeField]
+    CircleCollider2D col;
+    Collider2D[] hits = new Collider2D[10];
 
     int currentPriority = 99999;
     private void Start()
     {
         damageable = GetComponent<IDamageable>();
+        col = GetComponentInParent<CircleCollider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
+    {
+      int count =   Physics2D.OverlapCircleNonAlloc(transform.position, col.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y), hits);
+        for (int i = 0; i < count; i++)
+        {
+            OnHit(hits[i]);
+        }
+    }
+
+    private void OnHit(Collider2D collision)
     {
       
         BulletBehaviour bullet = collision.GetComponent<BulletBehaviour>();       

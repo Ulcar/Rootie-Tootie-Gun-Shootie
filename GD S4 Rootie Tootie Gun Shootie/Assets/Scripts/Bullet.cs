@@ -16,7 +16,9 @@ public class Bullet
     public Vector3 direction = Vector3.right;
     public Attack childBullets;
     public int Damage;
+    public int bulletIndex = 1;
     public float Weight = 0;
+    public BulletType type = BulletType.Straight;
    
 
     public Bullet( float MovementSpeed, Vector3 direction, Sprite sprite)
@@ -55,3 +57,8 @@ public class Bullet
 
 
     }
+
+public enum BulletType
+{
+    Straight, Homing
+}

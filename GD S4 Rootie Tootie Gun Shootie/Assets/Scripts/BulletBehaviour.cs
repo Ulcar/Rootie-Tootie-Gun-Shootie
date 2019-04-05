@@ -14,12 +14,19 @@ using UnityEngine;
     private bulletMovement movement;
 
     [SerializeField]
-    private SpriteRenderer sprite;
+    SpriteRenderer sprite;
+
+    [SerializeField]
+    LineRenderer line;
     //bullets that are lighter than itself are destroyed. bullets heavier than this bullet destroy the bullet
     public float Weight;
 
     public IDamageable holder;
     public Weapon parent;
+
+    private void Start()
+    {
+    }
     public void Init(Bullet bullet, Vector3 position)
     {
         this.Bullet = bullet;
@@ -27,7 +34,14 @@ using UnityEngine;
         movement.MovementSpeed = bullet.MovementSpeed;
         this.transform.position = bullet.Position + position;
         this.transform.rotation = bullet.Rotation;
-        sprite.sprite = bullet.bulletSprite;
+        if (sprite != null)
+        {
+            sprite.sprite = bullet.bulletSprite;
+        }
+        else if (line != null)
+        {
+            line.material.mainTexture = bullet.bulletSprite.texture;
+        }
         Weight = bullet.Weight;
     }
     private void Update()
