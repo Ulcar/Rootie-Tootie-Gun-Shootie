@@ -10,6 +10,7 @@ using UnityEngine;
 
     Movement movement;
     Collider2D col;
+    RaycastHit2D[] TopHits;
     private void Start()
     {
         movement = GetComponentInParent<Movement>();
@@ -35,12 +36,12 @@ using UnityEngine;
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.x * Vector3.right);
 
         List<RaycastHit2D> TopHit = new List<RaycastHit2D>();
-        TopHit.AddRange(Physics2D.LinecastAll(col.bounds.center, (col.bounds.center + col.bounds.extents.y * Vector3.up) + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole")));
+      TopHit.AddRange(Physics2D.LinecastAll(col.bounds.center, (col.bounds.center + col.bounds.extents.y * Vector3.up) + col.bounds.extents.x * Vector3.left / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole")));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.left / 2);
 
            TopHit.AddRange(Physics2D.LinecastAll(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("PlayerWall") | 1 << LayerMask.NameToLayer("Hole")));
            Debug.DrawLine(col.bounds.center, col.bounds.center + col.bounds.extents.y * Vector3.up + col.bounds.extents.x * Vector3.right / 2);
-
+        
 
         if (LeftHit.Length > 0)
         {

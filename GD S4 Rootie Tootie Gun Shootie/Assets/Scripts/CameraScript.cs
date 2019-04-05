@@ -9,7 +9,7 @@ public class CameraScript : MonoBehaviour
         Player,
         Room
     };
-    public bool InRoomMode;
+    public bool InRoomMode; 
     public Room RoomPlayerIsIn;
     public Player player;
     public States currentState;

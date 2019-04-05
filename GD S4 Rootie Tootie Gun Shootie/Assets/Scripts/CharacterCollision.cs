@@ -14,6 +14,7 @@ using UnityEngine.Events;
     public UnityEvent OnInvincible;
     [SerializeField]
     CircleCollider2D col;
+    Collider2D[] hits = new Collider2D[10];
 
     int currentPriority = 99999;
     private void Start()
@@ -24,10 +25,10 @@ using UnityEngine.Events;
 
     private void Update()
     {
-       RaycastHit2D[] hits =  Physics2D.CircleCastAll(transform.position + (Vector3)col.offset, col.radius, Vector2.zero);
-        foreach (RaycastHit2D hit in hits)
+      int count =   Physics2D.OverlapCircleNonAlloc(transform.position, col.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y), hits);
+        for (int i = 0; i < count; i++)
         {
-            OnHit(hit.collider);
+            OnHit(hits[i]);
         }
     }
 
