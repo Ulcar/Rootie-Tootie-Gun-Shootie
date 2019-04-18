@@ -32,14 +32,14 @@ public class Weapon : MonoBehaviour, IPickupable
 
    public void Attack(int attackIndex, float rotation)
     {
-        StartCoroutine(ShootBullets(attackIndex, rotation));
+        StartCoroutine(ShootBullets(attackIndex));
        // List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
       //  StartCoroutine(ShootBullets(bullets));
     }
 
     public void Attack(int attackIndex)
     {
-        StartCoroutine(ShootBullets(attackIndex, transform.rotation.eulerAngles.z));
+        StartCoroutine(ShootBullets(attackIndex));
         // List<Bullet> bullets = attacks[0].DoAttack((int)transform.rotation.eulerAngles.z);
         //  StartCoroutine(ShootBullets(bullets));
     }
@@ -72,7 +72,7 @@ public class Weapon : MonoBehaviour, IPickupable
         yield return null;
         }
 
-    IEnumerator ShootBullets(int attackIndex, float rotation)
+    IEnumerator ShootBullets(int attackIndex)
     {
         if (attacks[attackIndex] != null)
         {
@@ -85,18 +85,36 @@ public class Weapon : MonoBehaviour, IPickupable
             if (attacks[attackIndex].cooldown < attacks[attackIndex].currentTime)
             {
                 attacks[attackIndex].currentTime = 0;
+                float currentFrameTime = 0;
                 for (int i = 0; i < attacks[attackIndex].bulletAmount; i++)
                 {
-                    float currentTime = 0;
-                    Bullet bullet = attacks[attackIndex].SingleBullet((int)rotation);
+                    float currentTime = 0;              
+                    Bullet bullet = attacks[attackIndex].SingleBullet((int)transform.rotation.eulerAngles.z);
                     while (currentTime < bullet.spawnTime)
                     {
                         currentTime += Time.deltaTime;
+                        currentFrameTime += bullet.spawnTime;
                         if (currentTime < bullet.spawnTime)
                         {
+                            if (currentFrameTime >= Time.deltaTime)
+                            {
+                                currentFrameTime = 0;
+                                yield return null;
+                            }
+                            //time is less than a frame, go to next bullet
+                            else
+                            {
+                                currentTime = 0;
+                                break;
+                            }
+                        }
+                        if (currentFrameTime >= Time.deltaTime)
+                        {
+                            currentFrameTime = 0;
                             yield return null;
                         }
                     }
+                    
                     BulletBehaviour bulletBehaviour = null;
                     bulletBehaviour = ObjectPool.instance.Dequeue(bullet.type);
                    

@@ -23,6 +23,10 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField]
     float Weight;
 
+    Vector2 lastposition;
+    [SerializeField]
+    Vector2 movementVector;
+
     public float CoinWeight;
 
     public int CoinBounty;
@@ -39,6 +43,8 @@ public class Enemy : MonoBehaviour, IDamageable
         manager = new HealthManager(stats.MaxHealth, 0, stats.MaxHealth, 0);
         manager.OnDeath.AddListener(OnDeathEvent);
         manager.OnDeath.AddListener(SpewCoinsAndHearths);
+        lastposition = transform.position;
+        movementVector = Vector2.zero;
     }
 
     public void Init(EnemyStats stats)
@@ -150,6 +156,10 @@ public class Enemy : MonoBehaviour, IDamageable
             AI.canMove = true;
             impact = Vector3.zero;
         }
+
+        movementVector = transform.position - (Vector3)lastposition;
+        lastposition = transform.position;
+        
     }
 
 
