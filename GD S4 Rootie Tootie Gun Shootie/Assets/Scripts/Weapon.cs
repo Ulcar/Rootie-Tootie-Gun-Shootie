@@ -9,6 +9,8 @@ public class Weapon : MonoBehaviour, IPickupable
    public WeaponStats stats;
     List<Attack> attacks = new List<Attack>();
     public string WeaponName;
+    public Sprite WeaponWithoutHands;
+    public Sprite WeaponWithHands;
     IDamageable holder;
     float timeSinceLastAttack = 100;
     void Start()
