@@ -17,6 +17,7 @@ public class RoomTile : MonoBehaviour
     public bool DefaultLayer;
     public bool ignore;
     public bool ShopTile;
+    public bool PlayerBlock;
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();

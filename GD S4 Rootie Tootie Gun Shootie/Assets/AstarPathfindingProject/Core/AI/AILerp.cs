@@ -38,6 +38,7 @@ namespace Pathfinding {
 	[AddComponentMenu("Pathfinding/AI/AILerp (2D,3D)")]
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_a_i_lerp.php")]
 	public class AILerp : VersionedMonoBehaviour, IAstarAI {
+        public float VelocityVector;
 		/// <summary>
 		/// Determines how often it will search for new paths.
 		/// If you have fast moving targets or AIs, you might want to set it to a lower value.
@@ -578,7 +579,16 @@ namespace Pathfinding {
 			simulatedRotation = nextRotation;
 			//if (updatePosition) tr.position = nextPosition;
 			//if (updateRotation) tr.rotation = nextRotation;
-            if (enableRigidbodyUpdate) rb.MovePosition(nextPosition);
+            if (enableRigidbodyUpdate)
+            {
+                VelocityVector = Vector2.Distance(nextPosition, transform.position);
+                rb.MovePosition(nextPosition);         
+                        
+            }
+            else 
+            {
+
+            }
            // else if (updatePosition) tr.position = nextPosition;
             if (updateRotation) tr.rotation = nextRotation;
         }

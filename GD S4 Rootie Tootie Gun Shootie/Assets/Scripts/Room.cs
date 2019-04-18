@@ -84,6 +84,10 @@ public class Room : MonoBehaviour
                         {
                             tilemap.transform.GetChild(i).gameObject.layer = 9;
                         }
+                        if (tile.PlayerBlock)
+                        {
+                            tilemap.transform.GetChild(i).gameObject.layer = 13;
+                        }
                     }
                     if (gate != null)
                     {

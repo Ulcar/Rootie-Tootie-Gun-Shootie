@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     void SpewCoinsAndHearths()
     {
+
         if (CoinBounty > 0) {
             int numberOfCoinsToSpawn = 0;
             for (int i = CoinBounty; i > 0;)
@@ -124,6 +125,25 @@ public class Enemy : MonoBehaviour, IDamageable
                     CoinBounty -= 1;
                     coin.GetComponent<SpriteRenderer>().sprite = GameManager.instance.BronzeCoin;
                 }
+            }
+        }
+        if (HealthBounty >= 1)
+        {
+            int count = 0;
+            int NumberOfHearthsToSpawn = HealthBounty;
+            float angle = (90 / NumberOfHearthsToSpawn) / 2;
+            while (HealthBounty > 0)
+            {
+                HearthDropScript Hearth = Instantiate(GameManager.instance.healthOrb);
+                Hearth.transform.SetParent(GameManager.instance.RoomPlayerIsIn.transform);
+                Hearth.transform.position = transform.position;
+                Hearth.yVelocity = UnityEngine.Random.Range(0.003f, 0.006f);
+                Hearth.xVelocity = .0015f * (Mathf.Pow((4 * (count - Mathf.RoundToInt(NumberOfHearthsToSpawn / 2))), 2) + 0.001f);
+                Hearth.FloorY = transform.position.y-0.01f;
+                Hearth.transform.rotation = Quaternion.Euler(0, 0, (angle * count) - 45);
+                count++;
+                Hearth.gravity = 0.03f;
+                HealthBounty -= 1;
             }
         }
     }

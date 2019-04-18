@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 public class Player : MonoBehaviour, IDamageable
 {
+    public Material material;
+    bool InvincibilityCoRoutineStarted = false;
     public PlayerInfo playerInfo;
     public GameObject weapon;
     public Movement movement;
@@ -13,11 +15,12 @@ public class Player : MonoBehaviour, IDamageable
     public bool test = true;
     public Transform DebugLocation;
     [SerializeField]
-    private SpriteRenderer renderer;
+    public SpriteRenderer renderer;
     public GameObject WeaponReadyForPickup;
     public float PickupRange;
     public float tossSpeed;
     public BoxCollider2D BoundBox;
+    public Animator ani;
 
     public int Coins;
 
@@ -37,12 +40,14 @@ public class Player : MonoBehaviour, IDamageable
     // Start is called before the first frame update
     void Start()
     {
+        ani = GetComponent<Animator>();
         GetComponent<PlayerUIController>().UpdateCoins();
         movementSpeed = playerInfo.movementSpeed;
         weapon.GetComponent<Weapon>().SetHolder(this);
         healthManager = new HealthManager(playerInfo.maxHealth, playerInfo.maxShield, playerInfo.maxHealth, playerInfo.maxShield);
         healthManager.OnDeath.AddListener(OnDeathEvent);
         healthManager.UpdateHealthUI(healthManager.health);
+        
     }
 
     void OnDeathEvent()
@@ -63,7 +68,17 @@ public class Player : MonoBehaviour, IDamageable
             }
         }
         CheckForWeaponPickups();
-        weapon.transform.localPosition = new Vector3(-0.06200001f, 0.163f, -1);
+        //weapon.transform.localPosition = new Vector3(-0.06200001f, 0.163f, -1);
+
+        if ((GetComponent<StandardMovement>().movementVector.x != 0 && ani.GetCurrentAnimatorStateInfo(0).IsName("Idle")) || (GetComponent<StandardMovement>().movementVector.y != 0 && ani.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+        {
+            ani.SetTrigger("Walk");
+        }
+        else if (GetComponent<StandardMovement>().movementVector.x == 0 && ani.GetCurrentAnimatorStateInfo(0).IsName("PlayerWalking") && (GetComponent<StandardMovement>().movementVector.y == 0))
+        {
+            ani.SetTrigger("StandStill");
+        }
+        weapon.transform.localPosition = new Vector3(0, -0.04f, -0.01f);
     }
 
     public void PickupWeapon()
@@ -368,5 +383,13 @@ public class Player : MonoBehaviour, IDamageable
         weapon.GetComponent<Weapon>().Attack(index);
     }
 
+ 
+
+    public void StartInvincibility()
+    {
+        if (ani.GetCurrentAnimatorStateInfo(2).IsName("Invincible") == false) { 
+        ani.SetTrigger("OnInvincibility");
+             }
+    }
  
 }

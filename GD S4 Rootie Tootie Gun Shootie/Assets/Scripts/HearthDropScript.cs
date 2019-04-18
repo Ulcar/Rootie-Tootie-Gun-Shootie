@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class HearthDropScript : MonoBehaviour
 {
+    public float gravity;
+    public float yVelocity;
+    public float xVelocity;
+    public float FloorY;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +25,7 @@ public class HearthDropScript : MonoBehaviour
             if (Vector2.Distance(transform.position, GameManager.instance.player.transform.position) < 0.1)
             {
                 GameManager.instance.player.healthManager.GainHealth(1);
+                GameManager.instance.player.healthManager.UpdateHealthUI(GameManager.instance.player.healthManager.health);
                 Destroy(gameObject);
             }
         }

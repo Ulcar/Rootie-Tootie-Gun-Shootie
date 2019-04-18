@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 51371d07555479e41aaf6e610ad67fb4
+guid: 89be55c54643b20428ed40ff3977fd93
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Imp Spritesheet_0
-    21300002: Imp Spritesheet_1
-    21300004: Imp Spritesheet_2
-    21300006: Imp Spritesheet_3
+    21300000: Imp Spritesheet.2_0
+    21300002: Imp Spritesheet.2_1
+    21300004: Imp Spritesheet.2_2
+    21300006: Imp Spritesheet.2_3
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -95,11 +95,22 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Imp Spritesheet_0
+      name: Imp Spritesheet.2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -113,13 +124,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31f40bb379f3d2441919ffb156cc02fa
+      spriteID: 776aa8f30ee043a4b8cbe4c93f6eec6b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Imp Spritesheet_1
+      name: Imp Spritesheet.2_1
       rect:
         serializedVersion: 2
         x: 128
@@ -133,13 +144,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b2172c4b6a5a944f8fc43f6dae2b199
+      spriteID: f6a93aab1dd6ffc4ea2565c702419198
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Imp Spritesheet_2
+      name: Imp Spritesheet.2_2
       rect:
         serializedVersion: 2
         x: 256
@@ -153,13 +164,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e348ad016a61ad4eb33e02f20dd6fa5
+      spriteID: 03a9cd878c420114d8968c6454d7ee3f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Imp Spritesheet_3
+      name: Imp Spritesheet.2_3
       rect:
         serializedVersion: 2
         x: 384
@@ -173,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1d6c789d545fd14ebf644033388ef1c
+      spriteID: 7f6339e5ab071614db33f5b91921c8c6
       vertices: []
       indices: 
       edges: []
@@ -181,7 +192,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9421524e0d8c1c949a9d7f32f78e4cf1
+    spriteID: 9510cfbf2d792e44cbc1fb1f658c173f
     vertices: []
     indices: 
     edges: []
