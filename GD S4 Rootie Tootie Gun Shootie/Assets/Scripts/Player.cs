@@ -97,6 +97,7 @@ public class Player : MonoBehaviour, IDamageable
                             Debug.Log("Tossweapon() true");
                             GameObject NewGun = Instantiate(WeaponReadyForPickup);
                             NewGun.transform.SetParent(transform);
+                            NewGun.GetComponent<SpriteRenderer>().sprite = NewGun.GetComponent<Weapon>().WeaponWithHands;
                             GetComponent<PlayerInventoryScript>().Primary = NewGun;
                             weaponSprite = NewGun.GetComponent<SpriteRenderer>();
                             NewGun.GetComponent<Weapon>().SetHolder(this);
@@ -114,6 +115,7 @@ public class Player : MonoBehaviour, IDamageable
                     {
                         GetComponent<PlayerInventoryScript>().Secondary = WeaponReadyForPickup;
                         //Destroy(WeaponReadyForPickup);
+                        WeaponReadyForPickup.GetComponent<SpriteRenderer>().sprite = WeaponReadyForPickup.GetComponent<Weapon>().WeaponWithHands;
                         WeaponReadyForPickup.transform.position = new Vector3(10000, 10000, 0); //Help
                         WeaponReadyForPickup.transform.SetParent(transform);
                         WeaponReadyForPickup = null;
@@ -137,6 +139,7 @@ public class Player : MonoBehaviour, IDamageable
                             {
                                 Debug.Log("Tossweapon() true");
                                 GameObject NewGun = Instantiate(WeaponReadyForPickup);
+                                NewGun.GetComponent<SpriteRenderer>().sprite = NewGun.GetComponent<Weapon>().WeaponWithHands;
                                 NewGun.transform.SetParent(transform);
                                 GetComponent<PlayerInventoryScript>().Primary = NewGun;
                                 weaponSprite = NewGun.GetComponent<SpriteRenderer>();
@@ -154,6 +157,7 @@ public class Player : MonoBehaviour, IDamageable
                         else
                         {
                             GetComponent<PlayerInventoryScript>().Secondary = WeaponReadyForPickup;
+                            WeaponReadyForPickup.GetComponent<SpriteRenderer>().sprite = WeaponReadyForPickup.GetComponent<Weapon>().WeaponWithHands;
                             //Destroy(WeaponReadyForPickup);
                             WeaponReadyForPickup.transform.position = new Vector3(10000, 10000, 0); //Help
                             WeaponReadyForPickup.transform.SetParent(transform);
@@ -177,6 +181,7 @@ public class Player : MonoBehaviour, IDamageable
                     {
                         Debug.Log("Tossweapon() true");
                         GameObject NewGun = Instantiate(WeaponReadyForPickup);
+                        NewGun.GetComponent<SpriteRenderer>().sprite = NewGun.GetComponent<Weapon>().WeaponWithHands;
                         NewGun.transform.SetParent(transform);
                         GetComponent<PlayerInventoryScript>().Primary = NewGun;
                         weaponSprite = NewGun.GetComponent<SpriteRenderer>();
@@ -194,6 +199,7 @@ public class Player : MonoBehaviour, IDamageable
                 else
                 {
                     GetComponent<PlayerInventoryScript>().Secondary = WeaponReadyForPickup;
+                    WeaponReadyForPickup.GetComponent<SpriteRenderer>().sprite = WeaponReadyForPickup.GetComponent<Weapon>().WeaponWithHands;
                     //Destroy(WeaponReadyForPickup);
                     WeaponReadyForPickup.transform.position = new Vector3(10000, 10000, 0); //Help
                     WeaponReadyForPickup.transform.SetParent(transform);
@@ -218,6 +224,7 @@ public class Player : MonoBehaviour, IDamageable
             WeaponToToss.transform.position = transform.position;
             WeaponToToss.GetComponent<Tossable>().tossSpeed = tossSpeed;
             WeaponToToss.GetComponent<Tossable>().FloorY = transform.position.y - BoundBox.bounds.size.y / 2;
+            WeaponToToss.GetComponent<SpriteRenderer>().sprite = WeaponToToss.GetComponent<Weapon>().WeaponWithoutHands;
             if (GetComponent<SpriteRenderer>().flipX)
             {
                 WeaponToToss.GetComponent<Tossable>().TossItem(true);
