@@ -48,7 +48,7 @@ public class AttackGenerator : Attack
                 baseBullet = bul;
             }
         }
-        Bullet bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
+        Bullet bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite, baseBullet.lifeTime);
         bullets.Add(bullet);
         float f = curve.Evaluate(0);
         bullet.spawnTime = timeBetweenBullets.Evaluate(0);
@@ -59,7 +59,7 @@ public class AttackGenerator : Attack
         SpawnPosition(rotationCurve.Evaluate(0) + rotationOffset, bullet, f, baseBullet.Damage);
         for (int i = 1; i <= bulletAmount - 1; i++)
         {
-            bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite);
+            bullet = new Bullet(1, Vector3.right, baseBullet.bulletSprite, baseBullet.lifeTime);
             bullets.Add(bullet);
             f = curve.Evaluate(i % (curve[curve.length - 1].time + 1));
             //    f = curve.Evaluate((float)i / bulletAmount);
@@ -106,7 +106,7 @@ public class AttackGenerator : Attack
                 baseBullet = bul;
             }
         }
-        Bullet   bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite);
+        Bullet bullet = new Bullet(baseBullet.MovementSpeed, Vector3.right, baseBullet.bulletSprite, baseBullet.lifeTime, baseBullet.childBullets);
       float  f = curve.Evaluate(currentIndex % (curve[curve.length - 1].time + 1));
         //    f = curve.Evaluate((float)i / bulletAmount);
         foreach (AnimationCurve currentCurve in Multipliers)

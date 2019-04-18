@@ -35,10 +35,9 @@ namespace Pathfinding {
 	/// \ingroup movementscripts
 	/// </summary>
 	[RequireComponent(typeof(Seeker))]
-	[AddComponentMenu("Pathfinding/AI/AILerp (2D,3D)")]
+
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_a_i_lerp.php")]
-	public class AILerp : VersionedMonoBehaviour, IAstarAI {
-        public float VelocityVector;
+	public class Epic : VersionedMonoBehaviour, IAstarAI {
 		/// <summary>
 		/// Determines how often it will search for new paths.
 		/// If you have fast moving targets or AIs, you might want to set it to a lower value.
@@ -293,13 +292,16 @@ namespace Pathfinding {
 
 		Vector3 previousPosition1, previousPosition2, simulatedPosition;
 		Quaternion simulatedRotation;
-       
 
 		/// <summary>Required for serialization backward compatibility</summary>
 		[UnityEngine.Serialization.FormerlySerializedAs("target")][SerializeField][HideInInspector]
 		Transform targetCompatibility;
 
-		protected AILerp () {
+        [SerializeField]
+        Movement movement;
+        [SerializeField]
+        bool useMovement = true;
+		protected Epic () {
 			// Note that this needs to be set here in the constructor and not in e.g Awake
 			// because it is possible that other code runs and sets the destination property
 			// before the Awake method on this script runs.
@@ -578,10 +580,13 @@ namespace Pathfinding {
 			previousPosition2 = previousPosition1;
 			previousPosition1 = simulatedPosition = nextPosition;
 			simulatedRotation = nextRotation;
-			//if (updatePosition) tr.position = nextPosition;
-			//if (updateRotation) tr.rotation = nextRotation;
-            if (enableRigidbodyUpdate) rb.MovePosition(nextPosition);
-
+            //if (updatePosition) tr.position = nextPosition;
+            //if (updateRotation) tr.rotation = nextRotation;
+            // if (enableRigidbodyUpdate) rb.MovePosition(nextPosition);
+            if (useMovement)
+            {
+                movement.Move(transform.position - nextPosition);
+            }
            // else if (updatePosition) tr.position = nextPosition;
             if (updateRotation) tr.rotation = nextRotation;
         }
