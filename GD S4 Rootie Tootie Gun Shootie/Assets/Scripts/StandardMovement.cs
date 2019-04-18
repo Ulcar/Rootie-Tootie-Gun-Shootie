@@ -41,7 +41,7 @@ public class StandardMovement : Movement
             {
                 collision.SetInvincible(false, 1);
             }
-            movementSpeed -= 8 * Time.deltaTime;
+            movementSpeed -= 10 * Time.deltaTime;
             if (movementSpeed < baseSpeed)
             {
                 movementSpeed = baseSpeed;
