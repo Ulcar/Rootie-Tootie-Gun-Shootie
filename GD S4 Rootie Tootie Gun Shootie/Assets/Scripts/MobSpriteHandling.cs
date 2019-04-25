@@ -8,6 +8,7 @@ public class MobSpriteHandling : MonoBehaviour
     public Rigidbody2D rb;
     Animator ani;
     public AILerp lerp;
+    public GameObject hitbox;
   
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class MobSpriteHandling : MonoBehaviour
     {
         //Debug.Log("Lerp.velocityVector: " + lerp.VelocityVector);
         transform.rotation = Quaternion.Euler(0,0,-transform.parent.rotation.z);
+        hitbox.transform.rotation = Quaternion.Euler(0, 0, -transform.parent.rotation.z);
         if (lerp.VelocityVector > 0.001 && ani.GetCurrentAnimatorStateInfo(0).IsName("Standing Still"))
         {
             
