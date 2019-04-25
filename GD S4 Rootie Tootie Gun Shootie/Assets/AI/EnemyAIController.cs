@@ -9,7 +9,7 @@ using Pathfinding;
     {
    public IAstarAI pathfindingAI { get; private set; }
     [SerializeField]
-    State currentState;
+   protected State currentState;
 
     public Transform target;
 

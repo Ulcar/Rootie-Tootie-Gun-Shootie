@@ -10,6 +10,7 @@ public class Bullet
     {
    public Sprite bulletSprite;
     public Vector3 Position;
+    public Vector3 Offset;
     public Quaternion Rotation;
     public float MovementSpeed;
     public float spawnTime;

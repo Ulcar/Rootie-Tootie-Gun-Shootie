@@ -10,7 +10,8 @@ using UnityEngine;
 
     Movement movement;
     Collider2D col;
-    RaycastHit2D[] TopHits;
+    Vector2 currentPosition;
+    Vector2 nextPosition;
     private void Start()
     {
         movement = GetComponentInParent<Movement>();
