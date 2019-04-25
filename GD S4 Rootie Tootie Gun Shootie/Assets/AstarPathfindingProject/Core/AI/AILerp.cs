@@ -578,6 +578,7 @@ namespace Pathfinding {
 			previousPosition2 = previousPosition1;
 			previousPosition1 = simulatedPosition = nextPosition;
 			simulatedRotation = nextRotation;
+            VelocityVector = Vector2.Distance(transform.position, nextPosition);
 			//if (updatePosition) tr.position = nextPosition;
 			//if (updateRotation) tr.rotation = nextRotation;
             if (enableRigidbodyUpdate) rb.MovePosition(nextPosition);

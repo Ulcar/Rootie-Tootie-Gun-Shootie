@@ -11,6 +11,7 @@ public abstract class Movement : MonoBehaviour
    public Vector2 movementVector;
     public Vector2 ColisionDirection = Vector2.zero;
     public bool DownHit, UpHit, LeftHit, RightHit;
+    public Vector2 Velocity;
    
     void Start()
     {
@@ -25,10 +26,11 @@ public abstract class Movement : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        ParentRigidbody.velocity = (movementVector) * movementSpeed;
+        Velocity = (movementVector) * movementSpeed;
+        ParentRigidbody.velocity = Velocity;
     }
 
-    public void Move(Vector2 movementVector)
+    public virtual void Move(Vector2 movementVector)
     {
         //ParentTransform.position = Vector3.MoveTowards(ParentTransform.position, new Vector3(x,y,0), movementSpeed * Time.deltaTime);
        if (DownHit)

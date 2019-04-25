@@ -27,6 +27,7 @@ using UnityEngine;
     public IDamageable holder;
     public Weapon parent;
     private CircleCollider2D collider2D;
+    private SpriteRenderer epic;
 
     private void Start()
     {

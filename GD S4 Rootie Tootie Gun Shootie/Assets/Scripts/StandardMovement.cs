@@ -17,6 +17,9 @@ public class StandardMovement : Movement
 
     [SerializeField]
     private Player player;
+
+    [SerializeField]
+    NewCharacterPushScript aa;
     void Start()
     {
         collision = GetComponent<CharacterCollision>();
@@ -31,6 +34,27 @@ public class StandardMovement : Movement
         base.Update();
       
      
+    }
+
+    public override void Move(Vector2 movementVector)
+    {
+
+        if (aa != null)
+        {
+            Vector2 hitpoint = Vector2.zero;
+            if (!aa.SimulateNextPosition(movementVector * movementSpeed, out hitpoint))
+            {
+                base.Move(movementVector);
+            }
+            else
+            {
+                base.Move(-hitpoint);
+            }
+        }
+        else
+        {
+            base.Move(movementVector);
+        }
     }
 
     override protected void FixedUpdate()
