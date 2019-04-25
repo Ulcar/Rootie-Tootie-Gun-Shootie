@@ -18,10 +18,11 @@ public class MobSpriteHandling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Lerp.velocityVector: " + lerp.VelocityVector);
+        //Debug.Log("Lerp.velocityVector: " + lerp.VelocityVector);
         transform.rotation = Quaternion.Euler(0,0,-transform.parent.rotation.z);
         if (lerp.VelocityVector > 0.001 && ani.GetCurrentAnimatorStateInfo(0).IsName("Standing Still"))
         {
+            
             ani.SetTrigger("Moving");
         }
         else if (ani.GetCurrentAnimatorStateInfo(0).IsName("Imp walking") )
